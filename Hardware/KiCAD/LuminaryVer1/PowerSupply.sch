@@ -1,0 +1,338 @@
+EESchema Schematic File Version 4
+EELAYER 29 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 3 6
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Text HLabel 4650 2650 0    50   UnSpc ~ 0
+Battery_In+
+Text HLabel 3750 4000 1    50   UnSpc ~ 0
+Battery_In-
+Text HLabel 8500 2450 2    50   UnSpc ~ 0
++5V
+Text HLabel 8500 2850 2    50   UnSpc ~ 0
++3.3V
+Text HLabel 3850 4000 1    50   UnSpc ~ 0
+Gnd
+Text HLabel 4650 3700 0    50   UnSpc ~ 0
+Ext_In+
+Text HLabel 3650 4000 1    50   UnSpc ~ 0
+Ext_In-
+$Comp
+L Regulator_Linear:AP2112K-3.3 U4
+U 1 1 5E7A2B61
+P 7750 2950
+F 0 "U4" H 7750 3292 50  0000 C CNN
+F 1 "AP2112K-3.3" H 7750 3201 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-5" H 7750 3275 50  0001 C CNN
+F 3 "https://www.diodes.com/assets/Datasheets/AP2112.pdf" H 7750 3050 50  0001 C CNN
+	1    7750 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C_Small C8
+U 1 1 5E7A3834
+P 7150 3050
+F 0 "C8" H 7242 3096 50  0000 L CNN
+F 1 "1uF" H 7242 3005 50  0000 L CNN
+F 2 "" H 7150 3050 50  0001 C CNN
+F 3 "~" H 7150 3050 50  0001 C CNN
+	1    7150 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C_Small C9
+U 1 1 5E7A4D07
+P 8200 3050
+F 0 "C9" H 8292 3096 50  0000 L CNN
+F 1 "1uF" H 8292 3005 50  0000 L CNN
+F 2 "" H 8200 3050 50  0001 C CNN
+F 3 "~" H 8200 3050 50  0001 C CNN
+	1    8200 3050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7150 2950 7150 2850
+Wire Wire Line
+	7150 2850 7350 2850
+Wire Wire Line
+	7450 2950 7350 2950
+Wire Wire Line
+	7350 2950 7350 2850
+Connection ~ 7350 2850
+Wire Wire Line
+	7350 2850 7450 2850
+Wire Wire Line
+	8050 2850 8200 2850
+Wire Wire Line
+	8200 2850 8200 2950
+Wire Wire Line
+	7150 3150 7150 3350
+Wire Wire Line
+	7150 3350 7750 3350
+Wire Wire Line
+	7750 3350 7750 3250
+Wire Wire Line
+	8200 3150 8200 3350
+Wire Wire Line
+	8200 3350 7750 3350
+Connection ~ 7750 3350
+$Comp
+L power:GND #PWR019
+U 1 1 5E7A6116
+P 7750 3450
+F 0 "#PWR019" H 7750 3200 50  0001 C CNN
+F 1 "GND" H 7755 3277 50  0000 C CNN
+F 2 "" H 7750 3450 50  0001 C CNN
+F 3 "" H 7750 3450 50  0001 C CNN
+	1    7750 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7750 3450 7750 3350
+Wire Wire Line
+	8200 2850 8500 2850
+Connection ~ 8200 2850
+$Comp
+L power:GND #PWR017
+U 1 1 5E7A6D74
+P 3750 4150
+F 0 "#PWR017" H 3750 3900 50  0001 C CNN
+F 1 "GND" H 3755 3977 50  0000 C CNN
+F 2 "" H 3750 4150 50  0001 C CNN
+F 3 "" H 3750 4150 50  0001 C CNN
+	1    3750 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3650 4000 3650 4050
+Wire Wire Line
+	3650 4050 3750 4050
+Wire Wire Line
+	3750 4050 3750 4150
+Wire Wire Line
+	3850 4000 3850 4050
+Wire Wire Line
+	3850 4050 3750 4050
+Connection ~ 3750 4050
+Wire Wire Line
+	3750 4000 3750 4050
+$Comp
+L BoostConverters:DIO6605 U3
+U 1 1 5E7A9C90
+P 5700 2800
+F 0 "U3" H 5700 3175 50  0000 C CNN
+F 1 "DIO6605" H 5700 3084 50  0000 C CNN
+F 2 "" H 5700 2950 50  0001 C CNN
+F 3 "" H 5700 2950 50  0001 C CNN
+	1    5700 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:L L1
+U 1 1 5E7AC957
+P 5700 2350
+F 0 "L1" V 5981 2350 50  0000 C CNN
+F 1 "4.3uH" V 5890 2350 50  0000 C CNN
+F 2 "" H 5700 2350 50  0001 C CNN
+F 3 "~" H 5700 2350 50  0001 C CNN
+F 4 "MAMK2520T4R7M" V 5799 2350 50  0000 C CNN "PartNumber"
+	1    5700 2350
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	5550 2350 5300 2350
+Wire Wire Line
+	5300 2350 5300 2650
+Connection ~ 5300 2650
+Wire Wire Line
+	5300 2650 5350 2650
+$Comp
+L Device:C_Small C6
+U 1 1 5E7AE292
+P 5000 3050
+F 0 "C6" H 4909 3004 50  0000 R CNN
+F 1 "10uF" H 4909 3095 50  0000 R CNN
+F 2 "" H 5000 3050 50  0001 C CNN
+F 3 "~" H 5000 3050 50  0001 C CNN
+	1    5000 3050
+	1    0    0    1   
+$EndComp
+Wire Wire Line
+	5000 2650 5300 2650
+Wire Wire Line
+	4650 2650 5000 2650
+Connection ~ 5000 2650
+$Comp
+L Device:C_Small C7
+U 1 1 5E7B02F9
+P 6750 3050
+F 0 "C7" H 6842 3096 50  0000 L CNN
+F 1 "10uF" H 6842 3005 50  0000 L CNN
+F 2 "" H 6750 3050 50  0001 C CNN
+F 3 "~" H 6750 3050 50  0001 C CNN
+	1    6750 3050
+	1    0    0    -1  
+$EndComp
+Connection ~ 6750 2850
+Wire Wire Line
+	6750 2850 7150 2850
+Connection ~ 7150 2850
+Wire Wire Line
+	6750 2850 6750 2950
+Wire Wire Line
+	6750 3350 7150 3350
+Wire Wire Line
+	6750 3150 6750 3350
+Connection ~ 7150 3350
+$Comp
+L Device:D_Schottky D1
+U 1 1 5E7C06FD
+P 5550 3700
+F 0 "D1" H 5550 3484 50  0000 C CNN
+F 1 "SS16HE" H 5550 3575 50  0000 C CNN
+F 2 "" H 5550 3700 50  0001 C CNN
+F 3 "~" H 5550 3700 50  0001 C CNN
+	1    5550 3700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R_US R10
+U 1 1 5E7C8142
+P 6300 2950
+F 0 "R10" V 6500 2950 50  0000 C CNN
+F 1 "10k" V 6400 2950 50  0000 C CNN
+F 2 "" V 6340 2940 50  0001 C CNN
+F 3 "~" H 6300 2950 50  0001 C CNN
+	1    6300 2950
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6150 2950 6100 2950
+Wire Wire Line
+	6050 2850 6550 2850
+Wire Wire Line
+	6550 2950 6550 2850
+Wire Wire Line
+	6450 2950 6550 2950
+Connection ~ 6550 2850
+Wire Wire Line
+	6550 2850 6750 2850
+$Comp
+L Transistor_BJT:2N3904 Q1
+U 1 1 5E7D2C44
+P 6000 4000
+F 0 "Q1" H 6190 4046 50  0000 L CNN
+F 1 "2N3904" H 6190 3955 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 6200 3925 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 6000 4000 50  0001 L CNN
+	1    6000 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6100 3800 6100 2950
+Connection ~ 6100 2950
+Wire Wire Line
+	6100 2950 6050 2950
+$Comp
+L power:GND #PWR018
+U 1 1 5E7D5603
+P 6100 4600
+F 0 "#PWR018" H 6100 4350 50  0001 C CNN
+F 1 "GND" H 6105 4427 50  0000 C CNN
+F 2 "" H 6100 4600 50  0001 C CNN
+F 3 "" H 6100 4600 50  0001 C CNN
+	1    6100 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_US R8
+U 1 1 5E7D7B1A
+P 5550 4000
+F 0 "R8" V 5345 4000 50  0000 C CNN
+F 1 "100" V 5436 4000 50  0000 C CNN
+F 2 "" V 5590 3990 50  0001 C CNN
+F 3 "~" H 5550 4000 50  0001 C CNN
+	1    5550 4000
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5700 4000 5750 4000
+$Comp
+L Device:R_US R9
+U 1 1 5E7DA2F8
+P 5750 4250
+F 0 "R9" H 5682 4204 50  0000 R CNN
+F 1 "10k" H 5682 4295 50  0000 R CNN
+F 2 "" V 5790 4240 50  0001 C CNN
+F 3 "~" H 5750 4250 50  0001 C CNN
+	1    5750 4250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	6550 3700 6550 2950
+Connection ~ 6550 2950
+Connection ~ 6750 3350
+Wire Wire Line
+	5750 4100 5750 4000
+Connection ~ 5750 4000
+Wire Wire Line
+	5750 4000 5800 4000
+Wire Wire Line
+	6100 4200 6100 4500
+Wire Wire Line
+	5750 4400 5750 4500
+Wire Wire Line
+	5750 4500 6100 4500
+Connection ~ 6100 4500
+Wire Wire Line
+	6100 4500 6100 4600
+Wire Wire Line
+	4650 3700 5200 3700
+Wire Wire Line
+	5400 4000 5200 4000
+Wire Wire Line
+	5200 4000 5200 3700
+Connection ~ 5200 3700
+Wire Wire Line
+	5200 3700 5400 3700
+Wire Wire Line
+	5700 3700 6550 3700
+Wire Wire Line
+	5000 3350 5300 3350
+Wire Wire Line
+	5350 2850 5300 2850
+Wire Wire Line
+	5300 2850 5300 2950
+Connection ~ 5300 3350
+Wire Wire Line
+	5300 3350 6750 3350
+Wire Wire Line
+	5350 2950 5300 2950
+Connection ~ 5300 2950
+Wire Wire Line
+	5300 2950 5300 3350
+Wire Wire Line
+	6050 2650 6100 2650
+Wire Wire Line
+	6100 2650 6100 2350
+Wire Wire Line
+	6100 2350 5850 2350
+Wire Wire Line
+	7350 2850 7350 2450
+Wire Wire Line
+	7350 2450 8500 2450
+Wire Wire Line
+	5000 2650 5000 2950
+Wire Wire Line
+	5000 3150 5000 3350
+$EndSCHEMATC
