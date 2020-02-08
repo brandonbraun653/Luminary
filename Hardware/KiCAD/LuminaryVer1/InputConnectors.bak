@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:LuminaryVer1-cache
 EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
@@ -339,4 +340,6 @@ Wire Wire Line
 	2950 3500 3050 3500
 Wire Wire Line
 	2950 3600 3050 3600
+Text Notes 4900 1750 0    50   ~ 0
+Schmitt triggered inputs to provide clean edges
 $EndSCHEMATC
