@@ -1,0 +1,12 @@
+[submodule "Software/lib/Aurora"]
+	path = Software/lib/Aurora
+	url = https://github.com/brandonbraun653/Aurora.git
+[submodule "Software/lib/Thor"]
+	path = Software/lib/Thor
+	url = https://github.com/brandonbraun653/Thor.git
+[submodule "Software/lib/FreeRTOS"]
+	path = Software/lib/FreeRTOS
+	url = https://github.com/brandonbraun653/FreeRTOS.git
+[submodule "Software/lib/RF24Node"]
+	path = Software/lib/RF24Node
+	url = https://github.com/brandonbraun653/RF24Node.git
