@@ -39,17 +39,6 @@ F 3 "https://www.diodes.com/assets/Datasheets/AP2112.pdf" H 9750 3600 50  0001 C
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C_Small C8
-U 1 1 5E7A3834
-P 9150 3600
-F 0 "C8" H 9242 3646 50  0000 L CNN
-F 1 "1uF" H 9242 3555 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 9150 3600 50  0001 C CNN
-F 3 "~" H 9150 3600 50  0001 C CNN
-	1    9150 3600
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:C_Small C9
 U 1 1 5E7A4D07
 P 10200 3600
@@ -61,10 +50,6 @@ F 3 "~" H 10200 3600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9150 3500 9150 3400
-Wire Wire Line
-	9150 3400 9350 3400
-Wire Wire Line
 	9450 3500 9350 3500
 Wire Wire Line
 	9350 3500 9350 3400
@@ -75,10 +60,6 @@ Wire Wire Line
 	10050 3400 10200 3400
 Wire Wire Line
 	10200 3400 10200 3500
-Wire Wire Line
-	9150 3700 9150 3900
-Wire Wire Line
-	9150 3900 9750 3900
 Wire Wire Line
 	9750 3900 9750 3800
 Wire Wire Line
@@ -160,15 +141,9 @@ F 3 "~" H 8750 3600 50  0001 C CNN
 $EndComp
 Connection ~ 8750 3400
 Wire Wire Line
-	8750 3400 9150 3400
-Connection ~ 9150 3400
-Wire Wire Line
 	8750 3400 8750 3500
 Wire Wire Line
-	8750 3900 9150 3900
-Wire Wire Line
 	8750 3700 8750 3900
-Connection ~ 9150 3900
 $Comp
 L Device:D_Schottky D1
 U 1 1 5E7C06FD
@@ -346,17 +321,6 @@ $EndComp
 NoConn ~ 3150 5600
 NoConn ~ 2150 5600
 $Comp
-L Device:C_Small C12
-U 1 1 5EB5FBF0
-P 3400 4300
-F 0 "C12" H 3492 4346 50  0000 L CNN
-F 1 "1uF" H 3492 4255 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 3400 4300 50  0001 C CNN
-F 3 "~" H 3400 4300 50  0001 C CNN
-	1    3400 4300
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:C_Small C13
 U 1 1 5EB609C6
 P 3750 4300
@@ -370,18 +334,9 @@ $EndComp
 Wire Wire Line
 	3750 4200 3750 4100
 Wire Wire Line
-	3750 4100 3400 4100
-Wire Wire Line
-	3400 4200 3400 4100
-Connection ~ 3400 4100
-Wire Wire Line
-	3400 4100 3250 4100
-Wire Wire Line
 	3300 4550 3300 4300
 Wire Wire Line
 	3300 4300 3250 4300
-Wire Wire Line
-	3400 4400 3400 4550
 Connection ~ 3400 4550
 Wire Wire Line
 	3400 4550 3300 4550
@@ -395,7 +350,7 @@ L Device:R_US R30
 U 1 1 5EB6ACE5
 P 4000 4100
 F 0 "R30" V 4200 4100 50  0000 C CNN
-F 1 "100" V 4100 4100 50  0000 C CNN
+F 1 "120" V 4100 4100 50  0000 C CNN
 F 2 "Resistor_SMD:R_0402_1005Metric" V 4040 4090 50  0001 C CNN
 F 3 "~" H 4000 4100 50  0001 C CNN
 	1    4000 4100
@@ -495,29 +450,9 @@ Wire Wire Line
 	3850 2350 3950 2350
 Wire Wire Line
 	3950 2350 3950 2450
-$Comp
-L Device:C_Small C14
-U 1 1 5EBA06A5
-P 4050 2100
-F 0 "C14" H 3959 2054 50  0000 R CNN
-F 1 "10uF" H 3959 2145 50  0000 R CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric" H 4050 2100 50  0001 C CNN
-F 3 "~" H 4050 2100 50  0001 C CNN
-	1    4050 2100
-	1    0    0    1   
-$EndComp
-Wire Wire Line
-	4050 2000 4050 1950
-Wire Wire Line
-	4050 1950 3850 1950
-Wire Wire Line
-	4050 2200 4050 2250
 Wire Wire Line
 	4050 2850 3950 2850
 Connection ~ 3950 2850
-Wire Wire Line
-	4250 1950 4050 1950
-Connection ~ 4050 1950
 Text HLabel 1050 1950 0    50   UnSpc ~ 0
 Ext_In+
 Wire Wire Line
@@ -680,7 +615,6 @@ Wire Wire Line
 Connection ~ 1350 1950
 Wire Wire Line
 	3850 2250 4050 2250
-Connection ~ 4050 2250
 Wire Wire Line
 	4050 2250 4050 2850
 $Comp
@@ -701,4 +635,12 @@ Wire Wire Line
 Connection ~ 1900 5400
 Wire Wire Line
 	1900 4950 1900 5400
+Wire Wire Line
+	3250 4100 3750 4100
+Wire Wire Line
+	3850 1950 4250 1950
+Wire Wire Line
+	8750 3400 9350 3400
+Wire Wire Line
+	8750 3900 9750 3900
 $EndSCHEMATC
