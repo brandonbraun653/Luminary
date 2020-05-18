@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|VisualGDB">
+      <Configuration>Debug</Configuration>
+      <Platform>VisualGDB</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|VisualGDB">
+      <Configuration>Release</Configuration>
+      <Platform>VisualGDB</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{6256E1AD-58B7-485D-8140-12FA66234910}</ProjectGuid>
+    <BSP_ID>com.sysprogs.arm.stm32</BSP_ID>
+    <BSP_VERSION>2020.01</BSP_VERSION>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
+    <Import Project="..\ProjectWideConfiguration.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <Import Project="..\ProjectWideConfiguration.props" />
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
+    <GNUConfigurationType>Debug</GNUConfigurationType>
+    <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
+    <ToolchainVersion>9.2.1/8.3.0/r1</ToolchainVersion>
+    <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
+    <GenerateBuildScript>true</GenerateBuildScript>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
+    <ToolchainVersion>9.2.1/8.3.0/r1</ToolchainVersion>
+    <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
+    <ClCompile>
+      <CPPLanguageStandard>CPP2A</CPPLanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../;$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(ProjectCompilerDefines);$(ChimeraCompilerDefines);$(FreeRTOSCompilerDefines);%(ClCompile.PreprocessorDefinitions);DEBUG=1</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <ClCompile>
+      <CPPLanguageStandard>CPP2A</CPPLanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)../../;$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(ProjectCompilerDefines);$(ChimeraCompilerDefines);$(FreeRTOSCompilerDefines);%(ClCompile.PreprocessorDefinitions);NDEBUG=1;RELEASE=1</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\lib\Aurora\Chimera\vs\ChimeraStaticLibrary\ChimeraStaticLibrary\ChimeraStaticLibrary.vcxproj">
+      <Project>{be922011-485d-4be4-a907-336c69f155e4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\lib\Aurora\vs\AuroraStaticLibraryEmbedded\AuroraStaticLibraryEmbedded\AuroraStaticLibraryEmbedded.vcxproj">
+      <Project>{f59ff162-111a-4c11-a390-4aad01141a42}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\lib\FreeRTOS\vs\FreeRTOSStaticLibrary\FreeRTOSStaticLibrary\FreeRTOSStaticLibrary.vcxproj">
+      <Project>{84551af0-447d-4ed5-8dda-3933c47a95f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\lib\RF24Node\vs\RF24NodeStaticLibrary\RF24NodeStaticLibrary\RF24NodeStaticLibrary.vcxproj">
+      <Project>{1a3b3195-ec38-4c2c-818c-808e5dd42c6e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\lib\Thor\vs\ThorStaticLibrary\ThorStaticLibrary\ThorStaticLibrary.vcxproj">
+      <Project>{d04a89da-cd1b-41ec-9acd-f31b0e675f14}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Luminary\hardware\hwm_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\hardware\status_led.cpp" />
+    <ClCompile Include="..\..\..\Luminary\luminary_entry.cpp" />
+    <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp" />
+    <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp" />
+    <None Include="stm32.props" />
+    <None Include="LuminaryEmbeddedDriver-Debug.vgdbsettings" />
+    <None Include="LuminaryEmbeddedDriver-Release.vgdbsettings" />
+    <None Include="stm32.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Luminary\hardware\hwm_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp" />
+    <ClInclude Include="..\..\..\Luminary\model\mdl_common.hpp" />
+    <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\system\sys_main.hpp" />
+  </ItemGroup>
+</Project>

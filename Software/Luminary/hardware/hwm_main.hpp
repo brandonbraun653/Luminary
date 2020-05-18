@@ -14,6 +14,12 @@
 
 namespace Luminary::Hardware
 {
+  /*-------------------------------------------------
+  Use the highest priority to ensure that HWM tasks get time to execute.
+  -------------------------------------------------*/
+  static constexpr auto MainThreadPriority = Chimera::Threading::Priority::LEVEL_5;
+  static constexpr size_t MainThreadUpdateRate = 5;
+
   void MainThread( void *argument );
 }
 

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="VisualGDB settings">
+      <UniqueIdentifier>{34f607bc-d911-4c71-84f5-56cab8d8fec0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Luminary">
+      <UniqueIdentifier>{5437d45a-7790-43ec-9eb9-e75d6fdf8604}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Luminary\hardware">
+      <UniqueIdentifier>{40defc3d-97a2-48fd-9b19-91652261106b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Luminary\networking">
+      <UniqueIdentifier>{8b687589-8d41-4331-aa36-52afe50b284c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Luminary\system">
+      <UniqueIdentifier>{6bda5ded-3a1f-4cff-9763-fcd5030f00a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Luminary\model">
+      <UniqueIdentifier>{fb439b09-8e3b-43c1-ba89-cc506b1d40e9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LuminaryEmbeddedDriver-Debug.vgdbsettings">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <None Include="LuminaryEmbeddedDriver-Release.vgdbsettings">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <None Include="stm32.xml">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+    <ClCompile Include="..\..\..\Luminary\luminary_entry.cpp">
+      <Filter>Luminary</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\hardware\hwm_main.cpp">
+      <Filter>Luminary\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp">
+      <Filter>Luminary\networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp">
+      <Filter>Luminary\system</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="stm32.props">
+      <Filter>VisualGDB settings</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Luminary\hardware\hwm_main.hpp">
+      <Filter>Luminary\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp">
+      <Filter>Luminary\networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\system\sys_main.hpp">
+      <Filter>Luminary\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\model\mdl_common.hpp">
+      <Filter>Luminary\model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp">
+      <Filter>Luminary\hardware</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
+      <Filter>Luminary\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\hardware\status_led.cpp">
+      <Filter>Luminary\hardware</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
