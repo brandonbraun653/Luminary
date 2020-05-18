@@ -48,14 +48,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
     <ClCompile>
       <CPPLanguageStandard>CPP2A</CPPLanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)../../;$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BoostIncDir);$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);$(RF24NodeIncDir);$(SolutionDir)../../;$(uLogIncDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(ProjectCompilerDefines);$(ChimeraCompilerDefines);$(FreeRTOSCompilerDefines);%(ClCompile.PreprocessorDefinitions);DEBUG=1</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
     <ClCompile>
       <CPPLanguageStandard>CPP2A</CPPLanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)../../;$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BoostIncDir);$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);$(RF24NodeIncDir);$(SolutionDir)../../;$(uLogIncDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(ProjectCompilerDefines);$(ChimeraCompilerDefines);$(FreeRTOSCompilerDefines);%(ClCompile.PreprocessorDefinitions);NDEBUG=1;RELEASE=1</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -81,6 +81,7 @@
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\hardware\hwm_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\hardware\power_select.cpp" />
     <ClCompile Include="..\..\..\Luminary\hardware\status_led.cpp" />
     <ClCompile Include="..\..\..\Luminary\luminary_entry.cpp" />
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp" />
@@ -93,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Luminary\hardware\hwm_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\hardware\power_select.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp" />
     <ClInclude Include="..\..\..\Luminary\model\mdl_common.hpp" />
     <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp" />

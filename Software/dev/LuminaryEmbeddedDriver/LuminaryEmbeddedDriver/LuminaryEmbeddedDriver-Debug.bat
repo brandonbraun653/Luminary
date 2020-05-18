@@ -3,6 +3,8 @@ REM Run this file to build the project outside of the IDE.
 REM WARNING: if using a different machine, copy the .rsp files together with this script.
 echo hwm_main.cpp
 c:\SysGCC\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/hwm_main.gcc.rsp" || exit 1
+echo power_select.cpp
+c:\SysGCC\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/power_select.gcc.rsp" || exit 1
 echo status_led.cpp
 c:\SysGCC\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/status_led.gcc.rsp" || exit 1
 echo luminary_entry.cpp

@@ -23,10 +23,10 @@ namespace Luminary::Model
 
   enum class CommonData : uint8_t
   {
-    INVALID,
     DBG_LED_STATUS_BLINK_PERIOD,   /**< Period at which the debug status LED should blink (ms) */
 
-    NUM_DATA_FIELDS
+    NUM_DATA_FIELDS,
+    INVALID
   };
 
   /**

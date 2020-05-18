@@ -13,35 +13,66 @@
 #include <Chimera/thread>
 
 /* Luminary Includes */
-#include <Luminary/model/mdl_common.hpp>
-#include <Luminary/system/sys_main.hpp>
-#include <Luminary/networking/net_main.hpp>
 #include <Luminary/hardware/hwm_main.hpp>
+#include <Luminary/model/mdl_common.hpp>
+#include <Luminary/networking/net_main.hpp>
+#include <Luminary/system/sys_main.hpp>
 
+static void systemPowerUp();
 
 int main()
 {
   ChimeraInit();
-
-  /*-------------------------------------------------
-  Initialize module memory
-  -------------------------------------------------*/
-  Luminary::Model::initializeModule();
+  systemPowerUp();
 
   /*-------------------------------------------------
   Start up the system threads in the proper order
   -------------------------------------------------*/
+  /* clang-format off */
   Chimera::Threading::Thread hwmMain;
-  hwmMain.initialize( Luminary::Hardware::MainThread, nullptr, Luminary::Hardware::MainThreadPriority, 1024, "HWM_MAIN" );
+  hwmMain.initialize( Luminary::Hardware::MainThread,
+                      nullptr,
+                      Luminary::Hardware::MainThreadPriority,
+                      Luminary::Hardware::MainThreadStackSize,
+                      "HWM_MAIN" );
   hwmMain.start();
 
-  // Chimera::Threading::Thread sysMain;
-  // sysMain.initialize( Luminary::System::MainThread, nullptr, Chimera::Threading::Priority::LEVEL_2, 1024, "SYS_MAIN" );
-  // sysMain.start();
+  Chimera::Threading::Thread sysMain;
+  sysMain.initialize( Luminary::System::MainThread,
+                      nullptr,
+                      Luminary::System::MainThreadPriority,
+                      Luminary::System::MainThreadStackSize,
+                      "SYS_MAIN" );
+  sysMain.start();
+
+  Chimera::Threading::Thread netMain;
+  netMain.initialize( Luminary::Network::MainThread,
+                      nullptr,
+                      Luminary::Network::MainThreadPriority,
+                      Luminary::Network::MainThreadStackSize,
+                      "NET_MAIN" );
+  netMain.start();
+
+  /* clang-format on */
 
   /*-------------------------------------------------
   Start the scheduler, which should never return
   -------------------------------------------------*/
   Chimera::Threading::startScheduler();
   return -1;
+}
+
+
+void systemPowerUp()
+{
+  /*-------------------------------------------------
+  Initialize the system modules that don't require the scheduler in the proper order:
+
+    1. Model data   -- Required for default settings, data, etc used by other drivers
+    2. HWM Drivers  -- Gets the hardware level drivers and memory ready
+    3. Anything else
+  -------------------------------------------------*/
+  Luminary::Model::initializeModule();
+  Luminary::Hardware::initializeModule();
+  Luminary::System::initializeModule();
 }

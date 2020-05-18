@@ -14,23 +14,28 @@
 
 /* Luminary Includes */
 #include <Luminary/hardware/hwm_main.hpp>
+#include <Luminary/hardware/power_select.hpp>
 #include <Luminary/hardware/status_led.hpp>
 
 namespace Luminary::Hardware
 {
+  void initializeModule()
+  {
+    Luminary::Hardware::StatusLED::initialize();
+    Luminary::Hardware::Power::initialize();
+  }
 
   void MainThread( void *argument )
   {
-    size_t currentTick = Chimera::millis();
-
 #if defined( DEBUG )
-    StatusLED::initialize();
     StatusLED::executeBootFlashSequence();
 #endif
 
     while( true )
     {
-      currentTick = Chimera::millis();
+      // Eventually do other hardware things if needed
+
+      // TODO: Add watchdog kick
 
 #if defined( DEBUG )
       /*-------------------------------------------------
@@ -39,9 +44,7 @@ namespace Luminary::Hardware
       StatusLED::runHeartBeat();
 #endif
 
-
       Chimera::delayMilliseconds( MainThreadUpdateRate );
-
     }
   }
 }

@@ -12,14 +12,33 @@
 #ifndef LUMINARY_HARDWARE_THREAD_HPP
 #define LUMINARY_HARDWARE_THREAD_HPP
 
+/* STL Includes */
+#include <cstddef>
+
+/* Chimera Includes */
+#include <Chimera/thread>
+
 namespace Luminary::Hardware
 {
   /*-------------------------------------------------
   Use the highest priority to ensure that HWM tasks get time to execute.
   -------------------------------------------------*/
-  static constexpr auto MainThreadPriority = Chimera::Threading::Priority::LEVEL_5;
+  static constexpr auto MainThreadPriority     = Chimera::Threading::Priority::LEVEL_4;
   static constexpr size_t MainThreadUpdateRate = 5;
+  static constexpr size_t MainThreadStackSize  = 1024;
 
+  /**
+   *  Initializes the entire hardware module
+   *  @return void
+   */
+  void initializeModule();
+
+  /**
+   *  Primary thread of execution for hardware related tasks
+   *
+   *  @param[in]  argument    Not used
+   *  @return void
+   */
   void MainThread( void *argument );
 }
 

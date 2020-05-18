@@ -64,12 +64,18 @@
     <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp">
       <Filter>Luminary\hardware</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\hardware\power_select.hpp">
+      <Filter>Luminary\hardware</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
       <Filter>Luminary\model</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Luminary\hardware\status_led.cpp">
+      <Filter>Luminary\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\hardware\power_select.cpp">
       <Filter>Luminary\hardware</Filter>
     </ClCompile>
   </ItemGroup>
