@@ -94,7 +94,7 @@ namespace Luminary::Network
     ------------------------------------------------*/
     cfg.physical.spiConfig.HWInit.validity    = true;
     cfg.physical.spiConfig.HWInit.bitOrder    = Chimera::SPI::BitOrder::MSB_FIRST;
-    cfg.physical.spiConfig.HWInit.clockFreq   = 8000000;
+    cfg.physical.spiConfig.HWInit.clockFreq   = 1000000;
     cfg.physical.spiConfig.HWInit.clockMode   = Chimera::SPI::ClockMode::MODE0;
     cfg.physical.spiConfig.HWInit.controlMode = Chimera::SPI::ControlMode::MASTER;
     cfg.physical.spiConfig.HWInit.csMode      = Chimera::SPI::CSMode::MANUAL;
