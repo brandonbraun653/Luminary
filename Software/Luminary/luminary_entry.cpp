@@ -14,6 +14,7 @@
 
 /* Luminary Includes */
 #include <Luminary/hardware/hwm_main.hpp>
+#include <Luminary/logging/log_main.hpp>
 #include <Luminary/model/mdl_common.hpp>
 #include <Luminary/networking/net_main.hpp>
 #include <Luminary/system/sys_main.hpp>
@@ -53,6 +54,13 @@ int main()
                       "NET_MAIN" );
   netMain.start();
 
+  Chimera::Threading::Thread logMain;
+  logMain.initialize( Luminary::Logging::MainThread,
+                      nullptr,
+                      Luminary::Logging::MainThreadPriority,
+                      Luminary::Logging::MainThreadStackSize,
+                      "LOG_MAIN" );
+  logMain.start();
   /* clang-format on */
 
   /*-------------------------------------------------
@@ -75,4 +83,6 @@ void systemPowerUp()
   Luminary::Model::initializeModule();
   Luminary::Hardware::initializeModule();
   Luminary::System::initializeModule();
+  Luminary::Logging::initializeModule();
+  Luminary::Network::initializeModule();
 }

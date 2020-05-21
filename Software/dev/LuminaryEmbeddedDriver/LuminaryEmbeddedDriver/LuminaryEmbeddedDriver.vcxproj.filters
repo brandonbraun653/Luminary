@@ -19,6 +19,15 @@
     <Filter Include="Luminary\model">
       <UniqueIdentifier>{fb439b09-8e3b-43c1-ba89-cc506b1d40e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Luminary\logging">
+      <UniqueIdentifier>{b81240a6-a37c-430a-88b8-5741c212091e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Device-specific files">
+      <UniqueIdentifier>{63550eb9-d3ea-40b1-998f-17cae96531e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Device-specific files\Semihosting/Profiler">
+      <UniqueIdentifier>{3a8fbe15-f799-4a99-8370-1ab363e03232}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="LuminaryEmbeddedDriver-Debug.vgdbsettings">
@@ -42,6 +51,39 @@
     <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp">
       <Filter>Luminary\system</Filter>
     </ClCompile>
+    <ClCompile Include="$(EFP_BASE)\Profiler\FastSemihosting.cpp">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="$(EFP_BASE)\Profiler\SamplingProfiler.cpp">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="$(EFP_BASE)\Profiler\InstrumentingProfiler.cpp">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="$(EFP_BASE)\Profiler\TestResourceManager.cpp">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="$(EFP_BASE)\Profiler\ProfilerRTOS_FreeRTOS.c">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClCompile>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfiler.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SmallNumberCoder.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfilerInterface.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\ProfilerFreeRTOSHooks.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\CustomRealTimeWatches.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\DebuggerChecker.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="stm32.props">
@@ -67,6 +109,9 @@
     <ClInclude Include="..\..\..\Luminary\hardware\power_select.hpp">
       <Filter>Luminary\hardware</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\logging\log_main.hpp">
+      <Filter>Luminary\logging</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
@@ -77,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Luminary\hardware\power_select.cpp">
       <Filter>Luminary\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\logging\log_main.cpp">
+      <Filter>Luminary\logging</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

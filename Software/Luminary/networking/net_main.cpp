@@ -11,6 +11,9 @@
 /* Chimera Includes */
 #include <Chimera/common>
 
+/* uLog Includes */
+#include <uLog/ulog.hpp>
+
 /* RF24 Includes */
 #include <RF24Node/common>
 #include <RF24Node/endpoint>
@@ -25,7 +28,13 @@ namespace Luminary::Network
 
   void initializeModule()
   {
+    
+  }
+
+  void MainThread( void *argument )
+  {
     RF24::Endpoint::SystemInit cfg;
+    cfg.clear();
 
     /*------------------------------------------------
     Configure the NRF24 radio
@@ -93,16 +102,28 @@ namespace Luminary::Network
     cfg.physical.spiConfig.HWInit.hwChannel   = Chimera::SPI::Channel::SPI3;
     cfg.physical.spiConfig.HWInit.txfrMode    = Chimera::SPI::TransferMode::INTERRUPT;
 
-    radio = RF24::Endpoint::createShared( cfg );
-    radio->configure( cfg );
-  }
+    /*------------------------------------------------
+    Radio Initialization
+    ------------------------------------------------*/
+    cfg.network.mode                = RF24::Network::Mode::NET_MODE_STATIC;
+    cfg.network.nodeStaticAddress   = RF24::RootNode0;
+    cfg.network.parentStaticAddress = RF24::Network::RSVD_ADDR_INVALID;
+    cfg.network.rxQueueBuffer       = nullptr;
+    cfg.network.rxQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
+    cfg.network.txQueueBuffer       = nullptr;
+    cfg.network.txQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
 
-  void MainThread( void *argument )
-  {
-    initializeModule();
+    /*------------------------------------------------
+    Create the radio driver and reset to above settings
+    ------------------------------------------------*/
+    radio = RF24::Endpoint::createShared( cfg );
+    radio->attachLogger( uLog::getRootSink() );
+    radio->configure( cfg );
+    radio->setName( "Master" );
 
     while( true )
     {
+      radio->doAsyncProcessing();
       Chimera::delayMilliseconds( MainThreadUpdateRate );
     }
   }

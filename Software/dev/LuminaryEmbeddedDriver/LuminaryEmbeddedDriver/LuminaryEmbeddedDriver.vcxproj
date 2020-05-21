@@ -83,6 +83,7 @@
     <ClCompile Include="..\..\..\Luminary\hardware\hwm_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\hardware\power_select.cpp" />
     <ClCompile Include="..\..\..\Luminary\hardware\status_led.cpp" />
+    <ClCompile Include="..\..\..\Luminary\logging\log_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\luminary_entry.cpp" />
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp" />
     <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp" />
@@ -91,11 +92,23 @@
     <None Include="LuminaryEmbeddedDriver-Debug.vgdbsettings" />
     <None Include="LuminaryEmbeddedDriver-Release.vgdbsettings" />
     <None Include="stm32.xml" />
+    <ClCompile Include="$(EFP_BASE)\Profiler\FastSemihosting.cpp" />
+    <ClCompile Include="$(EFP_BASE)\Profiler\SamplingProfiler.cpp" />
+    <ClCompile Include="$(EFP_BASE)\Profiler\InstrumentingProfiler.cpp" />
+    <ClCompile Include="$(EFP_BASE)\Profiler\TestResourceManager.cpp" />
+    <ClCompile Include="$(EFP_BASE)\Profiler\ProfilerRTOS_FreeRTOS.c" />
+    <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfiler.h" />
+    <ClInclude Include="$(EFP_BASE)\Profiler\SmallNumberCoder.h" />
+    <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfilerInterface.h" />
+    <ClInclude Include="$(EFP_BASE)\Profiler\ProfilerFreeRTOSHooks.h" />
+    <ClInclude Include="$(EFP_BASE)\Profiler\CustomRealTimeWatches.h" />
+    <ClInclude Include="$(EFP_BASE)\Profiler\DebuggerChecker.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Luminary\hardware\hwm_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\power_select.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp" />
+    <ClInclude Include="..\..\..\Luminary\logging\log_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\model\mdl_common.hpp" />
     <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\system\sys_main.hpp" />
