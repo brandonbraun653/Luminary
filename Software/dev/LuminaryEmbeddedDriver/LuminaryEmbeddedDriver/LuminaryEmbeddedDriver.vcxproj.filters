@@ -28,6 +28,9 @@
     <Filter Include="Device-specific files\Semihosting/Profiler">
       <UniqueIdentifier>{3a8fbe15-f799-4a99-8370-1ab363e03232}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Luminary\rpc">
+      <UniqueIdentifier>{0f84c40a-4193-419d-9cdb-c1ab1f0f2c54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="LuminaryEmbeddedDriver-Debug.vgdbsettings">
@@ -115,6 +118,9 @@
     <ClInclude Include="..\..\..\Luminary\model\mdl_observables.hpp">
       <Filter>Luminary\model</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_main.hpp">
+      <Filter>Luminary\rpc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
@@ -131,6 +137,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Luminary\model\mdl_observables.cpp">
       <Filter>Luminary\model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_main.cpp">
+      <Filter>Luminary\rpc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

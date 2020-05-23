@@ -17,6 +17,7 @@
 #include <Luminary/logging/log_main.hpp>
 #include <Luminary/model/mdl_common.hpp>
 #include <Luminary/networking/net_main.hpp>
+#include <Luminary/rpc/rpc_main.hpp>
 #include <Luminary/system/sys_main.hpp>
 
 static void systemPowerUp();
@@ -54,6 +55,14 @@ int main()
                       "NET_MAIN" );
   netMain.start();
 
+  Chimera::Threading::Thread rpcMain;
+  rpcMain.initialize( Luminary::RPC::MainThread,
+                      nullptr,
+                      Luminary::RPC::MainThreadPriority,
+                      Luminary::RPC::MainThreadStackSize,
+                      "RPC_MAIN" );
+  rpcMain.start();
+
   Chimera::Threading::Thread logMain;
   logMain.initialize( Luminary::Logging::MainThread,
                       nullptr,
@@ -85,4 +94,5 @@ void systemPowerUp()
   Luminary::System::initializeModule();
   Luminary::Logging::initializeModule();
   Luminary::Network::initializeModule();
+  Luminary::RPC::initializeModule();
 }

@@ -17,6 +17,8 @@ echo mdl_observables.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/mdl_observables.gcc.rsp" || exit 1
 echo net_main.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/net_main.gcc.rsp" || exit 1
+echo rpc_main.cpp
+c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/rpc_main.gcc.rsp" || exit 1
 echo sys_main.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/sys_main.gcc.rsp" || exit 1
 echo FastSemihosting.cpp

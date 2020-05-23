@@ -25,6 +25,8 @@ namespace Luminary::Hardware
     Luminary::Hardware::Power::initialize();
   }
 
+  
+
   void MainThread( void *argument )
   {
 #if defined( DEBUG )
