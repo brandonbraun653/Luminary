@@ -17,6 +17,7 @@
 
 /* Luminary Includes */
 #include <Luminary/system/sys_main.hpp>
+#include <Luminary/model/mdl_observables.hpp>
 
 namespace Luminary::System
 {
@@ -42,6 +43,9 @@ namespace Luminary::System
 
   void MainThread( void *argument )
   {
+    
+
+    Model::initializeObservers();
 
     while( true )
     {

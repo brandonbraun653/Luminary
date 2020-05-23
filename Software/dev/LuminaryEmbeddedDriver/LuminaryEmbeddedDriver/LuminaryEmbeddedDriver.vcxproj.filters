@@ -112,6 +112,9 @@
     <ClInclude Include="..\..\..\Luminary\logging\log_main.hpp">
       <Filter>Luminary\logging</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\model\mdl_observables.hpp">
+      <Filter>Luminary\model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
@@ -125,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Luminary\logging\log_main.cpp">
       <Filter>Luminary\logging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\model\mdl_observables.cpp">
+      <Filter>Luminary\model</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

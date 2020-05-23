@@ -86,6 +86,7 @@
     <ClCompile Include="..\..\..\Luminary\logging\log_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\luminary_entry.cpp" />
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp" />
+    <ClCompile Include="..\..\..\Luminary\model\mdl_observables.cpp" />
     <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp" />
     <None Include="stm32.props" />
@@ -110,6 +111,7 @@
     <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp" />
     <ClInclude Include="..\..\..\Luminary\logging\log_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\model\mdl_common.hpp" />
+    <ClInclude Include="..\..\..\Luminary\model\mdl_observables.hpp" />
     <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\system\sys_main.hpp" />
   </ItemGroup>

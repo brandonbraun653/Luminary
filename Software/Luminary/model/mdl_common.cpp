@@ -17,6 +17,7 @@
 
 /* Luminary Includes */
 #include <Luminary/model/mdl_common.hpp>
+#include <Luminary/model/mdl_observables.hpp>
 
 namespace Luminary::Model
 {
