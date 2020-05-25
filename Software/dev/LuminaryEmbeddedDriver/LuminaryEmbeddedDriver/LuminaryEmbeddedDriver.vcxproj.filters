@@ -121,6 +121,15 @@
     <ClInclude Include="..\..\..\Luminary\rpc\rpc_main.hpp">
       <Filter>Luminary\rpc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_parser.hpp">
+      <Filter>Luminary\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_responder.hpp">
+      <Filter>Luminary\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\rpc\types.hpp">
+      <Filter>Luminary\rpc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
@@ -139,6 +148,12 @@
       <Filter>Luminary\model</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Luminary\rpc\rpc_main.cpp">
+      <Filter>Luminary\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rcp_responder.cpp">
+      <Filter>Luminary\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_parser.cpp">
       <Filter>Luminary\rpc</Filter>
     </ClCompile>
   </ItemGroup>

@@ -10,7 +10,6 @@
 
 /* STL Includes */
 #include <array>
-#include <cstring>
 
 /* Boost Includes */
 #include <boost/circular_buffer.hpp>
@@ -23,22 +22,11 @@
 
 /* Luminary Includes */
 #include <Luminary/rpc/rpc_main.hpp>
+#include <Luminary/rpc/rpc_parser.hpp>
+#include <Luminary/rpc/types.hpp>
 
 namespace Luminary::RPC
 {
-  /*-------------------------------------------------
-  Configuration Variables
-  -------------------------------------------------*/
-  static constexpr size_t MaxMessageSize     = 50;
-  static constexpr size_t CircularBufferSize = 5 * MaxMessageSize;
-
-  /*-------------------------------------------------
-  Aliases
-  -------------------------------------------------*/
-  using MessageBuffer  = std::array<uint8_t, MaxMessageSize>;
-  using CircularBuffer = boost::circular_buffer<uint8_t>;
-
-
   /*-------------------------------------------------
   Module Data
   -------------------------------------------------*/
@@ -61,20 +49,23 @@ namespace Luminary::RPC
   -------------------------------------------------*/
   static Chimera::Status_t initializeSerial();
 
-  /**
-   *  Parses the command read from the serial
-   */
-  static size_t parseCommand( MessageBuffer &message );
-
 
   void initializeModule()
   {
+    /*------------------------------------------------
+    Initialize static data
+    ------------------------------------------------*/
     Serial = nullptr;
     sRXHWBuffer.fill( 0 );
     sTXHWBuffer.fill( 0 );
     sParseBuffer.fill( 0 );
     sRXCircularBuffer.clear();
     sTXCircularBuffer.clear();
+
+    /*------------------------------------------------
+    Additional intialization from other RPC modules
+    ------------------------------------------------*/
+    initializeParser();
   }
 
 
@@ -105,20 +96,20 @@ namespace Luminary::RPC
       {
         sParseBuffer.fill( 0 );
         Serial->readAsync( sParseBuffer.data(), bytesToRead );
-        responseSize = parseCommand( sParseBuffer );
-      }
 
-      /*-------------------------------------------------
-      Assuming the parsing produced a return message, send it off
-      -------------------------------------------------*/
-      if ( responseSize )
-      {
-        Serial->write( sParseBuffer.data(), responseSize, Chimera::Threading::TIMEOUT_25MS );
-        Serial->await( Chimera::Event::TRIGGER_WRITE_COMPLETE, Chimera::Threading::TIMEOUT_25MS );
+        /*-------------------------------------------------
+        Assuming the parsing produced a return message, send it off
+        -------------------------------------------------*/
+        if ( auto responseSize = parseCommand( sParseBuffer ) )
+        {
+          Serial->write( sParseBuffer.data(), responseSize, Chimera::Threading::TIMEOUT_25MS );
+          Serial->await( Chimera::Event::TRIGGER_WRITE_COMPLETE, Chimera::Threading::TIMEOUT_25MS );
+        }
 
-        // Start listening again
+        /*------------------------------------------------
+        Turn on listening again so we can receive more messages
+        ------------------------------------------------*/
         Serial->toggleAsyncListening( true );
-        responseSize = 0;
       }
 
       Chimera::delayMilliseconds( MainThreadUpdateRate );
@@ -174,12 +165,6 @@ namespace Luminary::RPC
     result |= Serial->begin( PeripheralMode::INTERRUPT, PeripheralMode::INTERRUPT );
 
     return result;
-  }
-
-
-  static size_t parseCommand( MessageBuffer &message )
-  {
-    return strlen( reinterpret_cast<const char *>( message.data() ) );
   }
 
 }    // namespace Luminary::RPC

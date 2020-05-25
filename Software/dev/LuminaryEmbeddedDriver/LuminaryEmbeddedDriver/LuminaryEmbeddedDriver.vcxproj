@@ -88,7 +88,9 @@
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp" />
     <ClCompile Include="..\..\..\Luminary\model\mdl_observables.cpp" />
     <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rcp_responder.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rpc_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_parser.cpp" />
     <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp" />
     <None Include="stm32.props" />
     <None Include="LuminaryEmbeddedDriver-Debug.vgdbsettings" />
@@ -115,6 +117,9 @@
     <ClInclude Include="..\..\..\Luminary\model\mdl_observables.hpp" />
     <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\rpc\rpc_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_parser.hpp" />
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_responder.hpp" />
+    <ClInclude Include="..\..\..\Luminary\rpc\types.hpp" />
     <ClInclude Include="..\..\..\Luminary\system\sys_main.hpp" />
   </ItemGroup>
 </Project>
