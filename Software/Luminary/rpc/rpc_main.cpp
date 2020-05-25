@@ -3,13 +3,14 @@
  *    rpc_main.cpp
  *
  *  Description:
- *    RPC driver for Luminary
+ *    Simplified RPC handling for invoking functions based on serial commands
  *
  *  2020 | Brandon Braun | brandonbraun653@gmail.com
  *******************************************************************************/
 
 /* STL Includes */
 #include <array>
+#include <cstring>
 
 /* Boost Includes */
 #include <boost/circular_buffer.hpp>
@@ -18,34 +19,118 @@
 #include <Chimera/common>
 #include <Chimera/serial>
 #include <Chimera/thread>
+#include <Chimera/watchdog>
 
 /* Luminary Includes */
 #include <Luminary/rpc/rpc_main.hpp>
 
 namespace Luminary::RPC
 {
-  static Chimera::Serial::Serial_sPtr s_serial;
+  /*-------------------------------------------------
+  Configuration Variables
+  -------------------------------------------------*/
+  static constexpr size_t MaxMessageSize     = 50;
+  static constexpr size_t CircularBufferSize = 5 * MaxMessageSize;
 
-  static std::array<uint8_t, 50> s_rpc_hw_tx_buffer;
-  static std::array<uint8_t, 50> s_rpc_hw_rx_buffer;
+  /*-------------------------------------------------
+  Aliases
+  -------------------------------------------------*/
+  using MessageBuffer  = std::array<uint8_t, MaxMessageSize>;
+  using CircularBuffer = boost::circular_buffer<uint8_t>;
 
-  static boost::circular_buffer<uint8_t> s_rpc_tx_circular_buffer( 50 );
-  static boost::circular_buffer<uint8_t> s_rpc_rx_circular_buffer( 50 );
+
+  /*-------------------------------------------------
+  Module Data
+  -------------------------------------------------*/
+  /* Serial Object */
+  static Chimera::Serial::Serial_sPtr Serial;
+
+  /* Serial Transmit Buffers */
+  static MessageBuffer sTXHWBuffer;
+  static CircularBuffer sTXCircularBuffer( CircularBufferSize );
+
+  /* Serial Recieve Buffers */
+  static MessageBuffer sRXHWBuffer;
+  static CircularBuffer sRXCircularBuffer( CircularBufferSize );
+
+  /* Parsing buffer */
+  static MessageBuffer sParseBuffer;
+
+  /*-------------------------------------------------
+  Module Functions
+  -------------------------------------------------*/
+  static Chimera::Status_t initializeSerial();
+
+  /**
+   *  Parses the command read from the serial
+   */
+  static size_t parseCommand( MessageBuffer &message );
+
 
   void initializeModule()
   {
-    s_serial = nullptr;
-    s_rpc_hw_rx_buffer.fill( 0 );
-    s_rpc_hw_tx_buffer.fill( 0 );
-    s_rpc_rx_circular_buffer.clear();
-    s_rpc_tx_circular_buffer.clear();
+    Serial = nullptr;
+    sRXHWBuffer.fill( 0 );
+    sTXHWBuffer.fill( 0 );
+    sParseBuffer.fill( 0 );
+    sRXCircularBuffer.clear();
+    sTXCircularBuffer.clear();
   }
+
+
+  void MainThread( void *argument )
+  {
+    /*-------------------------------------------------
+    Initialize the serial object used to send/receive commands
+    -------------------------------------------------*/
+    if ( initializeSerial() != Chimera::CommonStatusCodes::OK )
+    {
+      Chimera::insert_debug_breakpoint();
+      Chimera::Watchdog::invokeTimeout();
+    }
+
+    /*------------------------------------------------
+    Continuously parse the data coming in
+    ------------------------------------------------*/
+    size_t bytesToRead  = 0;
+    size_t responseSize = 0;
+    Serial->toggleAsyncListening( true );
+
+    while ( true )
+    {
+      /*-------------------------------------------------
+      Any data arrived? If so, parse it.
+      -------------------------------------------------*/
+      if ( Serial->available( &bytesToRead ) )
+      {
+        sParseBuffer.fill( 0 );
+        Serial->readAsync( sParseBuffer.data(), bytesToRead );
+        responseSize = parseCommand( sParseBuffer );
+      }
+
+      /*-------------------------------------------------
+      Assuming the parsing produced a return message, send it off
+      -------------------------------------------------*/
+      if ( responseSize )
+      {
+        Serial->write( sParseBuffer.data(), responseSize, Chimera::Threading::TIMEOUT_25MS );
+        Serial->await( Chimera::Event::TRIGGER_WRITE_COMPLETE, Chimera::Threading::TIMEOUT_25MS );
+
+        // Start listening again
+        Serial->toggleAsyncListening( true );
+        responseSize = 0;
+      }
+
+      Chimera::delayMilliseconds( MainThreadUpdateRate );
+    }
+  }
+
 
   static Chimera::Status_t initializeSerial()
   {
     using namespace Chimera::Serial;
     using namespace Chimera::Hardware;
-    
+
     /*------------------------------------------------
     Configuration info for the serial object
     ------------------------------------------------*/
@@ -78,33 +163,23 @@ namespace Luminary::RPC
     Create the serial object and initialize it
     ------------------------------------------------*/
     auto result = Chimera::CommonStatusCodes::OK;
-    s_serial    = create_shared_ptr( Channel::SERIAL1 );
+    Serial    = create_shared_ptr( Channel::SERIAL1 );
 
-    result |= s_serial->assignHW( Channel::SERIAL1, pins );
-    result |= s_serial->configure( cfg );
-    result |= s_serial->enableBuffering( SubPeripheral::TX, &s_rpc_tx_circular_buffer, s_rpc_hw_tx_buffer.data(), s_rpc_hw_tx_buffer.size() );
-    result |= s_serial->enableBuffering( SubPeripheral::RX, &s_rpc_rx_circular_buffer, s_rpc_hw_rx_buffer.data(), s_rpc_hw_rx_buffer.size() );
-    result |= s_serial->begin( PeripheralMode::INTERRUPT, PeripheralMode::INTERRUPT );
+    result |= Serial->assignHW( Channel::SERIAL1, pins );
+    result |= Serial->configure( cfg );
+    result |= Serial->enableBuffering( SubPeripheral::TX, &sTXCircularBuffer, sTXHWBuffer.data(),
+                                         sTXHWBuffer.size() );
+    result |= Serial->enableBuffering( SubPeripheral::RX, &sRXCircularBuffer, sRXHWBuffer.data(),
+                                         sRXHWBuffer.size() );
+    result |= Serial->begin( PeripheralMode::INTERRUPT, PeripheralMode::INTERRUPT );
 
     return result;
   }
 
-  void MainThread( void *argument )
+
+  static size_t parseCommand( MessageBuffer &message )
   {
-    
-    if ( initializeSerial() != Chimera::CommonStatusCodes::OK ) 
-    {
-      Chimera::insert_debug_breakpoint();
-    }
-
-    
-    std::string_view hello = "hello\r\n";
-
-    while( true )
-    {
-      s_serial->write( reinterpret_cast<const uint8_t *>( hello.data() ), hello.size() );
-      Chimera::delayMilliseconds( MainThreadUpdateRate );
-    }
+    return strlen( reinterpret_cast<const char *>( message.data() ) );
   }
 
-}  // namespace Luminary::Network
+}    // namespace Luminary::RPC

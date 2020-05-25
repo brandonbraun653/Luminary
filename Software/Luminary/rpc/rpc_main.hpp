@@ -20,7 +20,7 @@
 
 namespace Luminary::RPC
 {
-  static constexpr auto MainThreadPriority     = Chimera::Threading::Priority::LEVEL_4;
+  static constexpr auto MainThreadPriority     = Chimera::Threading::Priority::LEVEL_3;
   static constexpr size_t MainThreadUpdateRate = 50;
   static constexpr size_t MainThreadStackSize  = 1024;
 
