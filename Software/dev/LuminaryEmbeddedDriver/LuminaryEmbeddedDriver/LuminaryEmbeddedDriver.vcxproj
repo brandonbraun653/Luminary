@@ -1,9 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|STM32L432KB">
+      <Configuration>Debug</Configuration>
+      <Platform>STM32L432KB</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|VisualGDB">
       <Configuration>Debug</Configuration>
       <Platform>VisualGDB</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|STM32L432KB">
+      <Configuration>Release</Configuration>
+      <Platform>STM32L432KB</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|VisualGDB">
       <Configuration>Release</Configuration>
@@ -19,15 +27,23 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|STM32L432KB'" Label="Configuration" />
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|STM32L432KB'" Label="Configuration" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
     <Import Project="..\ProjectWideConfiguration.props" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|STM32L432KB'" Label="PropertySheets">
+    <Import Project="..\ProjectWideConfiguration.props" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <Import Project="..\ProjectWideConfiguration.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|STM32L432KB'" Label="PropertySheets">
     <Import Project="..\ProjectWideConfiguration.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
@@ -40,7 +56,19 @@
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
     <GenerateBuildScript>true</GenerateBuildScript>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|STM32L432KB'">
+    <GNUConfigurationType>Debug</GNUConfigurationType>
+    <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
+    <ToolchainVersion>9.2.1/8.3.0/r1</ToolchainVersion>
+    <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
+    <GenerateBuildScript>true</GenerateBuildScript>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
+    <ToolchainVersion>9.2.1/8.3.0/r1</ToolchainVersion>
+    <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|STM32L432KB'">
     <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
     <ToolchainVersion>9.2.1/8.3.0/r1</ToolchainVersion>
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
@@ -50,9 +78,24 @@
       <CPPLanguageStandard>CPP2A</CPPLanguageStandard>
       <AdditionalIncludeDirectories>$(BoostIncDir);$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);$(RF24NodeIncDir);$(SolutionDir)../../;$(uLogIncDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(ProjectCompilerDefines);$(ChimeraCompilerDefines);$(FreeRTOSCompilerDefines);%(ClCompile.PreprocessorDefinitions);DEBUG=1</PreprocessorDefinitions>
+      <Optimization>Og</Optimization>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|STM32L432KB'">
+    <ClCompile>
+      <CPPLanguageStandard>CPP2A</CPPLanguageStandard>
+      <AdditionalIncludeDirectories>$(BoostIncDir);$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);$(RF24NodeIncDir);$(SolutionDir)../../;$(uLogIncDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(ProjectCompilerDefines);$(ChimeraCompilerDefines);$(FreeRTOSCompilerDefines);%(ClCompile.PreprocessorDefinitions);DEBUG=1</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
+    <ClCompile>
+      <CPPLanguageStandard>CPP2A</CPPLanguageStandard>
+      <AdditionalIncludeDirectories>$(BoostIncDir);$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);$(RF24NodeIncDir);$(SolutionDir)../../;$(uLogIncDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(ProjectCompilerDefines);$(ChimeraCompilerDefines);$(FreeRTOSCompilerDefines);%(ClCompile.PreprocessorDefinitions);NDEBUG=1;RELEASE=1</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|STM32L432KB'">
     <ClCompile>
       <CPPLanguageStandard>CPP2A</CPPLanguageStandard>
       <AdditionalIncludeDirectories>$(BoostIncDir);$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);$(RF24NodeIncDir);$(SolutionDir)../../;$(uLogIncDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

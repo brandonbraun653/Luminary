@@ -10,6 +10,7 @@
 
 /* STL Includes */
 #include <array>
+#include <cstring>
 
 /* Boost Includes */
 #include <boost/circular_buffer.hpp>
@@ -17,6 +18,7 @@
 /* Chimera Includes */
 #include <Chimera/common>
 #include <Chimera/serial>
+#include <Chimera/system>
 #include <Chimera/thread>
 #include <Chimera/watchdog>
 
@@ -24,6 +26,7 @@
 #include <Luminary/rpc/rpc_main.hpp>
 #include <Luminary/rpc/rpc_parser.hpp>
 #include <Luminary/rpc/types.hpp>
+#include <Luminary/version.hpp>
 
 namespace Luminary::RPC
 {
@@ -48,6 +51,7 @@ namespace Luminary::RPC
   Module Functions
   -------------------------------------------------*/
   static Chimera::Status_t initializeSerial();
+  static void printBootMessage();
 
 
   void initializeModule()
@@ -154,7 +158,7 @@ namespace Luminary::RPC
     Create the serial object and initialize it
     ------------------------------------------------*/
     auto result = Chimera::CommonStatusCodes::OK;
-    Serial    = create_shared_ptr( Channel::SERIAL1 );
+    Serial      = create_shared_ptr( Channel::SERIAL1 );
 
     result |= Serial->assignHW( Channel::SERIAL1, pins );
     result |= Serial->configure( cfg );
@@ -164,7 +168,39 @@ namespace Luminary::RPC
                                          sRXHWBuffer.size() );
     result |= Serial->begin( PeripheralMode::INTERRUPT, PeripheralMode::INTERRUPT );
 
+    /*------------------------------------------------
+    As part of the startup sequence, print some information out
+    ------------------------------------------------*/
+    if ( result == Chimera::CommonStatusCodes::OK )
+    {
+      printBootMessage();
+    }
+
     return result;
   }
 
+  static void printBootMessage()
+  {
+    /*------------------------------------------------
+    Initialize the buffer
+    ------------------------------------------------*/
+    size_t offset = 0;
+    std::array<char, 100> bootMsg;
+    bootMsg.fill( 0 );
+    
+    /*------------------------------------------------
+    Format the boot string
+    ------------------------------------------------*/
+    offset += snprintf( bootMsg.data() + offset, bootMsg.size() - offset, "Booting up Luminary\r\n");
+    offset += snprintf( bootMsg.data() + offset, bootMsg.size() - offset, "Luminary Version: %s\r\n", Luminary::Version.data() );
+    offset += snprintf( bootMsg.data() + offset, bootMsg.size() - offset, "%s Version: %s\r\n",
+                        Chimera::System::Description::backendDriverName().data(), Chimera::System::Version::asString().data() );
+
+
+    /*------------------------------------------------
+    Print out the boot message to the console
+    ------------------------------------------------*/
+    Serial->write( reinterpret_cast<uint8_t *>( bootMsg.data() ), strlen( bootMsg.data() ) );
+    Serial->await( Chimera::Event::TRIGGER_WRITE_COMPLETE, Chimera::Threading::TIMEOUT_DONT_WAIT );
+  }
 }    // namespace Luminary::RPC

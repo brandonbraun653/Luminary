@@ -29,6 +29,7 @@ namespace Luminary::Logging
     ------------------------------------------------*/
     uLog::initialize();
 
+#if defined( USING_VISUAL_GDB )
     rootSink = std::make_shared<uLog::VGDBSemihostingSink>();
     rootSink->setLogLevel( uLog::Level::LVL_DEBUG );
     rootSink->setName( "Root" );
@@ -39,6 +40,7 @@ namespace Luminary::Logging
     uLog::setRootSink( rootSink );
 
     rootSink->flog( uLog::Level::LVL_INFO, "Boot up the world!\n" );
+#endif
   }
 
   void MainThread( void *argument )

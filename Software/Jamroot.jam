@@ -1,0 +1,59 @@
+import os ;
+import feature ;
+import lib/Aurora/Chimera/lib/CommonTools/boost-build/features/chimera ;
+import lib/Aurora/Chimera/lib/CommonTools/boost-build/features/freertos ;
+import lib/Aurora/Chimera/lib/CommonTools/boost-build/features/thor ;
+import lib/Aurora/Chimera/lib/CommonTools/boost-build/features/coverage ;
+
+rule explicit_alias ( name : sources * : requirements * : default-build * : usage-requirements * )
+    {
+    alias $(name) : $(sources) : $(requirements) : $(default-build) : $(usage-requirements) ;
+    explicit $(name) ;
+    }
+
+path-constant TOP : . ;
+path-constant COMMON_FEATURES : lib/Aurora/Chimera/lib/CommonTools/boost-build/features ;
+path-constant ARTIFACTS_DIR : $(TOP)/artifacts ;
+
+use-project /AURORA : lib/Aurora/Aurora ;
+use-project /CHIMERA : lib/Aurora/Chimera ;
+use-project /FREERTOS : lib/FreeRTOS ;
+use-project /LUMINARY : Luminary ;
+use-project /PRJ : . ;
+use-project /RF24 : lib/RF24Node ;
+use-project /THOR : lib/Thor ;
+use-project /ULOG : lib/Aurora/lib/uLog ;
+
+local boost_install_dir = [ os.environ BOOST_ROOT ] ;
+path-constant boost_inc_dir : $(boost_install_dir)/boost_1_70_0 ;
+path-constant artifacts_dir : $(TOP)/artifacts ;
+
+# ------------------------------------------
+# /PRJ//XXXX Aliases
+# ------------------------------------------
+explicit_alias BOOST : : : : <include>$(boost_inc_dir) ;
+explicit_alias CHIMERA_PORT : : : : ;
+explicit_alias CHIMERA_CFG : : : : <include>lib/Thor/Thor/config/chimera ;
+explicit_alias CHIMERA_DEFS : : : : <define>CHIMERA_LITTLE_ENDIAN ;
+explicit_alias FREERTOS_CFG : : : : <include>lib/Thor/Thor/config/freertos ;
+explicit_alias TARGET_OPTIONS : : : : <use>/THOR//TARGET_PROPAGATED_OPTIONS ;
+
+project ThorDevelopment
+    : requirements
+        <toolset>gcc_arm_none_eabi
+        <Thor>enabled
+        <Thor-family>F4
+        <Thor-chip>F446
+        <Thor-variant>RE
+        <Chimera>enabled
+        <FreeRTOS>enabled
+        <FreeRTOS-port>CortexM
+        <FreeRTOS-heap>heap4
+        <link>static
+        <cxxflags>--std=gnu++2a
+
+        # Temporary...once I figure out the proper bjam solution (maybe a top level file)
+        <include>lib/Aurora/lib/CRCpp/inc
+        <include>lib/Aurora/lib/ctre/single-header
+        <include>lib/Aurora/lib/type_safe/include
+    ;

@@ -1,0 +1,68 @@
+# ====================================================
+# Local Rules
+# ====================================================
+local rule explicit_alias ( name : sources * : requirements * : default-build * : usage-requirements * )
+    {
+    alias $(name) : $(sources) : $(requirements) : $(default-build) : $(usage-requirements) ;
+    explicit $(name) ;
+    }
+
+# ====================================================
+# Local Resources
+# ====================================================
+# ------------------------------------------
+# Source/Include Directories
+# ------------------------------------------
+local luminary_inc_dir = ./.. ;
+
+# ====================================================
+# Project Definition
+# ====================================================
+project Luminary : usage-requirements <include>$(luminary_inc_dir) ;
+
+use-project /LUMINARY/HARDWARE : hardware ;
+use-project /LUMINARY/LOGGING : logging ;
+use-project /LUMINARY/MODEL : model ;
+use-project /LUMINARY/NETWORKING : networking ;
+use-project /LUMINARY/RPC : rpc ;
+use-project /LUMINARY/SYSTEM : system ;
+
+
+# ====================================================
+# Public Targets
+# ====================================================
+# ------------------------------------------
+# Includes all common RF24 headers
+# -----------------------------------------
+alias PUB
+  :
+  :
+  :
+  : <include>$(luminary_inc_dir)
+  ;
+explicit PUB ;
+
+lib LIB
+  : [ glob *.cpp ]
+
+  : <link>static
+    <use>/AURORA//PUB
+    <use>/CHIMERA//PUB
+    <use>/LUMINARY//PUB
+    <use>/RF24//PUB
+    <use>/PRJ//TARGET_OPTIONS
+  ;
+
+# ====================================================
+# Private Targets
+# ====================================================
+
+explicit_alias TEST_COMPILE
+    : LIB
+      /LUMINARY/HARDWARE//LIB
+      /LUMINARY/LOGGING//LIB
+      /LUMINARY/MODEL//LIB
+      /LUMINARY/NETWORKING//LIB
+      #/LUMINARY/RPC//LIB
+      /LUMINARY/SYSTEM//LIB
+    ;

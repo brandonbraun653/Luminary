@@ -1,0 +1,4 @@
+
+# Define the EXE here for each supported chip
+# Need to specify the linker script
+# Need to have some sort of flag that allows various chips...kinda like <image> at work
