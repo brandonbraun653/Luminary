@@ -22,7 +22,6 @@
     <ProjectFile>LuminaryEmbeddedDriver.vcxproj</ProjectFile>
     <RemoteBuildEnvironment>
       <Records />
-      <EnvironmentSetupFiles />
     </RemoteBuildEnvironment>
     <ParallelJobCount>1</ParallelJobCount>
     <SuppressDirectoryChangeMessages>true</SuppressDirectoryChangeMessages>
@@ -171,6 +170,7 @@
       <UpdateInterval>500</UpdateInterval>
       <CoverageReportDirectory>$(ProjectDir)\CoverageReports</CoverageReportDirectory>
     </CodeCoverage>
+    <UnusedStackFillPattern xsi:nil="true" />
     <CheckInterfaceDrivers>true</CheckInterfaceDrivers>
   </Debug>
 </VisualGDBProjectSettings2>

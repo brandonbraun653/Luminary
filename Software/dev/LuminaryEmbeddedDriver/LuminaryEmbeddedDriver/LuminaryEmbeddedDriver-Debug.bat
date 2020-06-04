@@ -38,3 +38,4 @@ c:\sysgcc\arm-eabi\bin\arm-none-eabi-gcc.exe @"VisualGDB/Debug/__LOCALAPPDATA__/
 echo Linking ../VisualGDB/Debug/LuminaryEmbeddedDriver...
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @../VisualGDB/Debug/LuminaryEmbeddedDriver.link.rsp || exit 1
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-objcopy.exe @../VisualGDB/Debug/LuminaryEmbeddedDriver.mkbin.rsp || exit 1
+c:\sysgcc\arm-eabi\bin\arm-none-eabi-objcopy.exe @../VisualGDB/Debug/LuminaryEmbeddedDriver.mkihex.rsp || exit 1

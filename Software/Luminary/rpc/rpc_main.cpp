@@ -18,7 +18,6 @@
 /* Chimera Includes */
 #include <Chimera/common>
 #include <Chimera/serial>
-#include <Chimera/system>
 #include <Chimera/thread>
 #include <Chimera/watchdog>
 
@@ -26,7 +25,6 @@
 #include <Luminary/rpc/rpc_main.hpp>
 #include <Luminary/rpc/rpc_parser.hpp>
 #include <Luminary/rpc/types.hpp>
-#include <Luminary/version.hpp>
 
 namespace Luminary::RPC
 {
@@ -51,7 +49,6 @@ namespace Luminary::RPC
   Module Functions
   -------------------------------------------------*/
   static Chimera::Status_t initializeSerial();
-  static void printBootMessage();
 
 
   void initializeModule()
@@ -129,18 +126,20 @@ namespace Luminary::RPC
     /*------------------------------------------------
     Configuration info for the serial object
     ------------------------------------------------*/
+    Channel channel = Channel::SERIAL2;
+
     IOPins pins;
-    pins.tx.alternate = Chimera::GPIO::Alternate::USART1_TX;
+    pins.tx.alternate = Chimera::GPIO::Alternate::USART2_TX;
     pins.tx.drive     = Chimera::GPIO::Drive::ALTERNATE_PUSH_PULL;
-    pins.tx.pin       = 9;
+    pins.tx.pin       = 2;
     pins.tx.port      = Chimera::GPIO::Port::PORTA;
     pins.tx.pull      = Chimera::GPIO::Pull::NO_PULL;
     pins.tx.threaded  = true;
     pins.tx.validity  = true;
 
-    pins.rx.alternate = Chimera::GPIO::Alternate::USART1_RX;
+    pins.rx.alternate = Chimera::GPIO::Alternate::USART2_RX;
     pins.rx.drive     = Chimera::GPIO::Drive::ALTERNATE_PUSH_PULL;
-    pins.rx.pin       = 10;
+    pins.rx.pin       = 3;
     pins.rx.port      = Chimera::GPIO::Port::PORTA;
     pins.rx.pull      = Chimera::GPIO::Pull::NO_PULL;
     pins.rx.threaded  = true;
@@ -158,9 +157,14 @@ namespace Luminary::RPC
     Create the serial object and initialize it
     ------------------------------------------------*/
     auto result = Chimera::CommonStatusCodes::OK;
-    Serial      = create_shared_ptr( Channel::SERIAL1 );
+    Serial      = create_shared_ptr( channel );
 
-    result |= Serial->assignHW( Channel::SERIAL1, pins );
+    if ( !Serial ) 
+    {
+      Chimera::insert_debug_breakpoint();
+    }
+
+    result |= Serial->assignHW( channel, pins );
     result |= Serial->configure( cfg );
     result |= Serial->enableBuffering( SubPeripheral::TX, &sTXCircularBuffer, sTXHWBuffer.data(),
                                          sTXHWBuffer.size() );
@@ -168,39 +172,8 @@ namespace Luminary::RPC
                                          sRXHWBuffer.size() );
     result |= Serial->begin( PeripheralMode::INTERRUPT, PeripheralMode::INTERRUPT );
 
-    /*------------------------------------------------
-    As part of the startup sequence, print some information out
-    ------------------------------------------------*/
-    if ( result == Chimera::CommonStatusCodes::OK )
-    {
-      printBootMessage();
-    }
-
     return result;
   }
 
-  static void printBootMessage()
-  {
-    /*------------------------------------------------
-    Initialize the buffer
-    ------------------------------------------------*/
-    size_t offset = 0;
-    std::array<char, 100> bootMsg;
-    bootMsg.fill( 0 );
-    
-    /*------------------------------------------------
-    Format the boot string
-    ------------------------------------------------*/
-    offset += snprintf( bootMsg.data() + offset, bootMsg.size() - offset, "Booting up Luminary\r\n");
-    offset += snprintf( bootMsg.data() + offset, bootMsg.size() - offset, "Luminary Version: %s\r\n", Luminary::Version.data() );
-    offset += snprintf( bootMsg.data() + offset, bootMsg.size() - offset, "%s Version: %s\r\n",
-                        Chimera::System::Description::backendDriverName().data(), Chimera::System::Version::asString().data() );
-
-
-    /*------------------------------------------------
-    Print out the boot message to the console
-    ------------------------------------------------*/
-    Serial->write( reinterpret_cast<uint8_t *>( bootMsg.data() ), strlen( bootMsg.data() ) );
-    Serial->await( Chimera::Event::TRIGGER_WRITE_COMPLETE, Chimera::Threading::TIMEOUT_DONT_WAIT );
-  }
+  
 }    // namespace Luminary::RPC

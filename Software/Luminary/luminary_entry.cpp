@@ -92,7 +92,6 @@ void systemPowerUp()
   Luminary::Model::initializeModule();
   Luminary::Hardware::initializeModule();
   Luminary::System::initializeModule();
-  Luminary::Logging::initializeModule();
   Luminary::Network::initializeModule();
   Luminary::RPC::initializeModule();
 }

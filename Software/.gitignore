@@ -1,0 +1,12 @@
+.idea/*
+**build
+**latex
+**html
+bin/*
+
+**.o
+**.a
+**.lib
+
+artifacts
+**.visualgdb

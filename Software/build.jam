@@ -1,4 +1,123 @@
+# ====================================================
+# Local Rules
+# ====================================================
+local rule explicit_alias ( name : sources * : requirements * : default-build * : usage-requirements * )
+    {
+    alias $(name) : $(sources) : $(requirements) : $(default-build) : $(usage-requirements) ;
+    explicit $(name) ;
+    }
 
-# Define the EXE here for each supported chip
-# Need to specify the linker script
-# Need to have some sort of flag that allows various chips...kinda like <image> at work
+explicit_alias COMMON_LIBS : : : :
+  # Aurora
+  <library>/AURORA/LOGGING//LIB
+  <library>/AURORA/MEMORY/HEAP//LIB
+  <library>/AURORA/MEMORY/VIRTUAL//LIB
+  <library>/AURORA/STRUCTURE/OBSERVER//LIB
+  <library>/AURORA/UTIL//LIB
+
+  # Chimera
+  <library>/CHIMERA/ALGORITHM//LIB
+  <library>/CHIMERA/ALLOCATOR//LIB
+  <library>/CHIMERA/BUFFER//LIB
+  <library>/CHIMERA/COMMON//LIB
+  <library>/CHIMERA/CONTAINER//LIB
+  <library>/CHIMERA/EVENT//LIB
+  <library>/CHIMERA/PERIPH/CLOCK//LIB
+  <library>/CHIMERA/PERIPH/GPIO//LIB
+  <library>/CHIMERA/PERIPH/SPI//LIB
+  <library>/CHIMERA/PERIPH/TIMER//LIB
+  <library>/CHIMERA/PERIPH/UART//LIB
+  <library>/CHIMERA/PERIPH/USART//LIB
+  <library>/CHIMERA/PERIPH/WATCHDOG//LIB
+  <library>/CHIMERA/PWM//LIB
+  <library>/CHIMERA/SERIAL//LIB
+  <library>/CHIMERA/SYSTEM//LIB
+  <library>/CHIMERA/THREADING//LIB
+
+  # FreeRTOS
+  <library>/FREERTOS//CORE
+  <library>/FREERTOS//DEVICE_TARGET
+
+  # luminary
+  <library>/LUMINARY/HARDWARE//LIB
+  <library>/LUMINARY/LOGGING//LIB
+  <library>/LUMINARY/MODEL//LIB
+  <library>/LUMINARY/NETWORKING//LIB
+  <library>/LUMINARY/RPC//LIB
+  <library>/LUMINARY/SYSTEM//LIB
+
+  # RF24
+  <library>/RF24/COMMON//LIB
+  <library>/RF24/ENDPOINT//LIB
+  <library>/RF24/HARDWARE//LIB
+  <library>/RF24/NETWORK//LIB
+  <library>/RF24/PHYSICAL//LIB
+
+  # Thor
+  <use>/THOR//COMMON
+  <use>/THOR//CONFIG
+  <use>/THOR//FLASH
+  <use>/THOR//GPIO
+  <use>/THOR//INTERRUPT
+  <use>/THOR//POWER
+  <use>/THOR//PWM
+  <use>/THOR//RCC
+  <use>/THOR//SPI
+  <use>/THOR//SYSTEM
+  <use>/THOR//TIMER
+  <use>/THOR//UART
+  <use>/THOR//USART
+  <use>/THOR//WATCHDOG
+
+  # uLog
+  <library>/ULOG//LIB
+  ;
+
+explicit_alias COMMON_INCLUDES : : : :
+  <use>/AURORA//PUB
+  <use>/CHIMERA//PUB
+  <use>/LUMINARY//PUB
+  <use>/PRJ//TARGET_OPTIONS
+  ;
+
+exe luminary.elf
+  : luminary/luminary_entry.cpp
+
+    COMMON_LIBS
+
+  : <link>static
+    <Thor>enabled-L4
+    <use>COMMON_INCLUDES
+    <use>/PRJ//LINKER_SCRIPT
+  ;
+
+explicit luminary.elf ;
+
+install luminary
+  : luminary.bin
+    luminary.elf
+    luminary.hex
+
+  : <variant>debug:<location>$(TOP)/artifacts/debug
+    <variant>release:<location>$(TOP)/artifacts/release
+  ;
+
+# ------------------------------------------
+# Converts the .elf file output into .hex
+# ------------------------------------------
+# OBJCOPY should be a path-constant in user-config.jam
+make luminary.hex : luminary.elf : @elf2hex ;
+actions elf2hex
+{
+    $(OBJCOPY) -O ihex $(>) $(<)
+}
+
+# ------------------------------------------
+# Converts the .elf file output into .bin
+# ------------------------------------------
+# OBJCOPY should be a path-constant in user-config.jam
+make luminary.bin : luminary.elf : @elf2bin ;
+actions elf2bin
+{
+    $(OBJCOPY) -O binary $(>) $(<)
+}

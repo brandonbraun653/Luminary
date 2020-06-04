@@ -35,25 +35,36 @@ explicit_alias BOOST : : : : <include>$(boost_inc_dir) ;
 explicit_alias CHIMERA_PORT : : : : ;
 explicit_alias CHIMERA_CFG : : : : <include>lib/Thor/Thor/config/chimera ;
 explicit_alias CHIMERA_DEFS : : : : <define>CHIMERA_LITTLE_ENDIAN ;
-explicit_alias FREERTOS_CFG : : : : <include>lib/Thor/Thor/config/freertos ;
+explicit_alias FREERTOS_CFG : : : : <include>config ;
 explicit_alias TARGET_OPTIONS : : : : <use>/THOR//TARGET_PROPAGATED_OPTIONS ;
+explicit_alias LINKER_SCRIPT : : : :
+    <Thor-variant>KC:<linkflags>-T"lib/Thor/Thor/lld/stm32l4x/linker/STM32L432KC_flash.lds"
+    <Thor-variant>KB:<linkflags>-T"lib/Thor/Thor/lld/stm32l4x/linker/STM32L432KB_flash.lds"
+    <linkflags>-Wl,-Map=output.map ;
 
 project ThorDevelopment
     : requirements
         <toolset>gcc_arm_none_eabi
         <Thor>enabled
-        <Thor-family>F4
-        <Thor-chip>F446
-        <Thor-variant>RE
+        <Thor-family>L4
+        <Thor-chip>L432
+        <Thor-variant>KB
         <Chimera>enabled
         <FreeRTOS>enabled
         <FreeRTOS-port>CortexM
         <FreeRTOS-heap>heap4
         <link>static
         <cxxflags>--std=gnu++2a
+        <define>BOOST_NO_EXCEPTIONS
+        <define>USING_FREERTOS_THREADS
+        <define>USING_FREERTOS
+        <define>EMBEDDED
 
         # Temporary...once I figure out the proper bjam solution (maybe a top level file)
         <include>lib/Aurora/lib/CRCpp/inc
         <include>lib/Aurora/lib/ctre/single-header
         <include>lib/Aurora/lib/type_safe/include
+
+    : default-build
+        <variant>debug
     ;

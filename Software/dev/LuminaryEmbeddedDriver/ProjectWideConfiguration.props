@@ -15,10 +15,10 @@
     <ChimeraCompilerDefines>CHIMERA_LITTLE_ENDIAN;USING_FREERTOS_THREADS;</ChimeraCompilerDefines>
     <ChimeraBackendCompilerDefines>FREERTOS_CFG_MEM_MANG_HEAP4=1;FREERTOS_CFG_PORT_ARM_CM4F=1;</ChimeraBackendCompilerDefines>
     <FreeRTOSIncDir>$(SolutionDir)../../lib/FreeRTOS/include</FreeRTOSIncDir>
-    <FreeRTOSCfgDir>$(SolutionDir)../../lib/Thor/Thor/config/freertos</FreeRTOSCfgDir>
+    <FreeRTOSCfgDir>$(SolutionDir)../../config</FreeRTOSCfgDir>
     <FreeRTOSPortDir>$(SolutionDir)../../lib/FreeRTOS/portable/GCC/ARM_CM4F</FreeRTOSPortDir>
     <FreeRTOSCompilerDefines>FREERTOS_CFG_MEM_MANG_HEAP4=1;FREERTOS_CFG_PORT_ARM_CM4F=1;</FreeRTOSCompilerDefines>
-    <ProjectCompilerDefines>TARGET_STM32L4;USING_VISUAL_GDB;USING_FREERTOS;EMBEDDED;BOOST_NO_EXCEPTIONS;FREERTOS_CFG_MEM_MANG_HEAP4=1;FREERTOS_CFG_PORT_ARM_CM4F=1;</ProjectCompilerDefines>
+    <ProjectCompilerDefines>TARGET_STM32L4;USING_FREERTOS;EMBEDDED;BOOST_NO_EXCEPTIONS;FREERTOS_CFG_MEM_MANG_HEAP4=1;FREERTOS_CFG_PORT_ARM_CM4F=1;</ProjectCompilerDefines>
     <RF24NodeIncDir>$(SolutionDir)../../lib</RF24NodeIncDir>
     <ThorIncDir>$(SolutionDir)../../lib/Thor</ThorIncDir>
     <uLogIncDir>$(SolutionDir)../../lib/Aurora/lib/uLog</uLogIncDir>

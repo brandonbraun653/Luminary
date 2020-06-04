@@ -25,11 +25,14 @@
     <Filter Include="Device-specific files">
       <UniqueIdentifier>{63550eb9-d3ea-40b1-998f-17cae96531e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Device-specific files\Semihosting/Profiler">
-      <UniqueIdentifier>{3a8fbe15-f799-4a99-8370-1ab363e03232}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Luminary\rpc">
       <UniqueIdentifier>{0f84c40a-4193-419d-9cdb-c1ab1f0f2c54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="config">
+      <UniqueIdentifier>{2c1c95e5-fcb3-4d80-8158-e0bbf10247dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Device-specific files\Semihosting/Profiler">
+      <UniqueIdentifier>{e05a9a33-3fd7-41a7-9d7b-938f002944ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,21 +57,6 @@
     <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp">
       <Filter>Luminary\system</Filter>
     </ClCompile>
-    <ClCompile Include="$(EFP_BASE)\Profiler\FastSemihosting.cpp">
-      <Filter>Device-specific files\Semihosting/Profiler</Filter>
-    </ClCompile>
-    <ClCompile Include="$(EFP_BASE)\Profiler\SamplingProfiler.cpp">
-      <Filter>Device-specific files\Semihosting/Profiler</Filter>
-    </ClCompile>
-    <ClCompile Include="$(EFP_BASE)\Profiler\InstrumentingProfiler.cpp">
-      <Filter>Device-specific files\Semihosting/Profiler</Filter>
-    </ClCompile>
-    <ClCompile Include="$(EFP_BASE)\Profiler\TestResourceManager.cpp">
-      <Filter>Device-specific files\Semihosting/Profiler</Filter>
-    </ClCompile>
-    <ClCompile Include="$(EFP_BASE)\Profiler\ProfilerRTOS_FreeRTOS.c">
-      <Filter>Device-specific files\Semihosting/Profiler</Filter>
-    </ClCompile>
     <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfiler.h">
       <Filter>Device-specific files\Semihosting/Profiler</Filter>
     </ClInclude>
@@ -87,6 +75,21 @@
     <ClInclude Include="$(EFP_BASE)\Profiler\DebuggerChecker.h">
       <Filter>Device-specific files\Semihosting/Profiler</Filter>
     </ClInclude>
+    <ClCompile Include="$(EFP_BASE)\Profiler\FastSemihosting.cpp">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="$(EFP_BASE)\Profiler\SamplingProfiler.cpp">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="$(EFP_BASE)\Profiler\InstrumentingProfiler.cpp">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="$(EFP_BASE)\Profiler\TestResourceManager.cpp">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="$(EFP_BASE)\Profiler\ProfilerRTOS_FreeRTOS.c">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClCompile>
     <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfiler.h">
       <Filter>Device-specific files\Semihosting/Profiler</Filter>
     </ClInclude>
@@ -147,6 +150,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Luminary\rpc\types.hpp">
       <Filter>Luminary\rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\config\FreeRTOSConfig.h">
+      <Filter>config</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

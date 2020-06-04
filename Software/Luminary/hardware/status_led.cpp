@@ -49,8 +49,15 @@ namespace Luminary::Hardware::StatusLED
       pinInit.clear();
       pinInit.alternate = Alternate::NONE;
       pinInit.drive     = Drive::OUTPUT_PUSH_PULL;
-      pinInit.pin       = 14;
-      pinInit.port      = Port::PORTC;
+
+#if defined( STM32L432KB )
+      pinInit.pin  = 14;
+      pinInit.port = Port::PORTC;
+#else
+      pinInit.pin  = 3;
+      pinInit.port = Port::PORTB;
+#endif
+
       pinInit.pull      = Pull::NO_PULL;
       pinInit.state     = State::LOW;
       pinInit.threaded  = true;

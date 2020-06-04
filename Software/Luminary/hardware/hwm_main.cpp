@@ -28,9 +28,7 @@ namespace Luminary::Hardware
 
   void MainThread( void *argument )
   {
-#if defined( DEBUG )
     StatusLED::executeBootFlashSequence();
-#endif
 
     while( true )
     {
@@ -38,12 +36,10 @@ namespace Luminary::Hardware
 
       // TODO: Add watchdog kick
 
-#if defined( DEBUG )
       /*-------------------------------------------------
       Blink the status LED if runing a debug build
       -------------------------------------------------*/
       StatusLED::runHeartBeat();
-#endif
 
       Chimera::delayMilliseconds( MainThreadUpdateRate );
     }

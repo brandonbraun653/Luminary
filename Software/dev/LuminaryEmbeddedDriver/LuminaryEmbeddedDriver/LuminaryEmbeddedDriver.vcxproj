@@ -55,6 +55,7 @@
     <ToolchainVersion>9.2.1/8.3.0/r1</ToolchainVersion>
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
     <GenerateBuildScript>true</GenerateBuildScript>
+    <GenerateHexFile>true</GenerateHexFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|STM32L432KB'">
     <GNUConfigurationType>Debug</GNUConfigurationType>
@@ -76,10 +77,31 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
     <ClCompile>
       <CPPLanguageStandard>CPP2A</CPPLanguageStandard>
-      <AdditionalIncludeDirectories>$(BoostIncDir);$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);$(RF24NodeIncDir);$(SolutionDir)../../;$(uLogIncDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>$(ProjectCompilerDefines);$(ChimeraCompilerDefines);$(FreeRTOSCompilerDefines);%(ClCompile.PreprocessorDefinitions);DEBUG=1</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(BoostIncDir);$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);$(RF24NodeIncDir);$(SolutionDir)../../;$(uLogIncDir);%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>$(ProjectCompilerDefines);$(ChimeraCompilerDefines);$(FreeRTOSCompilerDefines);DEBUG=1;LUMINARY_MASTER;USING_VISUAL_GDB;;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
       <Optimization>Og</Optimization>
     </ClCompile>
+    <Link>
+      <VerboseMode>false</VerboseMode>
+      <GenerateMapFile>true</GenerateMapFile>
+      <PrintMemoryUsage>true</PrintMemoryUsage>
+      <AdditionalLinkerInputs>;%(Link.AdditionalLinkerInputs)</AdditionalLinkerInputs>
+      <LibrarySearchDirectories>;%(Link.LibrarySearchDirectories)</LibrarySearchDirectories>
+      <AdditionalLibraryNames>;%(Link.AdditionalLibraryNames)</AdditionalLibraryNames>
+      <LinkerScript />
+    </Link>
+    <ToolchainSettingsContainer>
+      <InstructionSet>THUMB</InstructionSet>
+    </ToolchainSettingsContainer>
+    <ToolchainSettingsContainer>
+      <FloatABI>hard</FloatABI>
+    </ToolchainSettingsContainer>
+    <ToolchainSettingsContainer>
+      <ARMFPU>fpv4-sp-d16</ARMFPU>
+    </ToolchainSettingsContainer>
+    <ToolchainSettingsContainer>
+      <ARMCPU>cortex-m4</ARMCPU>
+    </ToolchainSettingsContainer>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|STM32L432KB'">
     <ClCompile>
@@ -152,6 +174,7 @@
     <ClInclude Include="$(EFP_BASE)\Profiler\DebuggerChecker.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\config\FreeRTOSConfig.h" />
     <ClInclude Include="..\..\..\Luminary\hardware\hwm_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\power_select.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp" />

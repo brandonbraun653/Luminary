@@ -42,24 +42,13 @@ alias PUB
   ;
 explicit PUB ;
 
-lib LIB
-  : [ glob *.cpp ]
-
-  : <link>static
-    <use>/AURORA//PUB
-    <use>/CHIMERA//PUB
-    <use>/LUMINARY//PUB
-    <use>/RF24//PUB
-    <use>/PRJ//TARGET_OPTIONS
-  ;
-
 # ====================================================
 # Private Targets
 # ====================================================
 
+
 explicit_alias TEST_COMPILE
-    : LIB
-      /LUMINARY/HARDWARE//LIB
+    : /LUMINARY/HARDWARE//LIB
       /LUMINARY/LOGGING//LIB
       /LUMINARY/MODEL//LIB
       /LUMINARY/NETWORKING//LIB
