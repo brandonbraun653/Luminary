@@ -25,7 +25,7 @@ namespace Luminary::Hardware
   -------------------------------------------------*/
   static constexpr auto MainThreadPriority     = Chimera::Threading::Priority::LEVEL_4;
   static constexpr size_t MainThreadUpdateRate = 5;
-  static constexpr size_t MainThreadStackSize  = 2048;
+  static constexpr size_t MainThreadStackSize  = 500;
 
   /**
    *  Initializes the entire hardware module

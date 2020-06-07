@@ -21,22 +21,25 @@
 
 /* Luminary Includes */
 #include <Luminary/config/config.hpp>
+#include <Luminary/hardware/boot_config.hpp>
 #include <Luminary/networking/net_main.hpp>
+#include <Luminary/networking/net_connect.hpp>
 
 namespace Luminary::Network
 {
+  /*-------------------------------------------------------------------------------
+  Static Data
+  -------------------------------------------------------------------------------*/
+  static constexpr size_t ConnectionRefreshTimeout = 15 * Chimera::Threading::TIMEOUT_1S;
+  static constexpr size_t ConnectionStatusCheckRate = 5000;
+
+
   static RF24::Endpoint::SystemInit cfg;
   static RF24::Endpoint::Interface_sPtr radio;
 
-  static RF24::Connection::Result connectStatus;
-  void onConnectCallback( const RF24::Connection::Result result, const RF24::Connection::BindSite id )
-  {
-    connectStatus = result;
-  }
 
   void initializeModule()
   {
-    connectStatus = RF24::Connection::Result::CONNECTION_UNKNOWN;
     cfg.clear();
 
     /*------------------------------------------------
@@ -106,77 +109,95 @@ namespace Luminary::Network
     cfg.physical.spiConfig.HWInit.txfrMode    = Chimera::SPI::TransferMode::INTERRUPT;
   }
 
+
   void MainThread( void *argument )
   {
-/*------------------------------------------------
-Radio Initialization
-------------------------------------------------*/
+    // Delay a bit to allow other systems to set up
+    Chimera::delayMilliseconds( 500 );
+
+    /*------------------------------------------------
+    Radio Initialization
+    ------------------------------------------------*/
+    RF24::LogicalAddress bootAddress   = Hardware::Boot::getNodeAddress();
+    RF24::LogicalAddress parentAddress = RF24::getParent( bootAddress );
+
 #if defined( LUMINARY_MASTER )
-    cfg.network.mode                = RF24::Network::Mode::NET_MODE_STATIC;
-    cfg.network.nodeStaticAddress   = RF24::RootNode0;
-    cfg.network.parentStaticAddress = RF24::Network::RSVD_ADDR_INVALID;
-    cfg.network.rxQueueBuffer       = nullptr;
-    cfg.network.rxQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
-    cfg.network.txQueueBuffer       = nullptr;
-    cfg.network.txQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
+    bootAddress = 00001;
+    parentAddress = RF24::getParent( bootAddress );
 #endif
 
-#if defined( LUMINARY_CHILD )
     cfg.network.mode                = RF24::Network::Mode::NET_MODE_STATIC;
-    cfg.network.nodeStaticAddress   = 00001;
-    cfg.network.parentStaticAddress = RF24::RootNode0;
+    cfg.network.nodeStaticAddress   = bootAddress;
+    cfg.network.parentStaticAddress = parentAddress;
     cfg.network.rxQueueBuffer       = nullptr;
     cfg.network.rxQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
     cfg.network.txQueueBuffer       = nullptr;
     cfg.network.txQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
-#endif
+
+    cfg.linkTimeout = ConnectionRefreshTimeout;
 
     /*------------------------------------------------
     Create the radio driver and reset to above settings
     ------------------------------------------------*/
-    Chimera::delayMilliseconds( 150 );
     auto logger = uLog::getRootSink();
 
     radio = RF24::Endpoint::createShared( cfg );
     radio->attachLogger( uLog::getRootSink() );
     radio->configure( cfg );
 
-#if defined( LUMINARY_MASTER )
-#pragma message( "Compiling as RF24 Node master" )
-
-    radio->setName( "Master" );
-    logger->flog( uLog::Level::LVL_INFO, "%d-APP: Boot as master node\n", Chimera::millis() );
-#endif
-
-#if defined( LUMINARY_CHILD )
-#pragma message( "Compiling as RF24 Node child" )
-    logger->flog( uLog::Level::LVL_INFO, "%d-APP: Boot as child node\n", Chimera::millis() );
-
-    radio->setName( "Child" );
-    radio->connect( onConnectCallback, 10000 );
-
-    while ( connectStatus == RF24::Connection::Result::CONNECTION_UNKNOWN )
+    /*-------------------------------------------------
+    Print debug output to help with testing
+    -------------------------------------------------*/
+    bool isChild = false;
+    if( RF24::isAddressRoot( cfg.network.nodeStaticAddress ) )
     {
-      radio->processNetworking();
-      Chimera::delayMilliseconds( 25 );
-    }
-
-    if ( connectStatus == RF24::Connection::Result::CONNECTION_SUCCESS )
-    {
-      logger->flog( uLog::Level::LVL_INFO, "%d-APP: Connected to the network\n", Chimera::millis() );
+      radio->setName( "Master" );
+      logger->flog( uLog::Level::LVL_INFO, "%d-APP: Boot as master node\n", Chimera::millis() );
     }
     else
     {
-      logger->flog( uLog::Level::LVL_INFO, "%d-APP: Did not connect for some reason\n", Chimera::millis() );
-    }
-#endif
+      isChild = true;
+      radio->setName( "Child" );
+      logger->flog( uLog::Level::LVL_INFO, "%d-APP: Boot as child node 0%o\n", Chimera::millis(), bootAddress );
 
+      /*-------------------------------------------------
+      Connect to the network
+      -------------------------------------------------*/
+      connect();
+    }
+
+    /*-------------------------------------------------
+    Initialize a few variables to help with execution timing
+    -------------------------------------------------*/
+    size_t reconnectTick = 0;
 
     while ( true )
     {
+      /*-------------------------------------------------
+      Periodic processing to keep the network alive
+      -------------------------------------------------*/
       radio->doAsyncProcessing();
+
+      /*-------------------------------------------------
+      Reconnection processing
+      -------------------------------------------------*/
+      if( isChild && ( ( Chimera::millis() - reconnectTick ) >= ConnectionStatusCheckRate ) )
+      {
+        reconnectTick = Chimera::millis();
+        if( !radio->isConnected() )
+        {
+          doReconnect();
+        }
+      }
+
       Chimera::delayMilliseconds( MainThreadUpdateRate );
     }
+  }
+
+
+  RF24::Endpoint::Interface_sPtr getRadio()
+  {
+    return radio;
   }
 
 }    // namespace Luminary::Network

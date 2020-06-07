@@ -108,6 +108,24 @@
     <ClInclude Include="$(EFP_BASE)\Profiler\DebuggerChecker.h">
       <Filter>Device-specific files\Semihosting/Profiler</Filter>
     </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfiler.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SmallNumberCoder.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfilerInterface.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\ProfilerFreeRTOSHooks.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\CustomRealTimeWatches.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\DebuggerChecker.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="stm32.props">
@@ -154,6 +172,12 @@
     <ClInclude Include="..\..\..\config\FreeRTOSConfig.h">
       <Filter>config</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\hardware\boot_config.hpp">
+      <Filter>Luminary\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\networking\net_connect.hpp">
+      <Filter>Luminary\networking</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
@@ -179,6 +203,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Luminary\rpc\rpc_parser.cpp">
       <Filter>Luminary\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\hardware\boot_config.cpp">
+      <Filter>Luminary\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\networking\net_connect.cpp">
+      <Filter>Luminary\networking</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

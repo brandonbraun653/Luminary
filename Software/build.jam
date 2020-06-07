@@ -10,6 +10,7 @@ local rule explicit_alias ( name : sources * : requirements * : default-build * 
 explicit_alias COMMON_LIBS : : : :
   # Aurora
   <library>/AURORA/LOGGING//LIB
+  <library>/AURORA/MATH//LIB
   <library>/AURORA/MEMORY/HEAP//LIB
   <library>/AURORA/MEMORY/VIRTUAL//LIB
   <library>/AURORA/STRUCTURE/OBSERVER//LIB
@@ -119,5 +120,5 @@ actions elf2hex
 make luminary.bin : luminary.elf : @elf2bin ;
 actions elf2bin
 {
-    $(OBJCOPY) -O binary $(>) $(<)
+    $(OBJCOPY) -O binary --gap-fill 0xFF -S $(>) $(<)
 }

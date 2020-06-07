@@ -98,7 +98,7 @@ namespace Luminary::Hardware::Power
     /*-------------------------------------------------
     Set the requested state
     -------------------------------------------------*/
-    auto gpioState = state ? Chimera::GPIO::State::HI : Chimera::GPIO::State::LO;
+    auto gpioState = state ? Chimera::GPIO::State::HIGH : Chimera::GPIO::State::LOW;
     return s_power_channels[ channel ].pin->setState( gpioState, Chimera::Threading::TIMEOUT_100MS );
   }
 

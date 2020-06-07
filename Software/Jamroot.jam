@@ -54,7 +54,7 @@ project ThorDevelopment
         <FreeRTOS-port>CortexM
         <FreeRTOS-heap>heap4
         <link>static
-        <cxxflags>--std=gnu++2a
+        <cxxflags>--std=c++2a
         <define>BOOST_NO_EXCEPTIONS
         <define>USING_FREERTOS_THREADS
         <define>USING_FREERTOS
@@ -67,4 +67,7 @@ project ThorDevelopment
 
     : default-build
         <variant>debug
+
+    : build-dir
+        $(TOP)/bin
     ;

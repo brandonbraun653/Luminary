@@ -17,6 +17,7 @@ lib LIB
     <use>/AURORA//PUB
     <use>/CHIMERA//PUB
     <use>/LUMINARY//PUB
+    <use>/RF24//PUB
     <use>/PRJ//TARGET_OPTIONS
   ;
 

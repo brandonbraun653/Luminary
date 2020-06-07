@@ -43,7 +43,7 @@
     <Entries>
       <KeyValue>
         <Key>com.sysprogs.efp.semihosting.buffer_size</Key>
-        <Value>4096</Value>
+        <Value>512</Value>
       </KeyValue>
       <KeyValue>
         <Key>com.sysprogs.efp.semihosting.stdio</Key>

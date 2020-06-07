@@ -1,6 +1,8 @@
 @echo off
 REM Run this file to build the project outside of the IDE.
 REM WARNING: if using a different machine, copy the .rsp files together with this script.
+echo boot_config.cpp
+c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/hardware/boot_config.gcc.rsp" || exit 1
 echo hwm_main.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/hardware/hwm_main.gcc.rsp" || exit 1
 echo power_select.cpp
@@ -15,6 +17,8 @@ echo mdl_common.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/model/mdl_common.gcc.rsp" || exit 1
 echo mdl_observables.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/model/mdl_observables.gcc.rsp" || exit 1
+echo net_connect.cpp
+c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/networking/net_connect.gcc.rsp" || exit 1
 echo net_main.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/networking/net_main.gcc.rsp" || exit 1
 echo rcp_responder.cpp

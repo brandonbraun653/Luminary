@@ -1,0 +1,6 @@
+(sym_lib_table
+  (lib (name LuminaryVer1-rescue)(type Legacy)(uri ${KIPRJMOD}/LuminaryVer1-rescue.lib)(options "")(descr ""))
+  (lib (name fs8205a)(type Legacy)(uri D:/git/Projects/Luminary/Hardware/KiCAD/lib/Mosfets/fs8205a.lib)(options "")(descr ""))
+  (lib (name dw01)(type Legacy)(uri D:/git/Projects/Luminary/Hardware/KiCAD/lib/PMIC/dw01.lib)(options "")(descr ""))
+  (lib (name tp4056)(type Legacy)(uri D:/git/Projects/Luminary/Hardware/KiCAD/lib/PMIC/tp4056.lib)(options "")(descr ""))
+)

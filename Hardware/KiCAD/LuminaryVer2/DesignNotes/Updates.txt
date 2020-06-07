@@ -1,0 +1,5 @@
+1. GPIO output to be able to control power to the RF24 radio.
+2. Switch to the TPS61040 SMPS
+3. Find a proper USB port for charging
+4. Add silkscreen graphics for pinouts
+5.

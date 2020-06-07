@@ -35,7 +35,7 @@ namespace Chimera::Modules::uLog
 namespace Luminary::Logging
 {
   uLog::SinkHandle rootSink;
-  
+
   static void printBootMessage();
 
   void initializeModule()
@@ -45,6 +45,7 @@ namespace Luminary::Logging
     ------------------------------------------------*/
     uLog::initialize();
 
+#undef USING_VISUAL_GDB
 #if defined( USING_VISUAL_GDB )
     rootSink = std::make_shared<uLog::VGDBSemihostingSink>();
     rootSink->setLogLevel( uLog::Level::LVL_DEBUG );
@@ -54,8 +55,6 @@ namespace Luminary::Logging
     uLog::registerSink( rootSink );
     uLog::setGlobalLogLevel( uLog::Level::LVL_DEBUG );
     uLog::setRootSink( rootSink );
-
-    rootSink->flog( uLog::Level::LVL_INFO, "Boot up the world!\n" );
 #else
     using namespace Chimera::Modules::uLog;
     rootSink = std::make_shared<SerialSink>();
@@ -84,15 +83,13 @@ namespace Luminary::Logging
     uLog::registerSink( rootSink );
     uLog::setGlobalLogLevel( uLog::Level::LVL_DEBUG );
     uLog::setRootSink( rootSink );
-
-    rootSink->flog( uLog::Level::LVL_INFO, "Boot up the world!\n" );
 #endif
   }
 
   void MainThread( void *argument )
   {
     initializeModule();
-    //printBootMessage();
+    printBootMessage();
 
     while( true )
     {
@@ -109,7 +106,7 @@ namespace Luminary::Logging
     size_t offset = 0;
     std::array<char, 100> bootMsg;
     bootMsg.fill( 0 );
-    
+
     /*------------------------------------------------
     Format the boot string
     ------------------------------------------------*/
@@ -121,6 +118,12 @@ namespace Luminary::Logging
     /*------------------------------------------------
     Print out the boot message to the console
     ------------------------------------------------*/
-    uLog::log( uLog::Level::LVL_DEBUG, bootMsg.data(), strlen( bootMsg.data() ) );
+    auto logger = uLog::getRootSink();
+    if ( logger->try_lock_for( 100 ) )
+    {
+      logger->log( uLog::Level::LVL_DEBUG, bootMsg.data(), strlen( bootMsg.data() ) );
+      Chimera::delayMilliseconds( 50 );
+      logger->unlock();
+    }
   }
 }  // namespace Luminary::Loggin

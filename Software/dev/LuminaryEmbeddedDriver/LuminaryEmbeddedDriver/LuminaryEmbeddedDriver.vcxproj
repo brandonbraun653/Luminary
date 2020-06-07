@@ -79,7 +79,7 @@
       <CPPLanguageStandard>CPP2A</CPPLanguageStandard>
       <AdditionalIncludeDirectories>$(BoostIncDir);$(AuroraIncDir);$(ChimeraIncDir);$(FreeRTOSIncDir);$(FreeRTOSCfgDir);$(FreeRTOSPortDir);$(RF24NodeIncDir);$(SolutionDir)../../;$(uLogIncDir);%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>$(ProjectCompilerDefines);$(ChimeraCompilerDefines);$(FreeRTOSCompilerDefines);DEBUG=1;LUMINARY_MASTER;USING_VISUAL_GDB;;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Optimization>Og</Optimization>
+      <Optimization>O0</Optimization>
     </ClCompile>
     <Link>
       <VerboseMode>false</VerboseMode>
@@ -145,6 +145,7 @@
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Luminary\hardware\boot_config.cpp" />
     <ClCompile Include="..\..\..\Luminary\hardware\hwm_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\hardware\power_select.cpp" />
     <ClCompile Include="..\..\..\Luminary\hardware\status_led.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="..\..\..\Luminary\luminary_entry.cpp" />
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp" />
     <ClCompile Include="..\..\..\Luminary\model\mdl_observables.cpp" />
+    <ClCompile Include="..\..\..\Luminary\networking\net_connect.cpp" />
     <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rcp_responder.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rpc_main.cpp" />
@@ -175,12 +177,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\config\FreeRTOSConfig.h" />
+    <ClInclude Include="..\..\..\Luminary\hardware\boot_config.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\hwm_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\power_select.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp" />
     <ClInclude Include="..\..\..\Luminary\logging\log_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\model\mdl_common.hpp" />
     <ClInclude Include="..\..\..\Luminary\model\mdl_observables.hpp" />
+    <ClInclude Include="..\..\..\Luminary\networking\net_connect.hpp" />
     <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\rpc\rpc_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\rpc\rpc_parser.hpp" />

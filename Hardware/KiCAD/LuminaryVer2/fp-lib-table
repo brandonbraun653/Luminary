@@ -1,0 +1,8 @@
+(fp_lib_table
+  (lib (name USB)(type KiCad)(uri D:/git/Projects/Luminary/Hardware/KiCAD/lib/Connectors/USB.pretty)(options "")(descr ""))
+  (lib (name Mosfets)(type KiCad)(uri D:/git/Projects/Luminary/Hardware/KiCAD/lib/Mosfets)(options "")(descr ""))
+  (lib (name PMIC)(type KiCad)(uri D:/git/Projects/Luminary/Hardware/KiCAD/lib/PMIC)(options "")(descr ""))
+  (lib (name toggle)(type KiCad)(uri D:/git/Projects/Luminary/Hardware/KiCAD/lib/Switch/toggle.pretty)(options "")(descr ""))
+  (lib (name button)(type KiCad)(uri D:/git/Projects/Luminary/Hardware/KiCAD/lib/Switch/button.pretty)(options "")(descr ""))
+  (lib (name pmic)(type KiCad)(uri D:/git/Projects/Luminary/Hardware/KiCAD/lib/PMIC/pmic.pretty)(options "")(descr ""))
+)
