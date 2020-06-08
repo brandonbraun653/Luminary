@@ -2,4 +2,8 @@
 2. Switch to the TPS61040 SMPS
 3. Find a proper USB port for charging
 4. Add silkscreen graphics for pinouts
-5.
+5. Pads on the zener diodes are too close
+6. JTAG orientation markings
+7. Less solder mask on pads
+8. Soldermask stencil needs to be smaller
+9. Add CP2104 for USB serial COM
