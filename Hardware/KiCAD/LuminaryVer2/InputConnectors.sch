@@ -421,8 +421,6 @@ Wire Wire Line
 Wire Wire Line
 	5400 1600 5550 1600
 Wire Wire Line
-	8450 1600 8450 2750
-Wire Wire Line
 	5550 1700 5550 1600
 Connection ~ 5550 1600
 Wire Wire Line
@@ -444,9 +442,6 @@ Wire Wire Line
 	5150 1600 5300 1600
 Wire Wire Line
 	5650 2100 5650 1600
-Connection ~ 5650 1600
-Wire Wire Line
-	5650 1600 8450 1600
 Wire Wire Line
 	5650 2400 5650 3150
 Wire Wire Line
@@ -537,4 +532,20 @@ Text Notes 1500 2000 0    50   ~ 0
 JTAG Connector
 Text Notes 1500 3500 0    50   ~ 0
 USB Connector
+$Comp
+L power:GND #PWR?
+U 1 1 5EE14089
+P 4850 1650
+F 0 "#PWR?" H 4850 1400 50  0001 C CNN
+F 1 "GND" H 4855 1477 50  0000 C CNN
+F 2 "" H 4850 1650 50  0001 C CNN
+F 3 "" H 4850 1650 50  0001 C CNN
+	1    4850 1650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4850 1650 4850 1600
+Wire Wire Line
+	4850 1600 5050 1600
+Connection ~ 5050 1600
 $EndSCHEMATC
