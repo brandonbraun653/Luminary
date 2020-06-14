@@ -1,4 +1,5 @@
 EESchema Schematic File Version 4
+LIBS:LightDriverShieldVer1-cache
 EELAYER 29 0
 EELAYER END
 $Descr A4 11693 8268
@@ -102,7 +103,7 @@ L Device:C_Small C1
 U 1 1 5EE5A2E4
 P 5650 1150
 F 0 "C1" H 5742 1196 50  0000 L CNN
-F 1 "C_Small" H 5742 1105 50  0000 L CNN
+F 1 "1uF" H 5742 1105 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0402_1005Metric" H 5650 1150 50  0001 C CNN
 F 3 "~" H 5650 1150 50  0001 C CNN
 F 4 "C52923" H 5650 1150 50  0001 C CNN "LCSC"
@@ -195,43 +196,14 @@ $EndComp
 $Comp
 L power:GND #PWR0104
 U 1 1 5EE609DB
-P 2300 5250
-F 0 "#PWR0104" H 2300 5000 50  0001 C CNN
-F 1 "GND" H 2305 5077 50  0000 C CNN
-F 2 "" H 2300 5250 50  0001 C CNN
-F 3 "" H 2300 5250 50  0001 C CNN
-	1    2300 5250
+P 1550 5300
+F 0 "#PWR0104" H 1550 5050 50  0001 C CNN
+F 1 "GND" H 1555 5127 50  0000 C CNN
+F 2 "" H 1550 5300 50  0001 C CNN
+F 3 "" H 1550 5300 50  0001 C CNN
+	1    1550 5300
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	2250 4700 2300 4700
-Wire Wire Line
-	2300 4700 2300 4800
-Wire Wire Line
-	2250 5100 2300 5100
-Connection ~ 2300 5100
-Wire Wire Line
-	2300 5100 2300 5200
-Wire Wire Line
-	2250 5000 2300 5000
-Connection ~ 2300 5000
-Wire Wire Line
-	2300 5000 2300 5100
-Wire Wire Line
-	2250 4900 2300 4900
-Connection ~ 2300 4900
-Wire Wire Line
-	2300 4900 2300 5000
-Wire Wire Line
-	2250 4800 2300 4800
-Connection ~ 2300 4800
-Wire Wire Line
-	2300 4800 2300 4900
-Wire Wire Line
-	2250 5200 2300 5200
-Connection ~ 2300 5200
-Wire Wire Line
-	2300 5200 2300 5250
 $Comp
 L power:+3.3V #PWR0105
 U 1 1 5EE62F33
@@ -284,26 +256,14 @@ $EndComp
 $Comp
 L Connector_Generic:Conn_01x06 J3
 U 1 1 5EE6A8E5
-P 1300 4900
-F 0 "J3" H 1218 5317 50  0000 C CNN
-F 1 "Conn_01x06" H 1218 5226 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical" H 1300 4900 50  0001 C CNN
-F 3 "~" H 1300 4900 50  0001 C CNN
-	1    1300 4900
-	-1   0    0    -1  
+P 2450 4900
+F 0 "J3" H 2368 5317 50  0000 C CNN
+F 1 "Conn_01x06" H 2368 5226 50  0000 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical" H 2450 4900 50  0001 C CNN
+F 3 "~" H 2450 4900 50  0001 C CNN
+	1    2450 4900
+	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	1500 4700 1650 4700
-Wire Wire Line
-	1500 4800 1650 4800
-Wire Wire Line
-	1500 4900 1650 4900
-Wire Wire Line
-	1500 5000 1650 5000
-Wire Wire Line
-	1500 5100 1650 5100
-Wire Wire Line
-	1500 5200 1650 5200
 Text GLabel 1700 2000 2    50   Input ~ 0
 OUT3
 Text GLabel 2500 1200 0    50   Input ~ 0
@@ -907,4 +867,33 @@ Wire Wire Line
 	9550 1800 9550 1750
 Wire Wire Line
 	9550 1750 9650 1750
+Wire Wire Line
+	1550 5300 1550 5200
+Wire Wire Line
+	1550 4700 1650 4700
+Wire Wire Line
+	1650 4800 1550 4800
+Connection ~ 1550 4800
+Wire Wire Line
+	1550 4800 1550 4700
+Wire Wire Line
+	1650 4900 1550 4900
+Connection ~ 1550 4900
+Wire Wire Line
+	1550 4900 1550 4800
+Wire Wire Line
+	1650 5000 1550 5000
+Connection ~ 1550 5000
+Wire Wire Line
+	1550 5000 1550 4900
+Wire Wire Line
+	1650 5100 1550 5100
+Connection ~ 1550 5100
+Wire Wire Line
+	1550 5100 1550 5000
+Wire Wire Line
+	1650 5200 1550 5200
+Connection ~ 1550 5200
+Wire Wire Line
+	1550 5200 1550 5100
 $EndSCHEMATC
