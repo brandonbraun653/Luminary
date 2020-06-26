@@ -852,4 +852,6 @@ Wire Wire Line
 Connection ~ 6250 5550
 Wire Wire Line
 	6250 5550 7000 5550
+Text Notes 6750 2800 0    50   ~ 0
+HW BUG:\nThe pullup/down resistors on pin 4 of the TPS61040\nneed to be swapped. Currently the priority is given \nto the battery for which power supply takes precedance.
 $EndSCHEMATC
