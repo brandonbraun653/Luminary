@@ -25,64 +25,38 @@
 
 namespace Luminary::Hardware::Power
 {
-  struct ControlBlock
-  {
-    Chimera::GPIO::GPIO_sPtr pin;
-    //Chimera::Threading::RecursiveTimedMutex lock;
+  static size_t s_init_status;
+
+  static Chimera::GPIO::GPIO_sPtr sPowerPin;
+
+  static const std::array<Chimera::GPIO::Pin, Channel::NUM_OPTIONS> sCfgPins{
+    0,  // PB0,     RF24_RADIO
+    16, // INVALID, EXTERNAL_FLASH
   };
 
-  std::array<ControlBlock, Channel::NUM_OPTIONS> s_power_channels;
-
-  static size_t s_init_status;
+  static const std::array<Chimera::GPIO::Port, Channel::NUM_OPTIONS> sCfgPorts{
+    Chimera::GPIO::Port::PORTB,           // RF24_RADIO
+    Chimera::GPIO::Port::UNKNOWN_PORT,    // EXTERNAL_FLASH
+  };
 
 
   void initialize()
   {
-    using namespace Chimera::GPIO;
-
     if( s_init_status != Chimera::DRIVER_INITIALIZED_KEY )
     {
-      PinInit pinInit;
+      sPowerPin = Chimera::GPIO::create_shared_ptr();
 
-      /*-------------------------------------------------
-      Initialize GPIO for the external flash power control signal
-      -------------------------------------------------*/
-      pinInit.clear();
-      pinInit.alternate = Alternate::NONE;
-      pinInit.drive     = Drive::OUTPUT_PUSH_PULL;
-      pinInit.pin       = 0;
-      pinInit.port      = Port::PORTA;
-      pinInit.pull      = Pull::NO_PULL;
-      pinInit.state     = State::LOW;
-      pinInit.threaded  = true;
-      pinInit.validity  = true;
 
-      s_power_channels[ EXTERNAL_FLASH ].pin = Chimera::GPIO::create_shared_ptr();
-      s_power_channels[ EXTERNAL_FLASH ].pin->init( pinInit, Chimera::Threading::TIMEOUT_DONT_WAIT );
 
-      /*-------------------------------------------------
-      Initialize GPIO for the RF24 Radio power control signal
-      -------------------------------------------------*/
-      pinInit.clear();
-      pinInit.alternate = Alternate::NONE;
-      pinInit.drive     = Drive::OUTPUT_PUSH_PULL;
-      pinInit.pin       = 0;
-      pinInit.port      = Port::PORTA;
-      pinInit.pull      = Pull::NO_PULL;
-      pinInit.state     = State::LOW;
-      pinInit.threaded  = true;
-      pinInit.validity  = true;
-
-      s_power_channels[ RF24_RADIO ].pin = Chimera::GPIO::create_shared_ptr();
-      s_power_channels[ RF24_RADIO ].pin->init( pinInit, Chimera::Threading::TIMEOUT_DONT_WAIT );
-
-#pragma message("Power driver not fully functioning yet")
-      //s_init_status = Chimera::DRIVER_INITIALIZED_KEY;
+      s_init_status = Chimera::DRIVER_INITIALIZED_KEY;
     }
   }
 
   Chimera::Status_t setPowerState( const Channel channel, const bool state )
   {
+    using namespace Chimera::GPIO;
+    using namespace Chimera::Threading;
+
     /*-------------------------------------------------
     Input protection/validation
     -------------------------------------------------*/
@@ -90,16 +64,43 @@ namespace Luminary::Hardware::Power
     {
       return Chimera::CommonStatusCodes::INVAL_FUNC_PARAM;
     }
-    else if( s_init_status != Chimera::DRIVER_INITIALIZED_KEY )
+    else if( !sPowerPin )
     {
       return Chimera::CommonStatusCodes::NOT_INITIALIZED;
     }
 
     /*-------------------------------------------------
+    Protect against multithreaded access
+    -------------------------------------------------*/
+    auto lg = LockGuard( *sPowerPin );
+
+    /*------------------------------------------------
+    Initialize the GPIO hardware. These pins are shared with
+    multiple functionalities, so it's best to reconfigure them
+    each time they are accessed.
+    ------------------------------------------------*/
+    PinInit pinInit;
+
+    pinInit.clear();
+    pinInit.alternate = Alternate::NONE;
+    pinInit.drive     = Drive::OUTPUT_PUSH_PULL;
+    pinInit.pin       = sCfgPins[ channel ];
+    pinInit.port      = sCfgPorts[ channel ];
+    pinInit.pull      = Pull::NO_PULL;
+    pinInit.state     = State::LOW;
+    pinInit.threaded  = true;
+    pinInit.validity  = true;
+
+    if( sPowerPin->init( pinInit, TIMEOUT_DONT_WAIT ) != Chimera::CommonStatusCodes::OK )
+    {
+      return Chimera::CommonStatusCodes::FAIL;
+    }
+
+    /*-------------------------------------------------
     Set the requested state
     -------------------------------------------------*/
-    auto gpioState = state ? Chimera::GPIO::State::HIGH : Chimera::GPIO::State::LOW;
-    return s_power_channels[ channel ].pin->setState( gpioState, Chimera::Threading::TIMEOUT_100MS );
+    auto gpioState = state ? State::HIGH : State::LOW;
+    return sPowerPin->setState( gpioState, TIMEOUT_DONT_WAIT );
   }
 
 }  // namespace Luminary::Hardware::Power

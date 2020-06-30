@@ -22,6 +22,7 @@
 /* Luminary Includes */
 #include <Luminary/config/config.hpp>
 #include <Luminary/hardware/boot_config.hpp>
+#include <Luminary/hardware/power_select.hpp>
 #include <Luminary/networking/net_main.hpp>
 #include <Luminary/networking/net_connect.hpp>
 
@@ -36,6 +37,8 @@ namespace Luminary::Network
 
   static RF24::Endpoint::SystemInit cfg;
   static RF24::Endpoint::Interface_sPtr radio;
+
+  static void bootRadio();
 
 
   void initializeModule()
@@ -118,58 +121,13 @@ namespace Luminary::Network
     /*------------------------------------------------
     Radio Initialization
     ------------------------------------------------*/
-    RF24::LogicalAddress bootAddress   = Hardware::Boot::getNodeAddress();
-    RF24::LogicalAddress parentAddress = RF24::getParent( bootAddress );
-
-#if defined( LUMINARY_MASTER )
-    bootAddress = 00001;
-    parentAddress = RF24::getParent( bootAddress );
-#endif
-
-    cfg.network.mode                = RF24::Network::Mode::NET_MODE_STATIC;
-    cfg.network.nodeStaticAddress   = bootAddress;
-    cfg.network.parentStaticAddress = parentAddress;
-    cfg.network.rxQueueBuffer       = nullptr;
-    cfg.network.rxQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
-    cfg.network.txQueueBuffer       = nullptr;
-    cfg.network.txQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
-
-    cfg.linkTimeout = ConnectionRefreshTimeout;
-
-    /*------------------------------------------------
-    Create the radio driver and reset to above settings
-    ------------------------------------------------*/
-    auto logger = uLog::getRootSink();
-
-    radio = RF24::Endpoint::createShared( cfg );
-    radio->attachLogger( uLog::getRootSink() );
-    radio->configure( cfg );
-
-    /*-------------------------------------------------
-    Print debug output to help with testing
-    -------------------------------------------------*/
-    bool isChild = false;
-    if( RF24::isAddressRoot( cfg.network.nodeStaticAddress ) )
-    {
-      radio->setName( "Master" );
-      logger->flog( uLog::Level::LVL_INFO, "%d-APP: Boot as master node\n", Chimera::millis() );
-    }
-    else
-    {
-      isChild = true;
-      radio->setName( "Child" );
-      logger->flog( uLog::Level::LVL_INFO, "%d-APP: Boot as child node 0%o\n", Chimera::millis(), bootAddress );
-
-      /*-------------------------------------------------
-      Connect to the network
-      -------------------------------------------------*/
-      connect();
-    }
+    bootRadio();
 
     /*-------------------------------------------------
     Initialize a few variables to help with execution timing
     -------------------------------------------------*/
     size_t reconnectTick = 0;
+    bool isRoot         = RF24::isAddressRoot( cfg.network.nodeStaticAddress );
 
     while ( true )
     {
@@ -181,14 +139,14 @@ namespace Luminary::Network
       /*-------------------------------------------------
       Reconnection processing
       -------------------------------------------------*/
-      if( isChild && ( ( Chimera::millis() - reconnectTick ) >= ConnectionStatusCheckRate ) )
-      {
-        reconnectTick = Chimera::millis();
-        if( !radio->isConnected() )
-        {
-          doReconnect();
-        }
-      }
+       if( !isRoot && ( ( Chimera::millis() - reconnectTick ) >= ConnectionStatusCheckRate ) )
+       {
+         reconnectTick = Chimera::millis();
+         if ( !radio->isConnected( RF24::Connection::BindSite::PARENT ) )
+         {
+           doReconnect();
+         }
+       }
 
       Chimera::delayMilliseconds( MainThreadUpdateRate );
     }
@@ -200,4 +158,105 @@ namespace Luminary::Network
     return radio;
   }
 
+
+  static void bootRadio()
+  {
+    using namespace Hardware::Power;
+    /*------------------------------------------------
+    Initialize local literals
+    ------------------------------------------------*/
+    static constexpr size_t maxConfigureAttempts = 15;
+
+    /*------------------------------------------------
+    Initialize local variables
+    ------------------------------------------------*/
+    auto logger = uLog::getRootSink();
+    auto configured = Chimera::CommonStatusCodes::NOT_INITIALIZED;
+    size_t configureAttempts = 0;
+
+    /*------------------------------------------------
+    Read the GPIO pins to figure out the static network address
+    ------------------------------------------------*/
+    RF24::LogicalAddress bootAddress   = Hardware::Boot::getNodeAddress();
+    RF24::LogicalAddress parentAddress = RF24::getParent( bootAddress );
+
+    /*------------------------------------------------
+    Initialize the network parameters
+    ------------------------------------------------*/
+    cfg.network.mode                = RF24::Network::Mode::NET_MODE_STATIC;
+    cfg.network.nodeStaticAddress   = bootAddress;
+    cfg.network.parentStaticAddress = parentAddress;
+    cfg.network.rxQueueBuffer       = nullptr;
+    cfg.network.rxQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
+    cfg.network.txQueueBuffer       = nullptr;
+    cfg.network.txQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
+
+    cfg.linkTimeout = ConnectionRefreshTimeout;
+    
+    /*------------------------------------------------
+    Toggle the radio's power and wait for it to settle
+    ------------------------------------------------*/
+    setPowerState( RF24_RADIO, RF24_PWR_INACTV_STATE );
+    Chimera::delayMilliseconds( RF24_PWR_TURN_ON_DELAY );
+    setPowerState( RF24_RADIO, RF24_PWR_ACTIVE_STATE );
+    Chimera::delayMilliseconds( RF24_PWR_TURN_OFF_DELAY );
+
+    /*------------------------------------------------
+    Create the radio driver and configure to above settings
+    ------------------------------------------------*/
+    radio = RF24::Endpoint::createShared( cfg );
+    radio->attachLogger( uLog::getRootSink() );
+
+    while ( configureAttempts < maxConfigureAttempts )
+    {
+      /*------------------------------------------------
+      Initialize the radio to the desired configuration
+      ------------------------------------------------*/
+      configured = radio->configure( cfg );
+      configureAttempts += 1;
+
+      /*------------------------------------------------
+      Toggle the radio's power and wait for it to settle
+      ------------------------------------------------*/
+      if ( configured == Chimera::CommonStatusCodes::OK )
+      {
+        break;
+      }
+      else
+      {
+        setPowerState( RF24_RADIO, RF24_PWR_INACTV_STATE );
+        Chimera::delayMilliseconds( RF24_PWR_TURN_ON_DELAY );
+        setPowerState( RF24_RADIO, RF24_PWR_ACTIVE_STATE );
+        Chimera::delayMilliseconds( RF24_PWR_TURN_OFF_DELAY );
+      }
+    }
+
+    /*------------------------------------------------
+    Let the user know we couldn't configure the radio
+    ------------------------------------------------*/
+    if ( configured != Chimera::CommonStatusCodes::OK )
+    {
+      // TODO: Signal an "uh oh" flash on staus LED
+      return;
+    }
+
+    /*-------------------------------------------------
+    Print debug output to help with testing
+    -------------------------------------------------*/
+    if( RF24::isAddressRoot( cfg.network.nodeStaticAddress ) )
+    {
+      radio->setName( "Master" );
+      logger->flog( uLog::Level::LVL_INFO, "%d-APP: Boot as master node\n", Chimera::millis() );
+    }
+    else
+    {
+      radio->setName( "Child" );
+      logger->flog( uLog::Level::LVL_INFO, "%d-APP: Boot as child node 0%o\n", Chimera::millis(), bootAddress );
+
+      /*-------------------------------------------------
+      Connect to the network
+      -------------------------------------------------*/
+      connect();
+    }
+  }
 }    // namespace Luminary::Network

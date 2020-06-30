@@ -148,6 +148,7 @@
     <ClCompile Include="..\..\..\Luminary\hardware\boot_config.cpp" />
     <ClCompile Include="..\..\..\Luminary\hardware\hwm_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\hardware\power_select.cpp" />
+    <ClCompile Include="..\..\..\Luminary\hardware\pwm_output.cpp" />
     <ClCompile Include="..\..\..\Luminary\hardware\status_led.cpp" />
     <ClCompile Include="..\..\..\Luminary\logging\log_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\luminary_entry.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="..\..\..\Luminary\hardware\boot_config.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\hwm_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\power_select.hpp" />
+    <ClInclude Include="..\..\..\Luminary\hardware\pwm_output.hpp" />
     <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp" />
     <ClInclude Include="..\..\..\Luminary\logging\log_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\model\mdl_common.hpp" />

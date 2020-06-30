@@ -78,16 +78,27 @@ namespace Luminary::Hardware::Boot
     for ( size_t idx = 0; idx < NUM_CFG_GPIO; idx++ )
     {
       /*-------------------------------------------------
+      Mitigates a hardware bug that currently has bit 2 always
+      set. Until this is fixed, forcefully set to 0.
+      -------------------------------------------------*/
+      if ( idx == 2 )
+      {
+        #pragma message("Bit 2 of boot config forcefully set to 0")
+        sBootBitField &= ~( 1u << idx );
+        continue;
+      }
+
+      /*-------------------------------------------------
       Initialize the gpio configuration structure
       -------------------------------------------------*/
       cfg.clear();
       cfg.alternate = Alternate::NONE;
-      cfg.drive = Drive::INPUT;
-      cfg.pin = sCfgPins[ idx ];
-      cfg.port = sCfgPorts[ idx ];
-      cfg.pull = Pull::PULL_UP;
-      cfg.threaded = false;
-      cfg.validity = true;
+      cfg.drive     = Drive::INPUT;
+      cfg.pin       = sCfgPins[ idx ];
+      cfg.port      = sCfgPorts[ idx ];
+      cfg.pull      = Pull::PULL_UP;
+      cfg.threaded  = false;
+      cfg.validity  = true;
 
       /*-------------------------------------------------
       Initialize the GPIO hardware and read out it's state
@@ -96,16 +107,15 @@ namespace Luminary::Hardware::Boot
       result |= pin->getState( pinState, TIMEOUT_DONT_WAIT );
 
       /*-------------------------------------------------
-      Set the appropriate bit field for the current pin. The board
-      hardware has inverted the input pins, so reflect that here.
+      Set the appropriate bit field for the current pin
       -------------------------------------------------*/
       if( pinState == State::HIGH )
       {
-        sBootBitField &= ~( 1u << idx );
+        sBootBitField |= 1u << idx;
       }
       else
       {
-        sBootBitField |= 1u << idx;
+        sBootBitField &= ~( 1u << idx );
       }
     }
 
@@ -117,20 +127,12 @@ namespace Luminary::Hardware::Boot
     using namespace Aurora::Math;
 
     /*-------------------------------------------------
-    Read the current GPIO configuration
-    -------------------------------------------------*/
-    if ( readConfiguration() != Chimera::CommonStatusCodes::OK ) 
-    {
-      return RF24::Network::RSVD_ADDR_INVALID;
-    }
-
-    /*-------------------------------------------------
     Convert the bitfield into a useful address
     -------------------------------------------------*/
     static_assert( sizeof( sBootBitField ) == 1, "Bit field should only occupy one byte" );
 
     // Special case for development. STM32L432KC nucleo boards will have this value.
-    if ( ( sBootBitField == 0x37 ) || ( sBootBitField == 0x3F ) ) 
+    if ( ( sBootBitField == 0x37 ) || ( sBootBitField == 0x3F ) )
     {
       return RF24::RootNode0;
     }

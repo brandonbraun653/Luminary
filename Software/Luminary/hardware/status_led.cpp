@@ -49,15 +49,8 @@ namespace Luminary::Hardware::StatusLED
       pinInit.clear();
       pinInit.alternate = Alternate::NONE;
       pinInit.drive     = Drive::OUTPUT_PUSH_PULL;
-
-#if defined( STM32L432KB )
-      pinInit.pin  = 14;
-      pinInit.port = Port::PORTC;
-#else
-      pinInit.pin  = 3;
-      pinInit.port = Port::PORTB;
-#endif
-
+      pinInit.pin       = 14;
+      pinInit.port      = Port::PORTC;
       pinInit.pull      = Pull::NO_PULL;
       pinInit.state     = State::LOW;
       pinInit.threaded  = true;
@@ -134,6 +127,12 @@ namespace Luminary::Hardware::StatusLED
       s_last_status_led_processing = currentTick;
       StatusLED::toggleState();
     }
+
+    /*------------------------------------------------
+    TODO: Could update the flashing state based on system health. This 
+          might be something like a pair of on/off times and the heartbeat
+          function would just cycle between the currently engaged mode.
+    ------------------------------------------------*/
   }
 
 }  // namespace Luminary::Hardware

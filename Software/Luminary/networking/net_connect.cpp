@@ -31,7 +31,7 @@ namespace Luminary::Network
     auto logger = uLog::getRootSink();
     connectStatus = result;
 
-    if( result == RF24::Connection::Result::CONNECTION_SUCCESS )
+    if( result == RF24::Connection::Result::CONNECT_PROC_SUCCESS )
     {
       logger->flog( uLog::Level::LVL_INFO, "%d-APP: Connect to network success\n", Chimera::millis() );
     }
@@ -45,17 +45,17 @@ namespace Luminary::Network
   bool connect()
   {
     auto radio    = getRadio();
-    connectStatus = RF24::Connection::Result::CONNECTION_UNKNOWN;
+    connectStatus = RF24::Connection::Result::CONNECT_PROC_UNKNOWN;
 
-    radio->connect( onConnectCallback, 10000 );
+    radio->connectAsync( onConnectCallback, 10000 );
 
-    while ( connectStatus == RF24::Connection::Result::CONNECTION_UNKNOWN )
+    while ( connectStatus == RF24::Connection::Result::CONNECT_PROC_UNKNOWN )
     {
       radio->processNetworking();
       Chimera::delayMilliseconds( MainThreadUpdateRate );
     }
 
-    return connectStatus == RF24::Connection::Result::CONNECTION_SUCCESS;
+    return connectStatus == RF24::Connection::Result::CONNECT_PROC_SUCCESS;
   }
 
 
@@ -66,10 +66,10 @@ namespace Luminary::Network
 
     logger->flog( uLog::Level::LVL_INFO, "%d-APP: Network timeout. Trying to reconnect...\n", Chimera::millis() );
 
-    connectStatus = RF24::Connection::Result::CONNECTION_UNKNOWN;
+    connectStatus = RF24::Connection::Result::CONNECT_PROC_UNKNOWN;
     radio->reconnect( onConnectCallback, 10000 );
 
-    while ( connectStatus == RF24::Connection::Result::CONNECTION_UNKNOWN )
+    while ( connectStatus == RF24::Connection::Result::CONNECT_PROC_UNKNOWN )
     {
       radio->processNetworking();
       Chimera::delayMilliseconds( MainThreadUpdateRate );

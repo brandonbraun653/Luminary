@@ -13,21 +13,39 @@
 #include <Chimera/thread>
 
 /* Luminary Includes */
+#include <Luminary/hardware/boot_config.hpp>
 #include <Luminary/hardware/hwm_main.hpp>
 #include <Luminary/hardware/power_select.hpp>
+#include <Luminary/hardware/pwm_output.hpp>
 #include <Luminary/hardware/status_led.hpp>
 
 namespace Luminary::Hardware
 {
   void initializeModule()
   {
-    Luminary::Hardware::StatusLED::initialize();
-    Luminary::Hardware::Power::initialize();
+    StatusLED::initialize();
+    Power::initialize();
   }
 
 
   void MainThread( void *argument )
   {
+    /*------------------------------------------------
+    Immediately read the hardware configuration so other
+    resources can consume the GPIO pins used here.
+    ------------------------------------------------*/
+    Boot::readConfiguration();
+
+    /*------------------------------------------------
+    Initialize objects that need the scheduler to be running
+    ------------------------------------------------*/
+    PWM::initialize();
+
+    PWM::setOutputState( PWM::PWM_CH_0, true );
+    PWM::setOutputState( PWM::PWM_CH_1, true );
+    PWM::setOutputState( PWM::PWM_CH_2, true );
+
+
     StatusLED::executeBootFlashSequence();
 
     while( true )
@@ -37,7 +55,7 @@ namespace Luminary::Hardware
       // TODO: Add watchdog kick
 
       /*-------------------------------------------------
-      Blink the status LED if runing a debug build
+      Blink the status LED 
       -------------------------------------------------*/
       StatusLED::runHeartBeat();
 
