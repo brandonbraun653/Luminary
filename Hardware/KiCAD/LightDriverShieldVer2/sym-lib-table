@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name fs8205a)(type Legacy)(uri D:/git/Projects/Luminary/Hardware/KiCAD/lib/Mosfets/fs8205a.lib)(options "")(descr ""))
+)

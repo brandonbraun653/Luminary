@@ -49,18 +49,6 @@ F 4 "C16052" V 4700 3400 50  0001 C CNN "LCSC"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Transistor_BJT:2N3904 Q1
-U 1 1 5EE5631C
-P 5250 1850
-F 0 "Q1" H 5440 1896 50  0000 L CNN
-F 1 "2N3904" H 5440 1805 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 5450 1775 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 5250 1850 50  0001 L CNN
-F 4 "C18536" H 5250 1850 50  0001 C CNN "LCSC"
-	1    5250 1850
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:R_US R2
 U 1 1 5EE57CDD
 P 5050 1200
@@ -97,40 +85,8 @@ F 3 "" H 5350 2150 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5350 2050 5350 2150
-$Comp
-L Device:C_Small C1
-U 1 1 5EE5A2E4
-P 5650 1150
-F 0 "C1" H 5742 1196 50  0000 L CNN
-F 1 "1uF" H 5742 1105 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0402_1005Metric" H 5650 1150 50  0001 C CNN
-F 3 "~" H 5650 1150 50  0001 C CNN
-F 4 "C52923" H 5650 1150 50  0001 C CNN "LCSC"
-	1    5650 1150
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5650 1050 5650 950 
-Wire Wire Line
-	5650 950  5550 950 
-$Comp
-L power:GND #PWR0102
-U 1 1 5EE5AC0A
-P 5650 1300
-F 0 "#PWR0102" H 5650 1050 50  0001 C CNN
-F 1 "GND" H 5655 1127 50  0000 C CNN
-F 2 "" H 5650 1300 50  0001 C CNN
-F 3 "" H 5650 1300 50  0001 C CNN
-	1    5650 1300
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5650 1300 5650 1250
 Wire Wire Line
 	7300 1150 7300 950 
-Wire Wire Line
-	7300 950  5650 950 
-Connection ~ 5650 950 
 $Comp
 L power:GND #PWR0103
 U 1 1 5EE5B57D
@@ -181,28 +137,6 @@ Wire Wire Line
 	4550 1850 4650 1850
 Wire Wire Line
 	4950 1850 5050 1850
-$Comp
-L Switch:SW_DIP_x06 SW1
-U 1 1 5EE5E73B
-P 1950 5000
-F 0 "SW1" H 1950 5567 50  0000 C CNN
-F 1 "SW_DIP_x06" H 1950 5476 50  0000 C CNN
-F 2 "Button_Switch_THT:SW_DIP_SPSTx06_Slide_6.7x16.8mm_W7.62mm_P2.54mm_LowProfile" H 1950 5000 50  0001 C CNN
-F 3 "~" H 1950 5000 50  0001 C CNN
-	1    1950 5000
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0104
-U 1 1 5EE609DB
-P 1550 5300
-F 0 "#PWR0104" H 1550 5050 50  0001 C CNN
-F 1 "GND" H 1555 5127 50  0000 C CNN
-F 2 "" H 1550 5300 50  0001 C CNN
-F 3 "" H 1550 5300 50  0001 C CNN
-	1    1550 5300
-	1    0    0    -1  
-$EndComp
 $Comp
 L power:+3.3V #PWR0105
 U 1 1 5EE62F33
@@ -255,15 +189,15 @@ $EndComp
 $Comp
 L Connector_Generic:Conn_01x06 J3
 U 1 1 5EE6A8E5
-P 2450 4900
-F 0 "J3" H 2368 5317 50  0000 C CNN
-F 1 "Conn_01x06" H 2368 5226 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical" H 2450 4900 50  0001 C CNN
-F 3 "~" H 2450 4900 50  0001 C CNN
-	1    2450 4900
-	1    0    0    -1  
+P 1500 3400
+F 0 "J3" H 1418 3817 50  0000 C CNN
+F 1 "Conn_01x06" H 1418 3726 50  0000 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical" H 1500 3400 50  0001 C CNN
+F 3 "~" H 1500 3400 50  0001 C CNN
+	1    1500 3400
+	0    -1   -1   0   
 $EndComp
-Text GLabel 1700 2000 2    50   Input ~ 0
+Text GLabel 1700 2100 2    50   Input ~ 0
 OUT3
 Text GLabel 2500 1200 0    50   Input ~ 0
 MOSI
@@ -318,33 +252,17 @@ F 3 "" H 1700 1000 50  0001 C CNN
 	1    1700 1000
 	0    1    1    0   
 $EndComp
-Text GLabel 6700 2050 0    50   Input ~ 0
-IRQ
 Text GLabel 3000 5700 0    50   Input ~ 0
 OUT2
 Text GLabel 5900 4500 0    50   Input ~ 0
 OUT3
-Wire Wire Line
-	1700 1900 1600 1900
-$Comp
-L Transistor_BJT:2N3904 Q3
-U 1 1 5EE884FA
-P 3700 3800
-F 0 "Q3" H 3890 3846 50  0000 L CNN
-F 1 "2N3904" H 3890 3755 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 3900 3725 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 3700 3800 50  0001 L CNN
-F 4 "C18536" H 3700 3800 50  0001 C CNN "LCSC"
-	1    3700 3800
-	1    0    0    -1  
-$EndComp
 Text GLabel 1700 1300 2    50   Input ~ 0
 OUT1
 Wire Wire Line
 	1700 1300 1600 1300
-Text GLabel 1700 2100 2    50   Input ~ 0
+Text GLabel 1700 2000 2    50   Input ~ 0
 OUT2
-Text GLabel 1700 1900 2    50   Input ~ 0
+Text GLabel 1700 1400 2    50   Input ~ 0
 RADIO_PWR
 Wire Wire Line
 	1700 2000 1600 2000
@@ -352,12 +270,10 @@ Wire Wire Line
 	1700 2100 1600 2100
 Text Notes 650  1300 0    50   ~ 0
 PA0: TIM2_CH1
-Text Notes 650  2000 0    50   ~ 0
-PA1: TIM2_CH2
 Text Notes 650  2100 0    50   ~ 0
+PA1: TIM2_CH2
+Text Notes 650  2000 0    50   ~ 0
 PA2: TIM2_CH3
-Text Notes 650  1900 0    50   ~ 0
-PB0: GPIO_OUT
 Text Notes 2950 1000 0    50   ~ 0
 PB7: GPIOx
 Text Notes 2950 1100 0    50   ~ 0
@@ -374,16 +290,8 @@ Text Notes 2950 1300 0    50   ~ 0
 PB4: SPI3_MISO
 Text Notes 2950 1200 0    50   ~ 0
 PB5: SPI3_MOSI
-Text GLabel 2500 1900 0    50   Input ~ 0
-IRQ
-Wire Wire Line
-	2500 1900 2600 1900
-Wire Wire Line
-	6700 2050 6800 2050
 Text GLabel 3000 3800 0    50   Input ~ 0
 OUT1
-Text Notes 2950 1900 0    50   ~ 0
-PA15: GPIO_IN
 $Comp
 L Device:R_US R5
 U 1 1 5EE9B50F
@@ -526,18 +434,6 @@ F 4 "C16052" V 4700 5300 50  0001 C CNN "LCSC"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Transistor_BJT:2N3904 Q4
-U 1 1 5EEC354F
-P 3700 5700
-F 0 "Q4" H 3890 5746 50  0000 L CNN
-F 1 "2N3904" H 3890 5655 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 3900 5625 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 3700 5700 50  0001 L CNN
-F 4 "C18536" H 3700 5700 50  0001 C CNN "LCSC"
-	1    3700 5700
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:R_US R6
 U 1 1 5EEC3555
 P 3800 5150
@@ -658,18 +554,6 @@ F 2 "Package_SO:TSSOP-8_4.4x3mm_P0.65mm" H 8550 4350 60  0001 C CNN
 F 3 "" H 8550 4350 60  0001 C CNN
 F 4 "C16052" V 7600 4100 50  0001 C CNN "LCSC"
 	1    7600 4100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Transistor_BJT:2N3904 Q5
-U 1 1 5EEF5F97
-P 6600 4500
-F 0 "Q5" H 6790 4546 50  0000 L CNN
-F 1 "2N3904" H 6790 4455 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 6800 4425 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 6600 4500 50  0001 L CNN
-F 4 "C18536" H 6600 4500 50  0001 C CNN "LCSC"
-	1    6600 4500
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -866,41 +750,119 @@ Wire Wire Line
 	9550 1800 9550 1750
 Wire Wire Line
 	9550 1750 9650 1750
+$Comp
+L Transistor_BJT:MMBT3904 Q1
+U 1 1 5EFDD9AC
+P 3700 3800
+F 0 "Q1" H 3891 3846 50  0000 L CNN
+F 1 "MMBT3904" H 3891 3755 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 3900 3725 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 3700 3800 50  0001 L CNN
+	1    3700 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:MMBT3904 Q4
+U 1 1 5EFDEB02
+P 5250 1850
+F 0 "Q4" H 5441 1896 50  0000 L CNN
+F 1 "MMBT3904" H 5441 1805 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 5450 1775 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 5250 1850 50  0001 L CNN
+	1    5250 1850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:MMBT3904 Q3
+U 1 1 5EFDF4FE
+P 3700 5700
+F 0 "Q3" H 3891 5746 50  0000 L CNN
+F 1 "MMBT3904" H 3891 5655 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 3900 5625 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 3700 5700 50  0001 L CNN
+	1    3700 5700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:MMBT3904 Q5
+U 1 1 5EFE0E03
+P 6600 4500
+F 0 "Q5" H 6791 4546 50  0000 L CNN
+F 1 "MMBT3904" H 6791 4455 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 6800 4425 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 6600 4500 50  0001 L CNN
+	1    6600 4500
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6800 2050
+$Comp
+L power:+3.3V #PWR0104
+U 1 1 5F006982
+P 1300 4550
+F 0 "#PWR0104" H 1300 4400 50  0001 C CNN
+F 1 "+3.3V" H 1315 4723 50  0000 C CNN
+F 2 "" H 1300 4550 50  0001 C CNN
+F 3 "" H 1300 4550 50  0001 C CNN
+	1    1300 4550
+	-1   0    0    1   
+$EndComp
 Wire Wire Line
-	1550 5300 1550 5200
+	1300 4200 1300 4300
 Wire Wire Line
-	1550 4700 1650 4700
+	1400 4200 1400 4300
 Wire Wire Line
-	1650 4800 1550 4800
-Connection ~ 1550 4800
+	1400 4300 1300 4300
+Connection ~ 1300 4300
 Wire Wire Line
-	1550 4800 1550 4700
+	1300 4300 1300 4550
 Wire Wire Line
-	1650 4900 1550 4900
-Connection ~ 1550 4900
+	1500 4200 1500 4300
 Wire Wire Line
-	1550 4900 1550 4800
+	1500 4300 1400 4300
+Connection ~ 1400 4300
 Wire Wire Line
-	1650 5000 1550 5000
-Connection ~ 1550 5000
+	1600 4200 1600 4300
 Wire Wire Line
-	1550 5000 1550 4900
+	1600 4300 1500 4300
+Connection ~ 1500 4300
 Wire Wire Line
-	1650 5100 1550 5100
-Connection ~ 1550 5100
+	1700 4200 1700 4300
 Wire Wire Line
-	1550 5100 1550 5000
+	1700 4300 1600 4300
+Connection ~ 1600 4300
 Wire Wire Line
-	1650 5200 1550 5200
-Connection ~ 1550 5200
+	1800 4200 1800 4300
 Wire Wire Line
-	1550 5200 1550 5100
-Text Notes 550  2550 0    50   ~ 0
-HW Bug 0:\nIRQ signal is consuming a GPIO input pin, which is normally\nused for generating the node address. May or may not be an issue.
-Text Notes 550  4050 0    50   ~ 0
-HW Bug 1:\nThe DIP switches need to signal to 3.3V, not GND. The Luminary\nboard ties these inputs to GND via a pulldown resistor.
-Text Notes 550  4350 0    50   ~ 0
-HW Bug 1 Note:\nNeed to reverse the silkscreen annotations of \nwhich direction means "1" and which means "0"
-Text Notes 5700 850  0    50   ~ 0
-HW Bug 3:\nFootprint of Q1 has pins 1 & 2 swapped, leading \nto loss of control of the power switch.
+	1800 4300 1700 4300
+Connection ~ 1700 4300
+NoConn ~ 1600 1900
+NoConn ~ 1600 1500
+NoConn ~ 1600 1600
+NoConn ~ 1600 1700
+NoConn ~ 1600 1800
+NoConn ~ 2600 1500
+NoConn ~ 2600 1600
+NoConn ~ 2600 1700
+NoConn ~ 2600 1800
+NoConn ~ 2600 1900
+NoConn ~ 2600 2000
+NoConn ~ 2600 2100
+NoConn ~ 2150 200 
+$Comp
+L Switch:SW_DIP_x06 SW1
+U 1 1 5EE5E73B
+P 1600 3900
+F 0 "SW1" H 1600 4467 50  0000 C CNN
+F 1 "SW_DIP_x06" H 1600 4376 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_DIP_SPSTx06_Slide_6.7x16.8mm_W7.62mm_P2.54mm_LowProfile" H 1600 3900 50  0001 C CNN
+F 3 "~" H 1600 3900 50  0001 C CNN
+	1    1600 3900
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	5550 950  7300 950 
+Text Notes 650  1400 0    50   ~ 0
+PA3: GPIO_OUT
+Wire Wire Line
+	1700 1400 1600 1400
 $EndSCHEMATC

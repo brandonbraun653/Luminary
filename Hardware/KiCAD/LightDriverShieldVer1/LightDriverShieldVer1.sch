@@ -903,4 +903,6 @@ Text Notes 550  4350 0    50   ~ 0
 HW Bug 1 Note:\nNeed to reverse the silkscreen annotations of \nwhich direction means "1" and which means "0"
 Text Notes 5700 850  0    50   ~ 0
 HW Bug 3:\nFootprint of Q1 has pins 1 & 2 swapped, leading \nto loss of control of the power switch.
+Text Notes 550  2850 0    50   ~ 0
+HW Note:\nWhy is OUT3 tied to CH2 and OUT2 is tied to CH3?
 $EndSCHEMATC
