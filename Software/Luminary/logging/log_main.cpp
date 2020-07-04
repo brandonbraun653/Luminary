@@ -22,6 +22,7 @@
 #include <uLog/sinks/sink_vgdb_semihosting.hpp>
 
 /* Luminary Includes */
+#include <Luminary/config/config.hpp>
 #include <Luminary/logging/log_main.hpp>
 #include <Luminary/version.hpp>
 
@@ -57,23 +58,7 @@ namespace Luminary::Logging
     uLog::setRootSink( rootSink );
 #else
     using namespace Chimera::Modules::uLog;
-    rootSink = std::make_shared<SerialSink>();
-
-    SerialPins.tx.alternate = Chimera::GPIO::Alternate::USART1_TX;
-    SerialPins.tx.drive     = Chimera::GPIO::Drive::ALTERNATE_PUSH_PULL;
-    SerialPins.tx.pin       = 9;
-    SerialPins.tx.port      = Chimera::GPIO::Port::PORTA;
-    SerialPins.tx.pull      = Chimera::GPIO::Pull::NO_PULL;
-    SerialPins.tx.threaded  = true;
-    SerialPins.tx.validity  = true;
-
-    SerialPins.rx.alternate = Chimera::GPIO::Alternate::USART1_RX;
-    SerialPins.rx.drive     = Chimera::GPIO::Drive::ALTERNATE_PUSH_PULL;
-    SerialPins.rx.pin       = 10;
-    SerialPins.rx.port      = Chimera::GPIO::Port::PORTA;
-    SerialPins.rx.pull      = Chimera::GPIO::Pull::NO_PULL;
-    SerialPins.rx.threaded  = true;
-    SerialPins.rx.validity  = true;
+    rootSink = std::make_shared<SerialSink>( Chimera::Serial::Channel::SERIAL1, false );
 
     rootSink->setLogLevel( uLog::Level::LVL_DEBUG );
     rootSink->setName( "Root" );
@@ -88,6 +73,8 @@ namespace Luminary::Logging
 
   void MainThread( void *argument )
   {
+    Chimera::delayMilliseconds( STARTUP_DELAY_LOG_MAIN );
+
     initializeModule();
     printBootMessage();
 

@@ -24,6 +24,7 @@ use-project /LUMINARY/HARDWARE : hardware ;
 use-project /LUMINARY/LOGGING : logging ;
 use-project /LUMINARY/MODEL : model ;
 use-project /LUMINARY/NETWORKING : networking ;
+use-project /LUMINARY/ROUTINES : routines ;
 use-project /LUMINARY/RPC : rpc ;
 use-project /LUMINARY/SYSTEM : system ;
 

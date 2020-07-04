@@ -22,46 +22,29 @@
 #include <Chimera/watchdog>
 
 /* Luminary Includes */
+#include <Luminary/config/config.hpp>
 #include <Luminary/rpc/rpc_main.hpp>
 #include <Luminary/rpc/rpc_parser.hpp>
 #include <Luminary/rpc/types.hpp>
+#include <Luminary/hardware/hwm_serial.hpp>
 
 namespace Luminary::RPC
 {
-  /*-------------------------------------------------
-  Module Data
-  -------------------------------------------------*/
-  /* Serial Object */
-  static Chimera::Serial::Serial_sPtr Serial;
-
-  /* Serial Transmit Buffers */
-  static MessageBuffer sTXHWBuffer;
-  static CircularBuffer sTXCircularBuffer( CircularBufferSize );
-
-  /* Serial Recieve Buffers */
-  static MessageBuffer sRXHWBuffer;
-  static CircularBuffer sRXCircularBuffer( CircularBufferSize );
-
+  /*-------------------------------------------------------------------------------
+  Static Data
+  -------------------------------------------------------------------------------*/
   /* Parsing buffer */
   static MessageBuffer sParseBuffer;
 
-  /*-------------------------------------------------
-  Module Functions
-  -------------------------------------------------*/
-  static Chimera::Status_t initializeSerial();
-
-
+  /*-------------------------------------------------------------------------------
+  Functions
+  -------------------------------------------------------------------------------*/
   void initializeModule()
   {
     /*------------------------------------------------
     Initialize static data
     ------------------------------------------------*/
-    Serial = nullptr;
-    sRXHWBuffer.fill( 0 );
-    sTXHWBuffer.fill( 0 );
     sParseBuffer.fill( 0 );
-    sRXCircularBuffer.clear();
-    sTXCircularBuffer.clear();
 
     /*------------------------------------------------
     Additional intialization from other RPC modules
@@ -72,18 +55,12 @@ namespace Luminary::RPC
 
   void MainThread( void *argument )
   {
-    /*-------------------------------------------------
-    Initialize the serial object used to send/receive commands
-    -------------------------------------------------*/
-    if ( initializeSerial() != Chimera::CommonStatusCodes::OK )
-    {
-      Chimera::insert_debug_breakpoint();
-      Chimera::Watchdog::invokeTimeout();
-    }
+    Chimera::delayMilliseconds( STARTUP_DELAY_RPC_MAIN );
 
     /*------------------------------------------------
     Continuously parse the data coming in
     ------------------------------------------------*/
+    auto Serial = Chimera::Serial::create_shared_ptr( Hardware::Serial::HWChannel );
     size_t bytesToRead  = 0;
     size_t responseSize = 0;
     Serial->toggleAsyncListening( true );
@@ -117,63 +94,4 @@ namespace Luminary::RPC
     }
   }
 
-
-  static Chimera::Status_t initializeSerial()
-  {
-    using namespace Chimera::Serial;
-    using namespace Chimera::Hardware;
-
-    /*------------------------------------------------
-    Configuration info for the serial object
-    ------------------------------------------------*/
-    Channel channel = Channel::SERIAL2;
-
-    IOPins pins;
-    pins.tx.alternate = Chimera::GPIO::Alternate::USART2_TX;
-    pins.tx.drive     = Chimera::GPIO::Drive::ALTERNATE_PUSH_PULL;
-    pins.tx.pin       = 2;
-    pins.tx.port      = Chimera::GPIO::Port::PORTA;
-    pins.tx.pull      = Chimera::GPIO::Pull::NO_PULL;
-    pins.tx.threaded  = true;
-    pins.tx.validity  = true;
-
-    pins.rx.alternate = Chimera::GPIO::Alternate::USART2_RX;
-    pins.rx.drive     = Chimera::GPIO::Drive::ALTERNATE_PUSH_PULL;
-    pins.rx.pin       = 3;
-    pins.rx.port      = Chimera::GPIO::Port::PORTA;
-    pins.rx.pull      = Chimera::GPIO::Pull::NO_PULL;
-    pins.rx.threaded  = true;
-    pins.rx.validity  = true;
-
-
-    Config cfg;
-    cfg.baud     = 115200;
-    cfg.flow     = FlowControl::FCTRL_NONE;
-    cfg.parity   = Parity::PAR_NONE;
-    cfg.stopBits = StopBits::SBITS_ONE;
-    cfg.width    = CharWid::CW_8BIT;
-
-    /*------------------------------------------------
-    Create the serial object and initialize it
-    ------------------------------------------------*/
-    auto result = Chimera::CommonStatusCodes::OK;
-    Serial      = create_shared_ptr( channel );
-
-    if ( !Serial ) 
-    {
-      Chimera::insert_debug_breakpoint();
-    }
-
-    result |= Serial->assignHW( channel, pins );
-    result |= Serial->configure( cfg );
-    result |= Serial->enableBuffering( SubPeripheral::TX, &sTXCircularBuffer, sTXHWBuffer.data(),
-                                         sTXHWBuffer.size() );
-    result |= Serial->enableBuffering( SubPeripheral::RX, &sRXCircularBuffer, sRXHWBuffer.data(),
-                                         sRXHWBuffer.size() );
-    result |= Serial->begin( PeripheralMode::INTERRUPT, PeripheralMode::INTERRUPT );
-
-    return result;
-  }
-
-  
 }    // namespace Luminary::RPC

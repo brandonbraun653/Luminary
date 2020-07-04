@@ -44,6 +44,7 @@ explicit_alias COMMON_LIBS : : : :
   <library>/LUMINARY/LOGGING//LIB
   <library>/LUMINARY/MODEL//LIB
   <library>/LUMINARY/NETWORKING//LIB
+  <library>/LUMINARY/ROUTINES//LIB
   <library>/LUMINARY/RPC//LIB
   <library>/LUMINARY/SYSTEM//LIB
 

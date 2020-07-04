@@ -12,8 +12,8 @@
 #include <Chimera/common>
 
 /* Luminary Includes */
+#include <Luminary/config/config.hpp>
 #include <Luminary/system/sys_main.hpp>
-#include <Luminary/model/mdl_observables.hpp>
 
 namespace Luminary::System
 {
@@ -25,12 +25,19 @@ namespace Luminary::System
 
   void MainThread( void *argument )
   {
-    
-
-    Model::initializeObservers();
+    Chimera::delayMilliseconds( STARTUP_DELAY_SYS_MAIN );
 
     while( true )
     {
+
+      // Process new commands
+
+      // Process LED outputs
+
+      // Process system debug events
+
+
+
       Chimera::delayMilliseconds( MainThreadUpdateRate );
     }
   }

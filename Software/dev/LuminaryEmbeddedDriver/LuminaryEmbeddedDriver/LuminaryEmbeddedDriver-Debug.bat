@@ -9,6 +9,8 @@ echo power_select.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/hardware/power_select.gcc.rsp" || exit 1
 echo pwm_output.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/hardware/pwm_output.gcc.rsp" || exit 1
+echo hwm_serial.cpp
+c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/hardware/hwm_serial.gcc.rsp" || exit 1
 echo status_led.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/hardware/status_led.gcc.rsp" || exit 1
 echo log_main.cpp

@@ -102,7 +102,7 @@ namespace Luminary::Hardware::PWM
 
     cfg.outputPin.pin       = 2;
     cfg.outputPin.port      = Chimera::GPIO::Port::PORTA;
-    cfg.outputPin.alternate = Chimera::GPIO::Alternate::TIM2_CH2;
+    cfg.outputPin.alternate = Chimera::GPIO::Alternate::TIM2_CH3;
     cfg.outputPin.drive     = Chimera::GPIO::Drive::ALTERNATE_PUSH_PULL;
     cfg.outputPin.threaded  = false;
     cfg.outputPin.validity  = true;

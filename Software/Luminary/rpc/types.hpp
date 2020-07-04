@@ -36,9 +36,6 @@ namespace Luminary::RPC
   // Length of the hardware buffer for transceiving a Serial message
   static constexpr size_t MaxMessageSize = 50;
 
-  // Length of the user buffer for queueing multiple messages
-  static constexpr size_t CircularBufferSize = 5 * MaxMessageSize;
-
   // Command character set
   static std::string_view StartCharacter = "@";
   static std::string_view QueryCommand   = "Q";
@@ -78,7 +75,6 @@ namespace Luminary::RPC
   Aliases
   -------------------------------------------------------------------------------*/
   using MessageBuffer  = std::array<uint8_t, MaxMessageSize>;
-  using CircularBuffer = boost::circular_buffer<uint8_t>;
   using CommandList    = std::array<CommandRegistry, static_cast<size_t>( CMD_ID_NUM_OPTIONS )>;
   using CommandName    = std::array<char, MaxCommandLength>;
   using CommandType    = std::array<CommandName, static_cast<size_t>( CMD_PFX_NUM_OPTIONS )>;

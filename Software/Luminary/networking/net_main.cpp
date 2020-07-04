@@ -31,7 +31,7 @@ namespace Luminary::Network
   /*-------------------------------------------------------------------------------
   Static Data
   -------------------------------------------------------------------------------*/
-  static constexpr size_t ConnectionRefreshTimeout = 15 * Chimera::Threading::TIMEOUT_1S;
+  static constexpr size_t ConnectionRefreshTimeout  = 15 * Chimera::Threading::TIMEOUT_1S;
   static constexpr size_t ConnectionStatusCheckRate = 5000;
 
 
@@ -115,8 +115,7 @@ namespace Luminary::Network
 
   void MainThread( void *argument )
   {
-    // Delay a bit to allow other systems to set up
-    Chimera::delayMilliseconds( 500 );
+    Chimera::delayMilliseconds( STARTUP_DELAY_NET_MAIN );
 
     /*------------------------------------------------
     Radio Initialization
@@ -127,7 +126,7 @@ namespace Luminary::Network
     Initialize a few variables to help with execution timing
     -------------------------------------------------*/
     size_t reconnectTick = 0;
-    bool isRoot         = RF24::isAddressRoot( cfg.network.nodeStaticAddress );
+    bool isRoot          = RF24::isAddressRoot( cfg.network.nodeStaticAddress );
 
     while ( true )
     {
@@ -139,14 +138,14 @@ namespace Luminary::Network
       /*-------------------------------------------------
       Reconnection processing
       -------------------------------------------------*/
-       if( !isRoot && ( ( Chimera::millis() - reconnectTick ) >= ConnectionStatusCheckRate ) )
-       {
-         reconnectTick = Chimera::millis();
-         if ( !radio->isConnected( RF24::Connection::BindSite::PARENT ) )
-         {
-           doReconnect();
-         }
-       }
+      if ( !isRoot && ( ( Chimera::millis() - reconnectTick ) >= ConnectionStatusCheckRate ) )
+      {
+        reconnectTick = Chimera::millis();
+        if ( !radio->isConnected( RF24::Connection::BindSite::PARENT ) )
+        {
+          doReconnect();
+        }
+      }
 
       Chimera::delayMilliseconds( MainThreadUpdateRate );
     }
@@ -170,8 +169,8 @@ namespace Luminary::Network
     /*------------------------------------------------
     Initialize local variables
     ------------------------------------------------*/
-    auto logger = uLog::getRootSink();
-    auto configured = Chimera::CommonStatusCodes::NOT_INITIALIZED;
+    auto logger              = uLog::getRootSink();
+    auto configured          = Chimera::CommonStatusCodes::NOT_INITIALIZED;
     size_t configureAttempts = 0;
 
     /*------------------------------------------------
@@ -192,7 +191,7 @@ namespace Luminary::Network
     cfg.network.txQueueSize         = 5 * RF24::Hardware::PACKET_WIDTH;
 
     cfg.linkTimeout = ConnectionRefreshTimeout;
-    
+
     /*------------------------------------------------
     Toggle the radio's power and wait for it to settle
     ------------------------------------------------*/
@@ -243,7 +242,7 @@ namespace Luminary::Network
     /*-------------------------------------------------
     Print debug output to help with testing
     -------------------------------------------------*/
-    if( RF24::isAddressRoot( cfg.network.nodeStaticAddress ) )
+    if ( RF24::isAddressRoot( cfg.network.nodeStaticAddress ) )
     {
       radio->setName( "Master" );
       logger->flog( uLog::Level::LVL_INFO, "%d-APP: Boot as master node\n", Chimera::millis() );

@@ -13,11 +13,14 @@
 #include <Chimera/thread>
 
 /* Luminary Includes */
+#include <Luminary/config/config.hpp>
 #include <Luminary/hardware/boot_config.hpp>
 #include <Luminary/hardware/hwm_main.hpp>
 #include <Luminary/hardware/power_select.hpp>
 #include <Luminary/hardware/pwm_output.hpp>
 #include <Luminary/hardware/status_led.hpp>
+#include <Luminary/hardware/hwm_serial.hpp>
+#include <Luminary/model/mdl_observables.hpp>
 
 namespace Luminary::Hardware
 {
@@ -30,11 +33,20 @@ namespace Luminary::Hardware
 
   void MainThread( void *argument )
   {
+    Chimera::delayMilliseconds( STARTUP_DELAY_HWM_MAIN );
+
+    Model::initializeObservers();
+
     /*------------------------------------------------
     Immediately read the hardware configuration so other
     resources can consume the GPIO pins used here.
     ------------------------------------------------*/
     Boot::readConfiguration();
+
+    /*------------------------------------------------
+    Initialize the serial driver as this gets used very early on
+    ------------------------------------------------*/
+    Serial::configureDriver();
 
     /*------------------------------------------------
     Initialize objects that need the scheduler to be running
