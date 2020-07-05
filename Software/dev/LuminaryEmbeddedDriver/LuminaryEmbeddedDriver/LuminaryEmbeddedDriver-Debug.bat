@@ -25,6 +25,12 @@ echo net_connect.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/networking/net_connect.gcc.rsp" || exit 1
 echo net_main.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/networking/net_main.gcc.rsp" || exit 1
+echo animation_default.cpp
+c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/routines/animation_default.gcc.rsp" || exit 1
+echo animation_sine_wave.cpp
+c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/routines/animation_sine_wave.gcc.rsp" || exit 1
+echo processor.cpp
+c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/routines/processor.gcc.rsp" || exit 1
 echo rcp_responder.cpp
 c:\sysgcc\arm-eabi\bin\arm-none-eabi-g++.exe @"VisualGDB/Debug/_3_/Luminary/rpc/rcp_responder.gcc.rsp" || exit 1
 echo rpc_main.cpp

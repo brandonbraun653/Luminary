@@ -14,6 +14,9 @@
 /* Luminary Includes */
 #include <Luminary/config/config.hpp>
 #include <Luminary/system/sys_main.hpp>
+#include <Luminary/routines/processor.hpp>
+#include <Luminary/routines/animation_default.hpp>
+#include <Luminary/routines/animation_sine_wave.hpp>
 
 namespace Luminary::System
 {
@@ -27,18 +30,22 @@ namespace Luminary::System
   {
     Chimera::delayMilliseconds( STARTUP_DELAY_SYS_MAIN );
 
+    /*-------------------------------------------------
+    Start up the animation sequences
+    -------------------------------------------------*/
+    Routine::initialize();
+    Routine::setDefaultAnimation( &Routine::SineWave::sineWaveAnimation );
+    Routine::startAnimations( true );
+
     while( true )
     {
-
-      // Process new commands
-
-      // Process LED outputs
-
-      // Process system debug events
+      /*-------------------------------------------------
+      Run the animation sequence processor
+      -------------------------------------------------*/
+      Routine::stepAnimations();
 
 
-
-      Chimera::delayMilliseconds( MainThreadUpdateRate );
+      //Chimera::delayMilliseconds( MainThreadUpdateRate );
     }
   }
 

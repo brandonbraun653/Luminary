@@ -34,6 +34,9 @@
     <Filter Include="Device-specific files\Semihosting/Profiler">
       <UniqueIdentifier>{e05a9a33-3fd7-41a7-9d7b-938f002944ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Luminary\routines">
+      <UniqueIdentifier>{57bb8e7a-b903-44c8-a503-2d5d630f5e1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="LuminaryEmbeddedDriver-Debug.vgdbsettings">
@@ -90,6 +93,24 @@
     <ClCompile Include="$(EFP_BASE)\Profiler\ProfilerRTOS_FreeRTOS.c">
       <Filter>Device-specific files\Semihosting/Profiler</Filter>
     </ClCompile>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfiler.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SmallNumberCoder.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfilerInterface.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\ProfilerFreeRTOSHooks.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\CustomRealTimeWatches.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\DebuggerChecker.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
     <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfiler.h">
       <Filter>Device-specific files\Semihosting/Profiler</Filter>
     </ClInclude>
@@ -238,6 +259,18 @@
     <ClInclude Include="..\..\..\Luminary\hardware\hwm_serial.hpp">
       <Filter>Luminary\hardware</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\processor.hpp">
+      <Filter>Luminary\routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\types.hpp">
+      <Filter>Luminary\routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\animation_default.hpp">
+      <Filter>Luminary\routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\animation_sine_wave.hpp">
+      <Filter>Luminary\routines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
@@ -275,6 +308,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Luminary\hardware\hwm_serial.cpp">
       <Filter>Luminary\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\processor.cpp">
+      <Filter>Luminary\routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_default.cpp">
+      <Filter>Luminary\routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave.cpp">
+      <Filter>Luminary\routines</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

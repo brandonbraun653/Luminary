@@ -25,6 +25,7 @@ namespace Luminary::Hardware::PWM
   Static Data
   -------------------------------------------------------------------------------*/
   static std::array<Chimera::PWM::PWM_sPtr, NUM_OPTIONS> pwmChannels;
+  static std::array<float, NUM_OPTIONS> pwmScalingConstants;
 
   /*-------------------------------------------------------------------------------
   Functions
@@ -39,6 +40,10 @@ namespace Luminary::Hardware::PWM
     pwmChannels[ PWM_CH_0 ] = Chimera::PWM::create_shared_ptr();
     pwmChannels[ PWM_CH_1 ] = Chimera::PWM::create_shared_ptr();
     pwmChannels[ PWM_CH_2 ] = Chimera::PWM::create_shared_ptr();
+
+    pwmScalingConstants[ PWM_CH_0 ] = 1.0f;
+    pwmScalingConstants[ PWM_CH_1 ] = 1.0f;
+    pwmScalingConstants[ PWM_CH_2 ] = 1.0f;
 
     /*-------------------------------------------------
     Configure some common PWM driver attributes
@@ -71,6 +76,7 @@ namespace Luminary::Hardware::PWM
 
     pwmChannels[ PWM_CH_0 ]->init( cfg );
     pwmChannels[ PWM_CH_0 ]->toggleOutput( false );
+    pwmChannels[ PWM_CH_0 ]->setDutyCyle( PWM_MIN_DUTY_CYCLE );
 
     /*------------------------------------------------
     Configure output channel 1
@@ -90,6 +96,7 @@ namespace Luminary::Hardware::PWM
 
     pwmChannels[ PWM_CH_1 ]->init( cfg );
     pwmChannels[ PWM_CH_1 ]->toggleOutput( false );
+    pwmChannels[ PWM_CH_1 ]->setDutyCyle( PWM_MIN_DUTY_CYCLE );
 
     /*------------------------------------------------
     Configure output channel 2
@@ -109,6 +116,7 @@ namespace Luminary::Hardware::PWM
 
     pwmChannels[ PWM_CH_2 ]->init( cfg );
     pwmChannels[ PWM_CH_2 ]->toggleOutput( false );
+    pwmChannels[ PWM_CH_2 ]->setDutyCyle( PWM_MIN_DUTY_CYCLE );
   }
 
   void setOutputState( const Channel channel, const bool state )
@@ -123,7 +131,21 @@ namespace Luminary::Hardware::PWM
   {
     if( channel < NUM_OPTIONS )
     {
-      pwmChannels[ channel ]->setDutyCyle( static_cast<size_t>( dc ) );
+      float val = static_cast<float>( dc ) * pwmScalingConstants[ channel ];
+      pwmChannels[ channel ]->setDutyCyle( static_cast<size_t>( val ) );
+    }
+  }
+
+
+  void setScale( const Channel channel, const float scale )
+  {
+    /*-------------------------------------------------
+    The floating point comparisons are imprecise, but the
+    user shouldn't be specifying ridiculous constants.
+    -------------------------------------------------*/
+    if ( ( channel < NUM_OPTIONS ) && ( scale >= 0.0f ) && ( scale <= 1.0f ) )
+    {
+      pwmScalingConstants[ channel ] = scale;
     }
   }
 }  // namespace Luminary::Hardware::PWM

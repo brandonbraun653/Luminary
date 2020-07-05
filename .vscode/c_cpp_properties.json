@@ -3,7 +3,7 @@
         {
             "name": "Embedded",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/Software/**",
                 "${workspaceFolder}/Software/lib/Aurora/Chimera",
                 "${workspaceFolder}/Software/lib/Aurora",
                 "${workspaceFolder}/Software/lib/Thor",
@@ -14,7 +14,8 @@
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE"
+                "_UNICODE",
+                "THOR_HLD_TIMER"
             ],
             "cStandard": "c11",
             "cppStandard": "c++20",

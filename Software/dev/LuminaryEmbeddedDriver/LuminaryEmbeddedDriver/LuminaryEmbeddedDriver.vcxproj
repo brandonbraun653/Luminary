@@ -157,6 +157,9 @@
     <ClCompile Include="..\..\..\Luminary\model\mdl_observables.cpp" />
     <ClCompile Include="..\..\..\Luminary\networking\net_connect.cpp" />
     <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_default.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\processor.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rcp_responder.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rpc_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rpc_parser.cpp" />
@@ -190,6 +193,10 @@
     <ClInclude Include="..\..\..\Luminary\model\mdl_observables.hpp" />
     <ClInclude Include="..\..\..\Luminary\networking\net_connect.hpp" />
     <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\animation_default.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\animation_sine_wave.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\processor.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\types.hpp" />
     <ClInclude Include="..\..\..\Luminary\rpc\rpc_main.hpp" />
     <ClInclude Include="..\..\..\Luminary\rpc\rpc_parser.hpp" />
     <ClInclude Include="..\..\..\Luminary\rpc\rpc_responder.hpp" />

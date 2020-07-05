@@ -53,10 +53,6 @@ namespace Luminary::Hardware
     ------------------------------------------------*/
     PWM::initialize();
 
-    PWM::setOutputState( PWM::PWM_CH_0, true );
-    PWM::setOutputState( PWM::PWM_CH_1, true );
-    PWM::setOutputState( PWM::PWM_CH_2, true );
-
 
     StatusLED::executeBootFlashSequence();
 
@@ -67,7 +63,7 @@ namespace Luminary::Hardware
       // TODO: Add watchdog kick
 
       /*-------------------------------------------------
-      Blink the status LED 
+      Blink the status LED
       -------------------------------------------------*/
       StatusLED::runHeartBeat();
 
