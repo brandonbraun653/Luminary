@@ -17,6 +17,7 @@
 #include <Luminary/routines/processor.hpp>
 #include <Luminary/routines/animation_default.hpp>
 #include <Luminary/routines/animation_sine_wave.hpp>
+#include <Luminary/routines/animation_flame.hpp>
 
 namespace Luminary::System
 {
@@ -28,14 +29,24 @@ namespace Luminary::System
 
   void MainThread( void *argument )
   {
+    using namespace Hardware::PWM;
+    
     Chimera::delayMilliseconds( STARTUP_DELAY_SYS_MAIN );
 
     /*-------------------------------------------------
     Start up the animation sequences
     -------------------------------------------------*/
     Routine::initialize();
-    Routine::setDefaultAnimation( &Routine::SineWave::sineWaveAnimation );
-    Routine::startAnimations( true );
+    Routine::setDefaultAnimation( &Routine::Default::defaultAnimation );
+//    Routine::setCurrentAnimation( Channel::PWM_CH_0, &Routine::Flame::flameAnimation1 );
+//    Routine::setCurrentAnimation( Channel::PWM_CH_1, &Routine::Flame::flameAnimation2 );
+//    Routine::setCurrentAnimation( Channel::PWM_CH_2, &Routine::Flame::flameAnimation3 );
+
+    Routine::setCurrentAnimation( Channel::PWM_CH_0, &Routine::SineWave::sineWaveAnimation1 );
+    Routine::setCurrentAnimation( Channel::PWM_CH_1, &Routine::SineWave::sineWaveAnimation2 );
+    Routine::setCurrentAnimation( Channel::PWM_CH_2, &Routine::SineWave::sineWaveAnimation3 );
+
+    Routine::startAnimations( false );
 
     while( true )
     {

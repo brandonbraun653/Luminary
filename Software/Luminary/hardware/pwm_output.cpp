@@ -41,9 +41,9 @@ namespace Luminary::Hardware::PWM
     pwmChannels[ PWM_CH_1 ] = Chimera::PWM::create_shared_ptr();
     pwmChannels[ PWM_CH_2 ] = Chimera::PWM::create_shared_ptr();
 
-    pwmScalingConstants[ PWM_CH_0 ] = 1.0f;
-    pwmScalingConstants[ PWM_CH_1 ] = 1.0f;
-    pwmScalingConstants[ PWM_CH_2 ] = 1.0f;
+    pwmScalingConstants[ PWM_CH_0 ] = 0.5f;
+    pwmScalingConstants[ PWM_CH_1 ] = 0.5f;
+    pwmScalingConstants[ PWM_CH_2 ] = 0.5f;
 
     /*-------------------------------------------------
     Configure some common PWM driver attributes

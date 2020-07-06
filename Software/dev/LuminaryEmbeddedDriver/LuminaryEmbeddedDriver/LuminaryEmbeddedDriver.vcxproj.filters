@@ -201,6 +201,24 @@
     <ClInclude Include="$(EFP_BASE)\Profiler\DebuggerChecker.h">
       <Filter>Device-specific files\Semihosting/Profiler</Filter>
     </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfiler.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SmallNumberCoder.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\SysprogsProfilerInterface.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\ProfilerFreeRTOSHooks.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\CustomRealTimeWatches.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="$(EFP_BASE)\Profiler\DebuggerChecker.h">
+      <Filter>Device-specific files\Semihosting/Profiler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="stm32.props">
@@ -271,6 +289,9 @@
     <ClInclude Include="..\..\..\Luminary\routines\animation_sine_wave.hpp">
       <Filter>Luminary\routines</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\animation_flame.hpp">
+      <Filter>Luminary\routines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
@@ -315,7 +336,22 @@
     <ClCompile Include="..\..\..\Luminary\routines\animation_default.cpp">
       <Filter>Luminary\routines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave.cpp">
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_1.cpp">
+      <Filter>Luminary\routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_2.cpp">
+      <Filter>Luminary\routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_3.cpp">
+      <Filter>Luminary\routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave1.cpp">
+      <Filter>Luminary\routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave2.cpp">
+      <Filter>Luminary\routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave3.cpp">
       <Filter>Luminary\routines</Filter>
     </ClCompile>
   </ItemGroup>

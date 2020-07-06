@@ -18,6 +18,7 @@
 #include <Luminary/hardware/pwm_output.hpp>
 #include <Luminary/routines/animation_default.hpp>
 #include <Luminary/routines/animation_sine_wave.hpp>
+#include <Luminary/routines/animation_flame.hpp>
 
 namespace Luminary::Routine
 {
@@ -63,7 +64,12 @@ namespace Luminary::Routine
     Initialize Animations
     -------------------------------------------------*/
     Default::construct();
-    SineWave::construct();
+    SineWave::construct1();
+    SineWave::construct2();
+    SineWave::construct3();
+    Flame::construct1();
+    Flame::construct2();
+    Flame::construct3();
 
     unlock();
   }
@@ -195,11 +201,15 @@ namespace Luminary::Routine
   {
     lock();
 
-    // Need to set some return value
+    bool returnCode = false;
+    if ( animation && ( channel < Luminary::Hardware::PWM::NUM_OPTIONS ) )
+    {
+      sProcCB.animations[ channel ] = animation;
+      returnCode                    = true;
+    }
 
     unlock();
-
-    return false;
+    return returnCode;
   }
 
 }    // namespace Luminary::Routine

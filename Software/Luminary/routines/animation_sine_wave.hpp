@@ -17,9 +17,13 @@
 
 namespace Luminary::Routine::SineWave
 {
-  extern AnimationCB sineWaveAnimation;
+  extern AnimationCB sineWaveAnimation1;
+  extern AnimationCB sineWaveAnimation2;
+  extern AnimationCB sineWaveAnimation3;
 
-  void construct();
+  void construct1();
+  void construct2();
+  void construct3();
 
 }  // namespace Luminary::Routine::SineWave
 
