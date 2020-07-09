@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Luminary\config\config.hpp" />
+    <ClInclude Include="..\..\..\Luminary\hardware\boot_config.hpp" />
+    <ClInclude Include="..\..\..\Luminary\hardware\hwm_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\hardware\hwm_serial.hpp" />
+    <ClInclude Include="..\..\..\Luminary\hardware\power_select.hpp" />
+    <ClInclude Include="..\..\..\Luminary\hardware\pwm_output.hpp" />
+    <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp" />
+    <ClInclude Include="..\..\..\Luminary\logging\log_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\model\mdl_common.hpp" />
+    <ClInclude Include="..\..\..\Luminary\model\mdl_observables.hpp" />
+    <ClInclude Include="..\..\..\Luminary\networking\net_connect.hpp" />
+    <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\animations.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\animation_default.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\animation_flame.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\animation_sine_wave.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\processor.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\types.hpp" />
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_parser.hpp" />
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_parser_internal.hpp" />
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_responder.hpp" />
+    <ClInclude Include="..\..\..\Luminary\rpc\types.hpp" />
+    <ClInclude Include="..\..\..\Luminary\system\sys_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\version.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Luminary\hardware\build.jam" />
+    <None Include="..\..\..\Luminary\logging\build.jam" />
+    <None Include="..\..\..\Luminary\model\build.jam" />
+    <None Include="..\..\..\Luminary\networking\build.jam" />
+    <None Include="..\..\..\Luminary\routines\build.jam" />
+    <None Include="..\..\..\Luminary\rpc\build.jam" />
+    <None Include="..\..\..\Luminary\system\build.jam" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Luminary\hardware\boot_config.cpp" />
+    <ClCompile Include="..\..\..\Luminary\hardware\hwm_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\hardware\hwm_serial.cpp" />
+    <ClCompile Include="..\..\..\Luminary\hardware\power_select.cpp" />
+    <ClCompile Include="..\..\..\Luminary\hardware\pwm_output.cpp" />
+    <ClCompile Include="..\..\..\Luminary\hardware\status_led.cpp" />
+    <ClCompile Include="..\..\..\Luminary\logging\log_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp" />
+    <ClCompile Include="..\..\..\Luminary\model\mdl_observables.cpp" />
+    <ClCompile Include="..\..\..\Luminary\networking\net_connect.cpp" />
+    <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_default.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_1.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_2.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_3.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave1.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave2.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave3.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\processor.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rcp_responder.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_animation.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_brightness.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_output_state.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_parser.cpp" />
+    <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{f69c60c2-8aab-4e87-aae4-cc6f2f18143a}</ProjectGuid>
+    <RootNamespace>LuminaryMSVC</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="CommonProperties.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="CommonProperties.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="CommonProperties.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="CommonProperties.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>$(BoostCompilerDefines);$(ChimeraCompilerDefines);WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(AuroraIncDir);$(BoostIncDir);$(ChimeraIncDir);$(ChimeraPortDir);$(ChimeraCfgDir);$(LuminaryIncDir);$(RF24NodeIncDir);$(uLogIncDir);</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <DisableSpecificWarnings>4250</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>$(BoostCompilerDefines);$(ChimeraCompilerDefines);WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(AuroraIncDir);$(BoostIncDir);$(ChimeraIncDir);$(ChimeraPortDir);$(ChimeraCfgDir);$(LuminaryIncDir);$(RF24NodeIncDir);$(uLogIncDir);</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <DisableSpecificWarnings>4250</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>$(BoostCompilerDefines);$(ChimeraCompilerDefines);_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(AuroraIncDir);$(BoostIncDir);$(ChimeraIncDir);$(ChimeraPortDir);$(ChimeraCfgDir);$(LuminaryIncDir);$(RF24NodeIncDir);$(uLogIncDir);</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <DisableSpecificWarnings>4250</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>$(BoostCompilerDefines);$(ChimeraCompilerDefines);NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(AuroraIncDir);$(BoostIncDir);$(ChimeraIncDir);$(ChimeraPortDir);$(ChimeraCfgDir);$(LuminaryIncDir);$(RF24NodeIncDir);$(uLogIncDir);</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <DisableSpecificWarnings>4250</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

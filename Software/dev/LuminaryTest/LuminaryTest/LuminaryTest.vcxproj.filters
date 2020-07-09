@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="rpc">
+      <UniqueIdentifier>{27269638-bbc6-4386-98db-ba4db2d6b93a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="fmtlib">
+      <UniqueIdentifier>{307ef15b-194b-4c61-94fa-c86727ac67a3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\test\rpc\test_rpc_parser.cpp">
+      <Filter>rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="fmtlib\src\format.cc">
+      <Filter>fmtlib</Filter>
+    </ClCompile>
+    <ClCompile Include="fmtlib\src\os.cc">
+      <Filter>fmtlib</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="fmtlib\include\fmt\chrono.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\color.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\compile.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\core.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\format-inl.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\format.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\locale.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\os.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\ostream.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\posix.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\printf.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+    <ClInclude Include="fmtlib\include\fmt\ranges.h">
+      <Filter>fmtlib</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

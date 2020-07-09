@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="config">
+      <UniqueIdentifier>{334cd93e-7666-4d93-b049-dac79f877935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="hardware">
+      <UniqueIdentifier>{976e97d8-fa76-432a-a71b-2911e149ff6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logging">
+      <UniqueIdentifier>{45dd97d1-3d92-4bfb-a71c-22fa8143589c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="model">
+      <UniqueIdentifier>{d9120db9-2dd6-48f3-b1fc-a7e7a5c3a749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="networking">
+      <UniqueIdentifier>{d749dba0-3305-4922-9a4b-624e9a8f5830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="routines">
+      <UniqueIdentifier>{0afc3245-414b-479b-84b9-2bb6c19672db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="rpc">
+      <UniqueIdentifier>{62e57ec1-3ee4-43a7-9128-ad4820e7ec99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="system">
+      <UniqueIdentifier>{75c627c8-ac4b-4f33-912b-2ffc7f0cd5dd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Luminary\version.hpp" />
+    <ClInclude Include="..\..\..\Luminary\system\sys_main.hpp">
+      <Filter>system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_main.hpp">
+      <Filter>rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_parser.hpp">
+      <Filter>rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_parser_internal.hpp">
+      <Filter>rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\rpc\rpc_responder.hpp">
+      <Filter>rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\rpc\types.hpp">
+      <Filter>rpc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\animation_default.hpp">
+      <Filter>routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\animation_flame.hpp">
+      <Filter>routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\animation_sine_wave.hpp">
+      <Filter>routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\animations.hpp">
+      <Filter>routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\processor.hpp">
+      <Filter>routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\types.hpp">
+      <Filter>routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\networking\net_connect.hpp">
+      <Filter>networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp">
+      <Filter>networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\model\mdl_common.hpp">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\model\mdl_observables.hpp">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\logging\log_main.hpp">
+      <Filter>logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\hardware\boot_config.hpp">
+      <Filter>hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\hardware\hwm_main.hpp">
+      <Filter>hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\hardware\hwm_serial.hpp">
+      <Filter>hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\hardware\power_select.hpp">
+      <Filter>hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\hardware\pwm_output.hpp">
+      <Filter>hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\hardware\status_led.hpp">
+      <Filter>hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\config\config.hpp">
+      <Filter>config</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Luminary\system\build.jam">
+      <Filter>system</Filter>
+    </None>
+    <None Include="..\..\..\Luminary\rpc\build.jam">
+      <Filter>rpc</Filter>
+    </None>
+    <None Include="..\..\..\Luminary\routines\build.jam">
+      <Filter>routines</Filter>
+    </None>
+    <None Include="..\..\..\Luminary\networking\build.jam">
+      <Filter>networking</Filter>
+    </None>
+    <None Include="..\..\..\Luminary\model\build.jam">
+      <Filter>model</Filter>
+    </None>
+    <None Include="..\..\..\Luminary\logging\build.jam">
+      <Filter>logging</Filter>
+    </None>
+    <None Include="..\..\..\Luminary\hardware\build.jam">
+      <Filter>hardware</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp">
+      <Filter>system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rcp_responder.cpp">
+      <Filter>rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_animation.cpp">
+      <Filter>rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_brightness.cpp">
+      <Filter>rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_output_state.cpp">
+      <Filter>rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_main.cpp">
+      <Filter>rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_parser.cpp">
+      <Filter>rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_1.cpp">
+      <Filter>routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_2.cpp">
+      <Filter>routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_3.cpp">
+      <Filter>routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave1.cpp">
+      <Filter>routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave2.cpp">
+      <Filter>routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave3.cpp">
+      <Filter>routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\processor.cpp">
+      <Filter>routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_default.cpp">
+      <Filter>routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\networking\net_connect.cpp">
+      <Filter>networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp">
+      <Filter>networking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\model\mdl_observables.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\logging\log_main.cpp">
+      <Filter>logging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\hardware\boot_config.cpp">
+      <Filter>hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\hardware\hwm_main.cpp">
+      <Filter>hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\hardware\hwm_serial.cpp">
+      <Filter>hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\hardware\power_select.cpp">
+      <Filter>hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\hardware\pwm_output.cpp">
+      <Filter>hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\hardware\status_led.cpp">
+      <Filter>hardware</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -65,7 +65,7 @@ namespace Luminary::RPC
    */
   size_t unregisteredResponse( MessageBuffer &message );
 
-  
+
   /**
    *  Generates a bad handler message response in the given message buffer
    *
@@ -75,7 +75,7 @@ namespace Luminary::RPC
    *  @return size_t          Number of bytes in the formatted output
    */
   size_t invalidHandlerResponse( MessageBuffer &message );
-  
+
 
   /*-------------------------------------------------------------------------------
   Command Response Function Definitions
@@ -90,6 +90,18 @@ namespace Luminary::RPC
    *  @return size_t          Number of bytes in the formatted output
    */
   size_t actionSetOutputState( MessageBuffer &message, const CommandID cmd );
+
+
+  size_t actionSetAnimationGlobal( MessageBuffer &message, const CommandID cmd );
+
+
+  size_t actionSetAnimationDevice( MessageBuffer &message, const CommandID cmd );
+
+
+  size_t actionSetBrightnessRelative( MessageBuffer &message, const CommandID cmd );
+
+
+  size_t actionSetBrightnessAbsolute( MessageBuffer &message, const CommandID cmd );
 
 }  // namespace Luminary::RPC
 

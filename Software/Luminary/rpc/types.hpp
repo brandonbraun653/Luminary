@@ -25,7 +25,7 @@ namespace Luminary::RPC
   /*-------------------------------------------------------------------------------
   Forward Declarations
   -------------------------------------------------------------------------------*/
-  struct CommandRegistry;
+  class CommandRegistry;
 
   /*-------------------------------------------------------------------------------
   Configuration Variables
@@ -51,11 +51,13 @@ namespace Luminary::RPC
    */
   enum CommandPrefix : size_t
   {
-    CMD_PFX_INVOKE,
-    CMD_PFX_QUERY,
+    CMD_PFX_INVOKE, /**< Invoke a command to be performed */
+    CMD_PFX_QUERY,  /**< Ask some kind of question */
 
     CMD_PFX_NUM_OPTIONS,
-    CMD_PFX_INVALID
+    CMD_PFX_INVALID,
+    CMD_PFX_BEGIN = CMD_PFX_INVOKE,
+    CMD_PFX_END = CMD_PFX_NUM_OPTIONS
   };
 
 
@@ -64,29 +66,48 @@ namespace Luminary::RPC
    */
   enum CommandID : size_t
   {
-    CMD_ID_TURN_OUTPUT_ON,
-    CMD_ID_TURN_OUTPUT_OFF,
+    CMD_ID_TURN_OUTPUT_ON,          /**< Turns a specific output on */
+    CMD_ID_TURN_OUTPUT_OFF,         /**< Turns a specific output off */
+    CMD_ID_SET_ANIMATION_GLOBAL,    /**< Sets the animation for the entire network */
+    CMD_ID_SET_ANIMATION_DEVICE,    /**< Sets the animation on a particular device */
+    CMD_ID_SET_BRIGHTNESS_RELATIVE, /**< Sets the brightness relative to current */
+    CMD_ID_SET_BRIGHTNESS_ABSOLUTE, /**< Sets the brightness absolutely */
 
     CMD_ID_NUM_OPTIONS,
-    CMD_ID_INVALID
+    CMD_ID_INVALID,
+    CMD_ID_BEGIN = CMD_ID_TURN_OUTPUT_ON,
+    CMD_ID_END = CMD_ID_NUM_OPTIONS
+  };
+
+  enum QuestionID : size_t
+  {
+    // Put question types here
+
+    QID_NUM_OPTIONS,
+    QID_INVALID,
+    QID_BEGIN = 0,
+    QID_END = QID_BEGIN
   };
 
   /*-------------------------------------------------------------------------------
   Aliases
   -------------------------------------------------------------------------------*/
-  using MessageBuffer  = std::array<uint8_t, MaxMessageSize>;
-  using CommandList    = std::array<CommandRegistry, static_cast<size_t>( CMD_ID_NUM_OPTIONS )>;
-  using CommandName    = std::array<char, MaxCommandLength>;
-  using CommandType    = std::array<CommandName, static_cast<size_t>( CMD_PFX_NUM_OPTIONS )>;
+  using MessageBuffer = std::array<uint8_t, MaxMessageSize>;
+  using CommandList   = std::array<CommandRegistry, static_cast<size_t>( CMD_ID_NUM_OPTIONS )>;
+  using CommandName   = std::array<char, MaxCommandLength>;
+  using CommandType   = std::array<CommandName, static_cast<size_t>( CMD_PFX_NUM_OPTIONS )>;
 
 
   /*-------------------------------------------------------------------------------
   Classes
   -------------------------------------------------------------------------------*/
+  /**
+   *  Wraps a function that should be invoked upon some kind of command
+   */
   class CommandRegistry
   {
   public:
-    size_t id; /**< Lookup ID associated with this command */
+    CommandID id; /**< Lookup ID associated with this command */
 
     /**
      *  Function pointer to invoke an action associated with this command
