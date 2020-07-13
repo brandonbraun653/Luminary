@@ -24,12 +24,11 @@ namespace Luminary::Routine::SineWave
   /*-------------------------------------------------------------------------------
   Public Data
   -------------------------------------------------------------------------------*/
-  AnimationCB sineWaveAnimation1;
+  AnimationSet animations;
 
   /*-------------------------------------------------------------------------------
   Static Data & Literals
   -------------------------------------------------------------------------------*/
-  static constexpr size_t updateRate = 43;
   static constexpr size_t minStep = 0;
   static constexpr size_t maxStep = 359;
 
@@ -40,7 +39,7 @@ namespace Luminary::Routine::SineWave
   -------------------------------------------------------------------------------*/
   static void initialize( AnimationCB *cb )
   {
-    if( !cb )
+    if( !cb || ( cb->type != AnimationType::SINEWAVE ) )
     {
       return;
     }
@@ -48,8 +47,7 @@ namespace Luminary::Routine::SineWave
     cb->lastTime  = Chimera::millis();
     cb->startTime = cb->lastTime;
     cb->stopTime  = std::numeric_limits<size_t>::max();
-    cb->step      = minStep;
-    cb->updateDT  = updateRate;
+    cb->updateDT  = cb->data.sinewave.updateRate;
   }
 
 
@@ -64,7 +62,7 @@ namespace Luminary::Routine::SineWave
     /*-------------------------------------------------
     Input Protection
     -------------------------------------------------*/
-    if( !cb )
+    if( !cb || ( cb->type != AnimationType::SINEWAVE ) )
     {
       return 0;
     }
@@ -74,7 +72,7 @@ namespace Luminary::Routine::SineWave
     into radians over a [0.0-1.0] range, then scale to
     the [0-100] range.
     -------------------------------------------------*/
-    float idx = static_cast<float>( cb->step );
+    float idx = static_cast<float>( cb->data.sinewave.step );
     float rad = sinf( ( idx * PI ) / 180.0f );
     float shiftedRad = ( rad + 1.0f ) / 2.0f;
 
@@ -83,10 +81,10 @@ namespace Luminary::Routine::SineWave
     /*------------------------------------------------
     Update the step counter
     ------------------------------------------------*/
-    cb->step += 5;
-    if ( cb->step > maxStep )
+    cb->data.sinewave.step += 5;
+    if ( cb->data.sinewave.step > maxStep )
     {
-      cb->step = minStep;
+      cb->data.sinewave.step = minStep;
     }
 
     return returnVal;
@@ -96,16 +94,40 @@ namespace Luminary::Routine::SineWave
   /*-------------------------------------------------------------------------------
   Public Functions
   -------------------------------------------------------------------------------*/
-  void construct1()
+  void construct()
   {
-    sineWaveAnimation1.destroy    = destroy;
-    sineWaveAnimation1.initialize = initialize;
-    sineWaveAnimation1.lastTime   = Chimera::millis();
-    sineWaveAnimation1.startTime  = Chimera::millis();
-    sineWaveAnimation1.step       = 0;
-    sineWaveAnimation1.stopTime   = std::numeric_limits<size_t>::max();
-    sineWaveAnimation1.update     = update;
-    sineWaveAnimation1.updateDT   = updateRate;
+    /*-------------------------------------------------
+    Channel 0 Data
+    -------------------------------------------------*/
+    animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.sinewave.updateRate = 43;
+    animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.sinewave.step       = 15;
+
+    /*-------------------------------------------------
+    Channel 1 Data
+    -------------------------------------------------*/
+    animations[ Hardware::PWM::Channel::PWM_CH_1 ].data.sinewave.updateRate = 83;
+    animations[ Hardware::PWM::Channel::PWM_CH_1 ].data.sinewave.step       = 45;
+
+    /*-------------------------------------------------
+    Channel 2 Data
+    -------------------------------------------------*/
+    animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.sinewave.updateRate = 133;
+    animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.sinewave.step       = 90;
+
+    /*-------------------------------------------------
+    Common data for all animation types
+    -------------------------------------------------*/
+    for ( auto &tmp : animations )
+    {
+      tmp.destroy    = destroy;
+      tmp.initialize = initialize;
+      tmp.lastTime   = Chimera::millis();
+      tmp.startTime  = Chimera::millis();
+      tmp.stopTime   = std::numeric_limits<size_t>::max();
+      tmp.update     = update;
+      tmp.type       = AnimationType::SINEWAVE;
+      tmp.updateDT   = tmp.data.sinewave.updateRate;
+    }
   }
 
 

@@ -35,10 +35,21 @@ namespace Chimera::Modules::uLog
 
 namespace Luminary::Logging
 {
-  uLog::SinkHandle rootSink;
+  /*-------------------------------------------------------------------------------
+  Module Data
+  -------------------------------------------------------------------------------*/
+  static uLog::SinkHandle rootSink;
 
+
+  /*-------------------------------------------------------------------------------
+  Private Function Declarations
+  -------------------------------------------------------------------------------*/
   static void printBootMessage();
 
+
+  /*-------------------------------------------------------------------------------
+  Public Functions
+  -------------------------------------------------------------------------------*/
   void initializeModule()
   {
     /*------------------------------------------------
@@ -71,6 +82,7 @@ namespace Luminary::Logging
 #endif
   }
 
+
   void MainThread( void *argument )
   {
     Chimera::delayMilliseconds( STARTUP_DELAY_LOG_MAIN );
@@ -85,6 +97,14 @@ namespace Luminary::Logging
   }
 
 
+  uLog::SinkHandle getSystemLogger()
+  {
+    return rootSink;
+  }
+
+  /*-------------------------------------------------------------------------------
+  Private Functions
+  -------------------------------------------------------------------------------*/
   static void printBootMessage()
   {
     /*------------------------------------------------
@@ -97,7 +117,7 @@ namespace Luminary::Logging
     /*------------------------------------------------
     Format the boot string
     ------------------------------------------------*/
-    offset += snprintf( bootMsg.data() + offset, bootMsg.size() - offset, "Booting up Luminary\r\n");
+    offset += snprintf( bootMsg.data() + offset, bootMsg.size() - offset, "\nBooting up Luminary\r\n");
     offset += snprintf( bootMsg.data() + offset, bootMsg.size() - offset, "Luminary Version: %s\r\n", Luminary::Version.data() );
     offset += snprintf( bootMsg.data() + offset, bootMsg.size() - offset, "%s Version: %s\r\n",
                         Chimera::System::Description::backendDriverName().data(), Chimera::System::Version::asString().data() );

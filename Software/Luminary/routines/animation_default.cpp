@@ -44,7 +44,6 @@ namespace Luminary::Routine::Default
     cb->lastTime  = Chimera::millis();
     cb->startTime = cb->lastTime;
     cb->stopTime  = std::numeric_limits<size_t>::max();
-    cb->step      = 0;
     cb->updateDT  = updateRate;
   }
 
@@ -78,7 +77,6 @@ namespace Luminary::Routine::Default
     defaultAnimation.initialize = initialize;
     defaultAnimation.lastTime   = Chimera::millis();
     defaultAnimation.startTime  = Chimera::millis();
-    defaultAnimation.step       = 0;
     defaultAnimation.stopTime   = std::numeric_limits<size_t>::max();
     defaultAnimation.update     = update;
     defaultAnimation.updateDT   = updateRate;

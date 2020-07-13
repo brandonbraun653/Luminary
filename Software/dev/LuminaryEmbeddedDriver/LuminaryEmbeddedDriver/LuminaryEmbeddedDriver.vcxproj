@@ -161,16 +161,17 @@
     <ClCompile Include="..\..\..\Luminary\networking\net_connect.cpp" />
     <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\routines\animation_default.cpp" />
-    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_1.cpp" />
-    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_2.cpp" />
-    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_3.cpp" />
-    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave1.cpp" />
-    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave2.cpp" />
-    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave3.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave.cpp" />
     <ClCompile Include="..\..\..\Luminary\routines\processor.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rcp_responder.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_animation.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_brightness.cpp" />
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_output_state.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rpc_main.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rpc_parser.cpp" />
+    <ClCompile Include="..\..\..\Luminary\system\sys_command.cpp" />
+    <ClCompile Include="..\..\..\Luminary\system\sys_event.cpp" />
     <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp" />
     <None Include="stm32.props" />
     <None Include="LuminaryEmbeddedDriver-Debug.vgdbsettings" />
@@ -201,6 +202,7 @@
     <ClInclude Include="..\..\..\Luminary\model\mdl_observables.hpp" />
     <ClInclude Include="..\..\..\Luminary\networking\net_connect.hpp" />
     <ClInclude Include="..\..\..\Luminary\networking\net_main.hpp" />
+    <ClInclude Include="..\..\..\Luminary\networking\types.hpp" />
     <ClInclude Include="..\..\..\Luminary\routines\animation_default.hpp" />
     <ClInclude Include="..\..\..\Luminary\routines\animation_flame.hpp" />
     <ClInclude Include="..\..\..\Luminary\routines\animation_sine_wave.hpp" />
@@ -210,6 +212,8 @@
     <ClInclude Include="..\..\..\Luminary\rpc\rpc_parser.hpp" />
     <ClInclude Include="..\..\..\Luminary\rpc\rpc_responder.hpp" />
     <ClInclude Include="..\..\..\Luminary\rpc\types.hpp" />
+    <ClInclude Include="..\..\..\Luminary\system\sys_command.hpp" />
+    <ClInclude Include="..\..\..\Luminary\system\sys_event.hpp" />
     <ClInclude Include="..\..\..\Luminary\system\sys_main.hpp" />
   </ItemGroup>
 </Project>

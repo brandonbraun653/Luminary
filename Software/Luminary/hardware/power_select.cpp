@@ -30,27 +30,27 @@ namespace Luminary::Hardware::Power
   static Chimera::GPIO::GPIO_sPtr sPowerPin;
 
   static const std::array<Chimera::GPIO::Pin, Channel::NUM_OPTIONS> sCfgPins{
-    0,  // PB0,     RF24_RADIO
-    16, // INVALID, EXTERNAL_FLASH
+    3,     // PB3,     RF24_RADIO
+    16,    // INVALID, EXTERNAL_FLASH
   };
 
   static const std::array<Chimera::GPIO::Port, Channel::NUM_OPTIONS> sCfgPorts{
-    Chimera::GPIO::Port::PORTB,           // RF24_RADIO
+    Chimera::GPIO::Port::PORTA,           // RF24_RADIO
     Chimera::GPIO::Port::UNKNOWN_PORT,    // EXTERNAL_FLASH
   };
 
 
   void initialize()
   {
-    if( s_init_status != Chimera::DRIVER_INITIALIZED_KEY )
+    if ( s_init_status != Chimera::DRIVER_INITIALIZED_KEY )
     {
       sPowerPin = Chimera::GPIO::create_shared_ptr();
-
 
 
       s_init_status = Chimera::DRIVER_INITIALIZED_KEY;
     }
   }
+
 
   Chimera::Status_t setPowerState( const Channel channel, const bool state )
   {
@@ -60,11 +60,11 @@ namespace Luminary::Hardware::Power
     /*-------------------------------------------------
     Input protection/validation
     -------------------------------------------------*/
-    if( channel >= Channel::NUM_OPTIONS )
+    if ( channel >= Channel::NUM_OPTIONS )
     {
       return Chimera::CommonStatusCodes::INVAL_FUNC_PARAM;
     }
-    else if( !sPowerPin )
+    else if ( !sPowerPin )
     {
       return Chimera::CommonStatusCodes::NOT_INITIALIZED;
     }
@@ -91,7 +91,7 @@ namespace Luminary::Hardware::Power
     pinInit.threaded  = true;
     pinInit.validity  = true;
 
-    if( sPowerPin->init( pinInit, TIMEOUT_DONT_WAIT ) != Chimera::CommonStatusCodes::OK )
+    if ( sPowerPin->init( pinInit, TIMEOUT_DONT_WAIT ) != Chimera::CommonStatusCodes::OK )
     {
       return Chimera::CommonStatusCodes::FAIL;
     }
@@ -103,4 +103,4 @@ namespace Luminary::Hardware::Power
     return sPowerPin->setState( gpioState, TIMEOUT_DONT_WAIT );
   }
 
-}  // namespace Luminary::Hardware::Power
+}    // namespace Luminary::Hardware::Power

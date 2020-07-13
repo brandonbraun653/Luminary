@@ -18,6 +18,9 @@
 /* Chimera Includes */
 #include <Chimera/thread>
 
+/* uLog Includes */
+#include <uLog/ulog.hpp>
+
 namespace Luminary::Logging
 {
   static constexpr auto MainThreadPriority     = Chimera::Threading::Priority::LEVEL_2;
@@ -27,6 +30,8 @@ namespace Luminary::Logging
   void initializeModule();
 
   void MainThread( void *argument );
+
+  uLog::SinkHandle getSystemLogger();
 }  // namespace Luminary::Logging
 
 #endif  /* !LUMINARY_LOGGING_HPP */

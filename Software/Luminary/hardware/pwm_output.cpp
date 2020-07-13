@@ -63,7 +63,7 @@ namespace Luminary::Hardware::PWM
     ------------------------------------------------*/
     cfg.pwm.outputChannel = Chimera::Timer::Channel::CHANNEL_1;
     cfg.pwm.compareMatch  = 100;
-    cfg.pwm.polarity      = Chimera::Timer::PWM::Polarity::ACTIVE_HIGH;
+    cfg.pwm.polarity      = Chimera::Timer::PWM::Polarity::ACTIVE_LOW;
     cfg.pwm.mode          = Chimera::Timer::PWM::Mode::EDGE_ALIGNED;
     cfg.pwm.validity      = true;
 
@@ -83,7 +83,7 @@ namespace Luminary::Hardware::PWM
     ------------------------------------------------*/
     cfg.pwm.outputChannel = Chimera::Timer::Channel::CHANNEL_2;
     cfg.pwm.compareMatch  = 100;
-    cfg.pwm.polarity      = Chimera::Timer::PWM::Polarity::ACTIVE_HIGH;
+    cfg.pwm.polarity      = Chimera::Timer::PWM::Polarity::ACTIVE_LOW;
     cfg.pwm.mode          = Chimera::Timer::PWM::Mode::EDGE_ALIGNED;
     cfg.pwm.validity      = true;
 
@@ -103,7 +103,7 @@ namespace Luminary::Hardware::PWM
     ------------------------------------------------*/
     cfg.pwm.outputChannel = Chimera::Timer::Channel::CHANNEL_3;
     cfg.pwm.compareMatch  = 100;
-    cfg.pwm.polarity      = Chimera::Timer::PWM::Polarity::ACTIVE_HIGH;
+    cfg.pwm.polarity      = Chimera::Timer::PWM::Polarity::ACTIVE_LOW;
     cfg.pwm.mode          = Chimera::Timer::PWM::Mode::EDGE_ALIGNED;
     cfg.pwm.validity      = true;
 

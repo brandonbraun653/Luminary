@@ -20,9 +20,8 @@ namespace Luminary::Hardware::PWM
   /*-------------------------------------------------------------------------------
   Literals
   -------------------------------------------------------------------------------*/
-  #pragma message("Invert these values when new hardware comes in!")
-  static constexpr size_t PWM_MIN_DUTY_CYCLE = 99;
-  static constexpr size_t PWM_MAX_DUTY_CYCLE = 1;
+  static constexpr size_t PWM_MIN_DUTY_CYCLE = 1;
+  static constexpr size_t PWM_MAX_DUTY_CYCLE = 99;
 
   /*-------------------------------------------------------------------------------
   Types & Enumerations

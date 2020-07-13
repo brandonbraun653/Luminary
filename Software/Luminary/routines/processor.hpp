@@ -35,13 +35,14 @@ namespace Luminary::Routine
   void setDefaultAnimation( AnimationCB *animation );
 
   /**
-   *  Sets a new animation to run on the given channel
+   *  Sets a new animation to run on the outputs
    *
-   *  @param[in]  channel       Which channel to register against
-   *  @param[in]  animation     The animation being registered
+   *  @param[in]  slot      Which animation sequence to display
    *  @return bool
    */
-  bool setCurrentAnimation( const Hardware::PWM::Channel channel, AnimationCB *animation );
+  void setCurrentAnimation( const Registry slot );
+
+  void registerAnimation( const Registry slot, AnimationSet *animation );
 
 }  // namespace Luminary::Routine
 

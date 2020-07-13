@@ -4,10 +4,10 @@
             "name": "Embedded",
             "includePath": [
                 "${workspaceFolder}/Software/**",
+                "${workspaceFolder}/Software/lib",
                 "${workspaceFolder}/Software/lib/Aurora/Chimera",
                 "${workspaceFolder}/Software/lib/Aurora",
                 "${workspaceFolder}/Software/lib/Thor",
-                "${workspaceFolder}/Software/lib/RF24Node",
                 "${workspaceFolder}/Software/lib/Aurora/lib/uLog",
                 "${BOOST_ROOT}/boost_1_70_0"
             ],

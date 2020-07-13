@@ -12,18 +12,17 @@
 #ifndef LUMINARY_ANIMATION_FLAME_HPP
 #define LUMINARY_ANIMATION_FLAME_HPP
 
+/* STL Includes */
+#include <array>
+
 /* Luminary Includes */
 #include <Luminary/routines/types.hpp>
 
 namespace Luminary::Routine::Flame
 {
-  extern AnimationCB flameAnimation1;
-  extern AnimationCB flameAnimation2;
-  extern AnimationCB flameAnimation3;
+  extern AnimationSet animations;
 
-  void construct1();
-  void construct2();
-  void construct3();
+  void construct();
 
 }  // namespace Luminary::Routine::Flame
 

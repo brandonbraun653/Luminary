@@ -49,6 +49,8 @@ namespace Luminary::Hardware::Boot
 
   static RF24::LogicalAddress sBootAddress;
   static uint8_t sBootBitField;
+  static bool sAddressStale;
+
 
   Chimera::Status_t readConfiguration()
   {
@@ -77,14 +79,12 @@ namespace Luminary::Hardware::Boot
     auto result = Chimera::CommonStatusCodes::OK;
     for ( size_t idx = 0; idx < NUM_CFG_GPIO; idx++ )
     {
-      /*-------------------------------------------------
-      Mitigates a hardware bug that currently has bit 2 always
-      set. Until this is fixed, forcefully set to 0.
-      -------------------------------------------------*/
-      if ( idx == 2 )
+      /*------------------------------------------------
+      Due to yet another hardware bug (rev 2), address
+      bits PA1 and PA2 need are forced to read zero.
+      ------------------------------------------------*/
+      if ( ( idx == 0 ) || ( idx == 1 ) ) 
       {
-        #pragma message("Bit 2 of boot config forcefully set to 0")
-        sBootBitField &= ~( 1u << idx );
         continue;
       }
 
@@ -96,7 +96,7 @@ namespace Luminary::Hardware::Boot
       cfg.drive     = Drive::INPUT;
       cfg.pin       = sCfgPins[ idx ];
       cfg.port      = sCfgPorts[ idx ];
-      cfg.pull      = Pull::PULL_UP;
+      cfg.pull      = Pull::PULL_DN;
       cfg.threaded  = false;
       cfg.validity  = true;
 
@@ -107,38 +107,47 @@ namespace Luminary::Hardware::Boot
       result |= pin->getState( pinState, TIMEOUT_DONT_WAIT );
 
       /*-------------------------------------------------
-      Set the appropriate bit field for the current pin
+      Set the appropriate bit field for the current pin.
+      Reverse the direction so the MSB is on the right
+      according to how the hardware pin is set up.
       -------------------------------------------------*/
-      if( pinState == State::HIGH )
+      if( pinState == State::LOW )
       {
-        sBootBitField |= 1u << idx;
+        sBootBitField |= 1u << ( NUM_CFG_GPIO - idx - 1 );
       }
       else
       {
-        sBootBitField &= ~( 1u << idx );
+        sBootBitField &= ~( 1u << ( NUM_CFG_GPIO - idx - 1 ) );
       }
     }
+
+
+    /*------------------------------------------------
+    Let the next invoker of getNodeAddress() know it
+    should re-parse the bit field.
+    ------------------------------------------------*/
+    sAddressStale = true;
 
     return result;
   }
 
+
   RF24::LogicalAddress getNodeAddress()
   {
     using namespace Aurora::Math;
-
+    
     /*-------------------------------------------------
     Convert the bitfield into a useful address
     -------------------------------------------------*/
-    static_assert( sizeof( sBootBitField ) == 1, "Bit field should only occupy one byte" );
-
-    // Special case for development. STM32L432KC nucleo boards will have this value.
-    if ( ( sBootBitField == 0x37 ) || ( sBootBitField == 0x3F ) )
+    if ( sAddressStale )
     {
-      return RF24::RootNode0;
-    }
+      static_assert( sizeof( sBootBitField ) == 1, "Bit field should only occupy one byte" );
 
-    size_t octalAddress = asBase( sBootBitField, BaseType::DECIMAL, BaseType::OCTAL );
-    sBootAddress = static_cast<RF24::LogicalAddress>( octalAddress );
+      size_t octalAddress = asBase( sBootBitField, BaseType::DECIMAL, BaseType::OCTAL );
+      sBootAddress        = static_cast<RF24::LogicalAddress>( octalAddress );
+      sAddressStale       = false;
+    }
+    // else do nothing, the address has been parsed
 
     return sBootAddress;
   }

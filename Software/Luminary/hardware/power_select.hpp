@@ -20,12 +20,11 @@
 
 namespace Luminary::Hardware::Power
 {
-
   /*-------------------------------------------------------------------------------
   Literals
   -------------------------------------------------------------------------------*/
-  static constexpr bool RF24_PWR_ACTIVE_STATE     = false;  /**< GPIO state that turns on power */
-  static constexpr bool RF24_PWR_INACTV_STATE     = true;   /**< GPIO state that turns off power */
+  static constexpr bool RF24_PWR_ACTIVE_STATE     = true;   /**< GPIO state that turns on power */
+  static constexpr bool RF24_PWR_INACTV_STATE     = false;  /**< GPIO state that turns off power */
   static constexpr size_t RF24_PWR_TURN_ON_DELAY  = 1000;   /**< How long to wait for power to rise and settle */
   static constexpr size_t RF24_PWR_TURN_OFF_DELAY = 1000;   /**< How long to wait for power to fall and settle */
 

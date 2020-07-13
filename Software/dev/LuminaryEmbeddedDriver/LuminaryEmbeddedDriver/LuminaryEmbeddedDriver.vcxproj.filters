@@ -292,6 +292,15 @@
     <ClInclude Include="..\..\..\Luminary\routines\animation_flame.hpp">
       <Filter>Luminary\routines</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\networking\types.hpp">
+      <Filter>Luminary\networking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\system\sys_command.hpp">
+      <Filter>Luminary\system</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\system\sys_event.hpp">
+      <Filter>Luminary\system</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
@@ -336,23 +345,26 @@
     <ClCompile Include="..\..\..\Luminary\routines\animation_default.cpp">
       <Filter>Luminary\routines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_1.cpp">
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_animation.cpp">
+      <Filter>Luminary\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_brightness.cpp">
+      <Filter>Luminary\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_output_state.cpp">
+      <Filter>Luminary\rpc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\system\sys_command.cpp">
+      <Filter>Luminary\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_flame.cpp">
       <Filter>Luminary\routines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_2.cpp">
+    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave.cpp">
       <Filter>Luminary\routines</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Luminary\routines\animation_flame_3.cpp">
-      <Filter>Luminary\routines</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave1.cpp">
-      <Filter>Luminary\routines</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave2.cpp">
-      <Filter>Luminary\routines</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave3.cpp">
-      <Filter>Luminary\routines</Filter>
+    <ClCompile Include="..\..\..\Luminary\system\sys_event.cpp">
+      <Filter>Luminary\system</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

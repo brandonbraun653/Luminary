@@ -15,6 +15,7 @@
 #include <Luminary/model/mdl_observables.hpp>
 #include <Luminary/rpc/rpc_responder.hpp>
 #include <Luminary/rpc/types.hpp>
+#include <Luminary/system/sys_command.hpp>
 
 namespace Luminary::RPC
 {

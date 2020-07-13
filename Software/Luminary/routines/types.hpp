@@ -23,20 +23,76 @@
 namespace Luminary::Routine
 {
   /*-------------------------------------------------------------------------------
+  Forward Declarations
+  -------------------------------------------------------------------------------*/
+  struct AnimationCB;
+
+  /*-------------------------------------------------------------------------------
   Typedefs
   -------------------------------------------------------------------------------*/
   using PWMPercentOut_t = uint8_t;  /**< PWM output percentage in whole number form */
+  using AnimationSet = std::array<AnimationCB, Hardware::PWM::Channel::NUM_OPTIONS>;
 
   /*-------------------------------------------------------------------------------
   Enumerations & Literals
   -------------------------------------------------------------------------------*/
-  static constexpr size_t CHANNEL_0 = Hardware::PWM::Channel::PWM_CH_0;
-  static constexpr size_t CHANNEL_1 = Hardware::PWM::Channel::PWM_CH_1;
-  static constexpr size_t CHANNEL_2 = Hardware::PWM::Channel::PWM_CH_2;
+
+  /**
+   *  Possible number of slots that an animation sequence can be registered to
+   */
+  enum Registry : uint8_t
+  {
+    SLOT_0,
+    SLOT_1,
+    SLOT_2,
+    SLOT_3,
+    SLOT_4,
+
+    NUM_OPTIONS
+  };
+
+
+  enum class AnimationType : uint8_t
+  {
+    DEFAULT,
+    FLAME,
+    SINEWAVE,
+
+    NUM_OPTIONS
+  };
 
   /*-------------------------------------------------------------------------------
   Structures
   -------------------------------------------------------------------------------*/
+  struct AnimationData_Default
+  {
+  };
+
+
+  struct AnimationData_Flame
+  {
+    size_t updateRate;
+    size_t baseOutput;
+    size_t modulus;
+  };
+
+
+  struct AnimationData_SineWave
+  {
+    size_t updateRate;
+    size_t step;
+  };
+
+
+  union AnimationData
+  {
+    AnimationData_Default dflt;
+    AnimationData_Flame flame;
+    AnimationData_SineWave sinewave;
+  };
+
+
+
   /**
    *  Models the animation control block interface to a single PWM output channel
    */
@@ -53,7 +109,9 @@ namespace Luminary::Routine
     -------------------------------------------------*/
     size_t updateDT;  /**< Desired rate at which the update procedure should be called */
     size_t stopTime;  /**< Desired time to stop the animation */
-    size_t step;      /**< Current step in the animation sequence */
+
+    AnimationType type;
+    AnimationData data;
 
     /**
      *  Procedure that initializes the animation sequence
@@ -72,7 +130,6 @@ namespace Luminary::Routine
     void ( *destroy )(  AnimationCB *cb  );
   };
 
-
   /**
    *  Animation sequence processor data
    */
@@ -80,9 +137,10 @@ namespace Luminary::Routine
   {
     bool isRunning;     /**< The animation processor is running */
     bool reversionary;  /**< If true, runs the default registered animation */
+    Registry currentAnimation;
 
     AnimationCB *defaultAnimation;
-    std::array<AnimationCB*, Hardware::PWM::Channel::NUM_OPTIONS> animations;
+    std::array<AnimationSet*, Registry::NUM_OPTIONS> slots;
   };
 }  // namespace Luminary::Routine
 

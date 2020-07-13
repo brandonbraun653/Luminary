@@ -48,10 +48,9 @@ namespace Luminary::Routine
     Initialize the procesor system state
     -------------------------------------------------*/
     sProcCB.isRunning = false;
-
-    sProcCB.animations[ Channel::PWM_CH_0 ] = nullptr;
-    sProcCB.animations[ Channel::PWM_CH_1 ] = nullptr;
-    sProcCB.animations[ Channel::PWM_CH_2 ] = nullptr;
+    sProcCB.currentAnimation = Registry::SLOT_0;
+    sProcCB.defaultAnimation = nullptr;
+    sProcCB.slots.fill( nullptr );
 
     /*-------------------------------------------------
     Turn off all the outputs
@@ -63,13 +62,11 @@ namespace Luminary::Routine
     /*-------------------------------------------------
     Initialize Animations
     -------------------------------------------------*/
-    Default::construct();
-    SineWave::construct1();
-    SineWave::construct2();
-    SineWave::construct3();
-    Flame::construct1();
-    Flame::construct2();
-    Flame::construct3();
+    Flame::construct();
+    registerAnimation( SLOT_0, &Flame::animations );
+
+    SineWave::construct();
+    registerAnimation( SLOT_1, &SineWave::animations );
 
     unlock();
   }
@@ -137,19 +134,34 @@ namespace Luminary::Routine
     }
     else
     {
-      for ( auto idx = 0; idx < Channel::NUM_OPTIONS; idx++ )
+      /*-------------------------------------------------
+      Determine if it's safe to execute the animation set
+      -------------------------------------------------*/
+      AnimationSet* currentSlot = nullptr;
+      if ( ( sProcCB.currentAnimation < Registry::NUM_OPTIONS ) && sProcCB.slots[ sProcCB.currentAnimation ] )
       {
-        animation = sProcCB.animations[ idx ];
+        currentSlot = sProcCB.slots[ sProcCB.currentAnimation ];
+      }
 
-        /*-------------------------------------------------
-        Update the output state for the current animation
-        -------------------------------------------------*/
-        if ( animation && ( ( Chimera::millis() - animation->lastTime ) > animation->updateDT ) )
+      /*-------------------------------------------------
+      Run the animation sequence
+      -------------------------------------------------*/
+      if( currentSlot )
+      {
+        for ( auto idx = 0; idx < Channel::NUM_OPTIONS; idx++ )
         {
-          updateVal           = animation->update( animation );
-          animation->lastTime = Chimera::millis();
+          animation = &( *currentSlot )[ idx ];
 
-          Hardware::PWM::updateDutyCycle( static_cast<Channel>( idx ), updateVal );
+          /*-------------------------------------------------
+          Update the output state for the current animation
+          -------------------------------------------------*/
+          if ( animation && ( ( Chimera::millis() - animation->lastTime ) > animation->updateDT ) )
+          {
+            updateVal           = animation->update( animation );
+            animation->lastTime = Chimera::millis();
+
+            Hardware::PWM::updateDutyCycle( static_cast<Channel>( idx ), updateVal );
+          }
         }
       }
     }
@@ -197,19 +209,23 @@ namespace Luminary::Routine
   }
 
 
-  bool setCurrentAnimation( const Hardware::PWM::Channel channel, AnimationCB *animation )
+  void setCurrentAnimation( const Registry slot )
+  {
+    lock();
+    sProcCB.currentAnimation = slot;
+    unlock();
+  }
+
+
+  void registerAnimation( const Registry slot, std::array<AnimationCB, 3> *animation )
   {
     lock();
 
-    bool returnCode = false;
-    if ( animation && ( channel < Luminary::Hardware::PWM::NUM_OPTIONS ) )
+    if( slot < Registry::NUM_OPTIONS )
     {
-      sProcCB.animations[ channel ] = animation;
-      returnCode                    = true;
+      sProcCB.slots[ slot ] = animation;
     }
 
     unlock();
-    return returnCode;
   }
-
 }    // namespace Luminary::Routine

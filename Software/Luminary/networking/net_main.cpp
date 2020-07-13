@@ -8,12 +8,14 @@
  *  2020 | Brandon Braun | brandonbraun653@gmail.com
  *******************************************************************************/
 
+/* STL Includes */
+#include <array>
+
 /* Chimera Includes */
 #include <Chimera/common>
 
 /* uLog Includes */
 #include <uLog/ulog.hpp>
-#include <uLog/sinks/sink_intf.hpp>
 
 /* RF24 Includes */
 #include <RF24Node/common>
@@ -25,6 +27,8 @@
 #include <Luminary/hardware/power_select.hpp>
 #include <Luminary/networking/net_main.hpp>
 #include <Luminary/networking/net_connect.hpp>
+#include <Luminary/networking/types.hpp>
+#include <Luminary/system/sys_event.hpp>
 
 namespace Luminary::Network
 {
@@ -37,6 +41,7 @@ namespace Luminary::Network
 
   static RF24::Endpoint::SystemInit cfg;
   static RF24::Endpoint::Interface_sPtr radio;
+  static std::array<uint8_t, RF24::Network::Frame::PAYLOAD_SIZE> messageBuffer;
 
   static void bootRadio();
 
@@ -44,6 +49,7 @@ namespace Luminary::Network
   void initializeModule()
   {
     cfg.clear();
+    messageBuffer.fill( 0 );
 
     /*------------------------------------------------
     Configure the NRF24 radio
@@ -145,6 +151,38 @@ namespace Luminary::Network
         {
           doReconnect();
         }
+      }
+
+      /*-------------------------------------------------
+      Handle any new messages
+      -------------------------------------------------*/
+      if ( radio->packetAvailable() && ( radio->nextPacketLength() == messageBuffer.size() ) )
+      {
+        /*-------------------------------------------------
+        Read out the message data
+        -------------------------------------------------*/
+        messageBuffer.fill( 0 );
+        radio->read( messageBuffer.data(), messageBuffer.size() );
+
+        /*-------------------------------------------------
+        The actual message type is unknown, but the header
+        will always be the first few bytes.
+        -------------------------------------------------*/
+        Msg_Header *header = reinterpret_cast<Msg_Header *>( messageBuffer.data() );
+        auto type = header->messageType;
+
+        /*-------------------------------------------------
+        Invoke the handler if it exists
+        -------------------------------------------------*/
+        if( ( type < MessageType::NUM_OPTIONS ) && System::eventCallbacks[ type ] )
+        {
+          System::eventCallbacks[ type ]( type, messageBuffer.data() );
+        }
+        else
+        {
+          uLog::getRootSink()->flog( uLog::Level::LVL_INFO, "%d-APP: Bad handler\n", Chimera::millis());
+        }
+
       }
 
       Chimera::delayMilliseconds( MainThreadUpdateRate );
