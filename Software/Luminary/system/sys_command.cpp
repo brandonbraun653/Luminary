@@ -56,6 +56,7 @@ namespace Luminary::System
       }
 
       setNodeAnimation( currentNode, animationID );
+      Chimera::delayMilliseconds( 150 );
     }
 
     /*-------------------------------------------------
