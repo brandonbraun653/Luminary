@@ -54,8 +54,8 @@ namespace Luminary::Network
     /*------------------------------------------------
     Configure the NRF24 radio
     ------------------------------------------------*/
-    cfg.physical.dataRate       = RF24::Hardware::DataRate::DR_1MBPS;
-    cfg.physical.powerAmplitude = RF24::Hardware::PowerAmplitude::PA_LOW;
+    cfg.physical.dataRate       = RF24::Hardware::DataRate::DR_2MBPS;
+    cfg.physical.powerAmplitude = RF24::Hardware::PowerAmplitude::PA_HIGH;
     cfg.physical.rfChannel      = 96;
 
     /*------------------------------------------------

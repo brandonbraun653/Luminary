@@ -12,6 +12,9 @@
 #include <Chimera/common>
 #include <Chimera/thread>
 
+/* uLog Includes */
+#include <uLog/ulog.hpp>
+
 /* Luminary Includes */
 #include <Luminary/config/config.hpp>
 #include <Luminary/hardware/boot_config.hpp>
@@ -28,7 +31,7 @@ namespace Luminary::System
   /*-------------------------------------------------------------------------------
   Literals
   -------------------------------------------------------------------------------*/
-  static constexpr size_t AnimationChangeTimeout = 10 * Chimera::Threading::TIMEOUT_1S;
+  static constexpr size_t AnimationChangeTimeout = 5 * Chimera::Threading::TIMEOUT_1S;
 
   /*-------------------------------------------------------------------------------
   Public Functions
@@ -77,6 +80,9 @@ namespace Luminary::System
         -------------------------------------------------*/
         if( ( Chimera::millis() - animationSwitchLast ) >= AnimationChangeTimeout )
         {
+          uLog::getRootSink()->flog( uLog::Level::LVL_INFO, "%d-APP: Change animation to %d\n", Chimera::millis(),
+                                     lastAnimation );
+
           setGlobalAnimation( lastAnimation );
           animationSwitchLast = Chimera::millis();
 
@@ -90,8 +96,6 @@ namespace Luminary::System
           }
         }
       }
-
-      // Chimera::delayMilliseconds( MainThreadUpdateRate );
     }
   }
 
