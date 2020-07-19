@@ -25,7 +25,7 @@
 namespace Luminary::Network
 {
   static constexpr auto MainThreadPriority     = Chimera::Threading::Priority::LEVEL_4;
-  static constexpr size_t MainThreadUpdateRate = 10;
+  static constexpr size_t MainThreadUpdateRate = 5;
   static constexpr size_t MainThreadStackSize  = 2048;
 
   /**
