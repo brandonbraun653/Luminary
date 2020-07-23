@@ -107,32 +107,6 @@ F 5 "SS16HE3_B/H" H 6800 4750 50  0001 C CNN "PartNumber"
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R_US R10
-U 1 1 5E7C8142
-P 7150 3650
-F 0 "R10" V 7350 3650 50  0000 C CNN
-F 1 "1k" V 7250 3650 50  0000 C CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" V 7190 3640 50  0001 C CNN
-F 3 "~" H 7150 3650 50  0001 C CNN
-F 4 "C11702" H 7150 3650 50  0001 C CNN "LCSC"
-F 5 "0402WGF4702TCE" H 7150 3650 50  0001 C CNN "PartNumber"
-	1    7150 3650
-	-1   0    0    1   
-$EndComp
-$Comp
-L Transistor_BJT:2N3904 Q1
-U 1 1 5E7D2C44
-P 7250 5050
-F 0 "Q1" H 7440 5096 50  0000 L CNN
-F 1 "2N3904" H 7440 5005 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 7450 4975 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 7250 5050 50  0001 L CNN
-F 4 "C18536" H 7250 5050 50  0001 C CNN "LCSC"
-F 5 "2N3904S-RTK/PS" H 7250 5050 50  0001 C CNN "PartNumber"
-	1    7250 5050
-	1    0    0    -1  
-$EndComp
-$Comp
 L power:GND #PWR018
 U 1 1 5E7D5603
 P 7350 5650
@@ -592,8 +566,6 @@ Wire Wire Line
 Wire Wire Line
 	7700 4150 7700 4450
 Wire Wire Line
-	6800 4450 7150 4450
-Wire Wire Line
 	7350 4850 7350 3850
 Wire Wire Line
 	7350 3850 7400 3850
@@ -717,29 +689,21 @@ Wire Wire Line
 $Comp
 L Device:R_US R13
 U 1 1 5EEAD752
-P 7150 4050
-F 0 "R13" V 7350 4050 50  0000 C CNN
-F 1 "10k" V 7250 4050 50  0000 C CNN
-F 2 "Resistor_SMD:R_0402_1005Metric" V 7190 4040 50  0001 C CNN
-F 3 "~" H 7150 4050 50  0001 C CNN
-F 4 "C25744" H 7150 4050 50  0001 C CNN "LCSC"
-F 5 "0402WGF4702TCE" H 7150 4050 50  0001 C CNN "PartNumber"
-	1    7150 4050
+P 7150 3650
+F 0 "R13" V 7350 3650 50  0000 C CNN
+F 1 "10k" V 7250 3650 50  0000 C CNN
+F 2 "Resistor_SMD:R_0402_1005Metric" V 7190 3640 50  0001 C CNN
+F 3 "~" H 7150 3650 50  0001 C CNN
+F 4 "C25744" H 7150 3650 50  0001 C CNN "LCSC"
+F 5 "0402WGF4702TCE" H 7150 3650 50  0001 C CNN "PartNumber"
+	1    7150 3650
 	-1   0    0    1   
 $EndComp
-Wire Wire Line
-	7150 4200 7150 4450
-Connection ~ 7150 4450
-Wire Wire Line
-	7150 4450 7700 4450
 Wire Wire Line
 	7350 3850 7150 3850
 Wire Wire Line
 	7150 3850 7150 3800
 Connection ~ 7350 3850
-Wire Wire Line
-	7150 3900 7150 3850
-Connection ~ 7150 3850
 Wire Wire Line
 	6700 3450 6800 3450
 Connection ~ 7350 3450
@@ -852,6 +816,18 @@ Wire Wire Line
 Connection ~ 6250 5550
 Wire Wire Line
 	6250 5550 7000 5550
-Text Notes 6750 2800 0    50   ~ 0
-HW BUG:\nThe pullup/down resistors on pin 4 of the TPS61040\nneed to be swapped. Currently the priority is given \nto the battery for which power supply takes precedance.
+Wire Wire Line
+	6800 4450 7700 4450
+$Comp
+L Transistor_BJT:MMBT3904 Q1
+U 1 1 5F1A0B4C
+P 7250 5050
+F 0 "Q1" H 7441 5096 50  0000 L CNN
+F 1 "MMBT3904" H 7441 5005 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 7450 4975 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 7250 5050 50  0001 L CNN
+F 4 "C20526" H 7250 5050 50  0001 C CNN "LCSC"
+	1    7250 5050
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
