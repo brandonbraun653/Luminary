@@ -26,20 +26,12 @@ namespace Luminary::Routine
 
   void unlock();
 
-  void startAnimations( const bool reversionary );
+  void startAnimations();
 
   void stepAnimations();
 
   void stopAnimations();
 
-  void setDefaultAnimation( AnimationCB *animation );
-
-  /**
-   *  Sets a new animation to run on the outputs
-   *
-   *  @param[in]  slot      Which animation sequence to display
-   *  @return bool
-   */
   void setCurrentAnimation( const Registry slot );
 
   void registerAnimation( const Registry slot, AnimationSet *animation );

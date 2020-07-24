@@ -42,6 +42,7 @@ namespace Luminary::Routine
    */
   enum Registry : uint8_t
   {
+    SLOT_DEFAULT,
     SLOT_0,
     SLOT_1,
     SLOT_2,
@@ -57,6 +58,8 @@ namespace Luminary::Routine
     DEFAULT,
     FLAME,
     SINEWAVE,
+    TWINKLE,
+    BREATH,
 
     NUM_OPTIONS
   };
@@ -66,6 +69,7 @@ namespace Luminary::Routine
   -------------------------------------------------------------------------------*/
   struct AnimationData_Default
   {
+    size_t updateRate;
   };
 
 
@@ -83,12 +87,27 @@ namespace Luminary::Routine
     size_t step;
   };
 
+  struct AnimationData_Twinkle
+  {
+    size_t updateRate;
+    size_t step;
+  };
+
+
+  struct AnimationData_Breath
+  {
+    size_t updateRate;
+    size_t step;
+  };
+
 
   union AnimationData
   {
     AnimationData_Default dflt;
     AnimationData_Flame flame;
     AnimationData_SineWave sinewave;
+    AnimationData_Twinkle twinkle;
+    AnimationData_Breath breath;
   };
 
 
@@ -138,8 +157,6 @@ namespace Luminary::Routine
     bool isRunning;     /**< The animation processor is running */
     bool reversionary;  /**< If true, runs the default registered animation */
     Registry currentAnimation;
-
-    AnimationCB *defaultAnimation;
     std::array<AnimationSet*, Registry::NUM_OPTIONS> slots;
   };
 }  // namespace Luminary::Routine

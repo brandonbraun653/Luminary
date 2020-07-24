@@ -13,12 +13,14 @@
 #include <Chimera/thread>
 
 /* Luminary Includes */
+#include <Luminary/hardware/pwm_output.hpp>
+#include <Luminary/routines/animation_breath.hpp>
+#include <Luminary/routines/animation_default.hpp>
+#include <Luminary/routines/animation_flame.hpp>
+#include <Luminary/routines/animation_sine_wave.hpp>
+#include <Luminary/routines/animation_twinkle.hpp>
 #include <Luminary/routines/processor.hpp>
 #include <Luminary/routines/types.hpp>
-#include <Luminary/hardware/pwm_output.hpp>
-#include <Luminary/routines/animation_default.hpp>
-#include <Luminary/routines/animation_sine_wave.hpp>
-#include <Luminary/routines/animation_flame.hpp>
 
 namespace Luminary::Routine
 {
@@ -48,8 +50,7 @@ namespace Luminary::Routine
     Initialize the procesor system state
     -------------------------------------------------*/
     sProcCB.isRunning = false;
-    sProcCB.currentAnimation = Registry::SLOT_0;
-    sProcCB.defaultAnimation = nullptr;
+    sProcCB.currentAnimation = Registry::SLOT_DEFAULT;
     sProcCB.slots.fill( nullptr );
 
     /*-------------------------------------------------
@@ -62,11 +63,20 @@ namespace Luminary::Routine
     /*-------------------------------------------------
     Initialize Animations
     -------------------------------------------------*/
+    Default::construct();
+    registerAnimation( SLOT_DEFAULT, &Default::animations );
+
     Flame::construct();
     registerAnimation( SLOT_0, &Flame::animations );
 
     SineWave::construct();
     registerAnimation( SLOT_1, &SineWave::animations );
+
+    Twinkle::construct();
+    registerAnimation( SLOT_2, &Twinkle::animations );
+
+    Breath::construct();
+    registerAnimation( SLOT_3, &Breath::animations );
 
     unlock();
   }
@@ -87,6 +97,10 @@ namespace Luminary::Routine
   void stepAnimations()
   {
     using namespace Hardware::PWM;
+    
+    AnimationSet* currentSlot = nullptr;
+    PWMPercentOut_t updateVal = 0;
+    AnimationCB *animation    = nullptr;
 
     lock();
 
@@ -100,68 +114,31 @@ namespace Luminary::Routine
     }
 
     /*-------------------------------------------------
-    If we are running in reversionary mode, simply run the
-    default animation and pipe it to all outputs. Otherwise,
-    update all outputs with the appropriate state.
+    Determine if it's safe to execute the animation set
     -------------------------------------------------*/
-    PWMPercentOut_t updateVal = 0;
-    AnimationCB *animation    = nullptr;
-
-    if ( sProcCB.reversionary )
+    if ( ( sProcCB.currentAnimation < Registry::NUM_OPTIONS ) && sProcCB.slots[ sProcCB.currentAnimation ] )
     {
-      /*-------------------------------------------------
-      No default animation specified, so there is nothing to run
-      -------------------------------------------------*/
-      if ( !sProcCB.defaultAnimation )
-      {
-        return;
-      }
-
-      /*-------------------------------------------------
-      Update every output with the current default value
-      -------------------------------------------------*/
-      animation = sProcCB.defaultAnimation;
-
-      if ( ( Chimera::millis() - animation->lastTime ) > animation->updateDT )
-      {
-        updateVal           = animation->update( animation );
-        animation->lastTime = Chimera::millis();
-
-        Hardware::PWM::updateDutyCycle( Channel::PWM_CH_0, updateVal );
-        Hardware::PWM::updateDutyCycle( Channel::PWM_CH_1, updateVal );
-        Hardware::PWM::updateDutyCycle( Channel::PWM_CH_2, updateVal );
-      }
+      currentSlot = sProcCB.slots[ sProcCB.currentAnimation ];
     }
-    else
+
+    /*-------------------------------------------------
+    Run the animation sequence
+    -------------------------------------------------*/
+    if( currentSlot )
     {
-      /*-------------------------------------------------
-      Determine if it's safe to execute the animation set
-      -------------------------------------------------*/
-      AnimationSet* currentSlot = nullptr;
-      if ( ( sProcCB.currentAnimation < Registry::NUM_OPTIONS ) && sProcCB.slots[ sProcCB.currentAnimation ] )
+      for ( auto idx = 0; idx < Channel::NUM_OPTIONS; idx++ )
       {
-        currentSlot = sProcCB.slots[ sProcCB.currentAnimation ];
-      }
+        animation = &( *currentSlot )[ idx ];
 
-      /*-------------------------------------------------
-      Run the animation sequence
-      -------------------------------------------------*/
-      if( currentSlot )
-      {
-        for ( auto idx = 0; idx < Channel::NUM_OPTIONS; idx++ )
+        /*-------------------------------------------------
+        Update the output state for the current animation
+        -------------------------------------------------*/
+        if ( animation && ( ( Chimera::millis() - animation->lastTime ) > animation->updateDT ) )
         {
-          animation = &( *currentSlot )[ idx ];
+          updateVal           = animation->update( animation );
+          animation->lastTime = Chimera::millis();
 
-          /*-------------------------------------------------
-          Update the output state for the current animation
-          -------------------------------------------------*/
-          if ( animation && ( ( Chimera::millis() - animation->lastTime ) > animation->updateDT ) )
-          {
-            updateVal           = animation->update( animation );
-            animation->lastTime = Chimera::millis();
-
-            Hardware::PWM::updateDutyCycle( static_cast<Channel>( idx ), updateVal );
-          }
+          Hardware::PWM::updateDutyCycle( static_cast<Channel>( idx ), updateVal );
         }
       }
     }
@@ -170,11 +147,10 @@ namespace Luminary::Routine
   }
 
 
-  void startAnimations( const bool reversionary )
+  void startAnimations()
   {
     lock();
     sProcCB.isRunning    = true;
-    sProcCB.reversionary = reversionary;
 
     /*-------------------------------------------------
     Turn on all the outputs
@@ -201,14 +177,6 @@ namespace Luminary::Routine
   }
 
 
-  void setDefaultAnimation( AnimationCB *animation )
-  {
-    lock();
-    sProcCB.defaultAnimation = animation;
-    unlock();
-  }
-
-
   void setCurrentAnimation( const Registry slot )
   {
     lock();
@@ -217,7 +185,7 @@ namespace Luminary::Routine
   }
 
 
-  void registerAnimation( const Registry slot, std::array<AnimationCB, 3> *animation )
+  void registerAnimation( const Registry slot, AnimationSet *animation )
   {
     lock();
 

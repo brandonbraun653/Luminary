@@ -160,9 +160,11 @@
     <ClCompile Include="..\..\..\Luminary\model\mdl_observables.cpp" />
     <ClCompile Include="..\..\..\Luminary\networking\net_connect.cpp" />
     <ClCompile Include="..\..\..\Luminary\networking\net_main.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_breath.cpp" />
     <ClCompile Include="..\..\..\Luminary\routines\animation_default.cpp" />
     <ClCompile Include="..\..\..\Luminary\routines\animation_flame.cpp" />
     <ClCompile Include="..\..\..\Luminary\routines\animation_sine_wave.cpp" />
+    <ClCompile Include="..\..\..\Luminary\routines\animation_twinkle.cpp" />
     <ClCompile Include="..\..\..\Luminary\routines\processor.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rcp_responder.cpp" />
     <ClCompile Include="..\..\..\Luminary\rpc\rpc_action_animation.cpp" />
@@ -173,6 +175,8 @@
     <ClCompile Include="..\..\..\Luminary\system\sys_command.cpp" />
     <ClCompile Include="..\..\..\Luminary\system\sys_event.cpp" />
     <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\animation_breath.hpp" />
+    <ClInclude Include="..\..\..\Luminary\routines\animation_twinkle.hpp" />
     <ClInclude Include="..\..\..\Luminary\version.hpp" />
     <None Include="stm32.props" />
     <None Include="LuminaryEmbeddedDriver-Debug.vgdbsettings" />

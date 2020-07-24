@@ -322,6 +322,12 @@
     <ClInclude Include="..\..\..\Luminary\version.hpp">
       <Filter>Luminary</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\animation_breath.hpp">
+      <Filter>Luminary\routines</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\routines\animation_twinkle.hpp">
+      <Filter>Luminary\routines</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">
@@ -386,6 +392,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Luminary\system\sys_event.cpp">
       <Filter>Luminary\system</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_breath.cpp">
+      <Filter>Luminary\routines</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Luminary\routines\animation_twinkle.cpp">
+      <Filter>Luminary\routines</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

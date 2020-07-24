@@ -24,7 +24,12 @@ namespace Luminary::Routine::Default
   /*-------------------------------------------------------------------------------
   Public Data
   -------------------------------------------------------------------------------*/
-  AnimationCB defaultAnimation;
+  AnimationSet animations;
+
+  /*-------------------------------------------------------------------------------
+  Static Data & Literals
+  -------------------------------------------------------------------------------*/
+  static constexpr AnimationType expectedType = AnimationType::DEFAULT;
 
   /*-------------------------------------------------------------------------------
   Static Data & Literals
@@ -36,7 +41,7 @@ namespace Luminary::Routine::Default
   -------------------------------------------------------------------------------*/
   static void initialize( AnimationCB *cb )
   {
-    if( !cb )
+    if( !cb || ( cb->type != expectedType ) )
     {
       return;
     }
@@ -59,12 +64,12 @@ namespace Luminary::Routine::Default
     /*-------------------------------------------------
     Input Protection
     -------------------------------------------------*/
-    if( !cb )
+    if( !cb || ( cb->type != expectedType ) )
     {
       return 0;
     }
 
-    return 1;
+    return 25;
   }
 
 
@@ -73,13 +78,20 @@ namespace Luminary::Routine::Default
   -------------------------------------------------------------------------------*/
   void construct()
   {
-    defaultAnimation.destroy    = destroy;
-    defaultAnimation.initialize = initialize;
-    defaultAnimation.lastTime   = Chimera::millis();
-    defaultAnimation.startTime  = Chimera::millis();
-    defaultAnimation.stopTime   = std::numeric_limits<size_t>::max();
-    defaultAnimation.update     = update;
-    defaultAnimation.updateDT   = updateRate;
+    /*-------------------------------------------------
+    Common data for all animation types
+    -------------------------------------------------*/
+    for ( auto &tmp : animations )
+    {
+      tmp.destroy    = destroy;
+      tmp.initialize = initialize;
+      tmp.lastTime   = Chimera::millis();
+      tmp.startTime  = Chimera::millis();
+      tmp.stopTime   = std::numeric_limits<size_t>::max();
+      tmp.update     = update;
+      tmp.type       = expectedType;
+      tmp.updateDT   = tmp.data.dflt.updateRate;
+    }
   }
 
 

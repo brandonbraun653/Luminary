@@ -56,12 +56,11 @@ namespace Luminary::System
     Start up the animation sequences
     -------------------------------------------------*/
     Routine::initialize();
-    Routine::setDefaultAnimation( &Routine::Default::defaultAnimation );
-    Routine::setCurrentAnimation( Routine::Registry::SLOT_1 );
-    Routine::startAnimations( false );
+    Routine::setCurrentAnimation( Routine::Registry::SLOT_2 );
+    Routine::startAnimations();
 
     // Just for testing
-    Routine::Registry lastAnimation = Luminary::Routine::SLOT_1;
+    //Routine::Registry lastAnimation = Luminary::Routine::SLOT_1;
 
     while ( true )
     {
@@ -78,23 +77,23 @@ namespace Luminary::System
         /*-------------------------------------------------
         Is it time for an animation change yet?
         -------------------------------------------------*/
-        if( ( Chimera::millis() - animationSwitchLast ) >= AnimationChangeTimeout )
-        {
-          uLog::getRootSink()->flog( uLog::Level::LVL_INFO, "%d-APP: Change animation to %d\n", Chimera::millis(),
-                                     lastAnimation );
-
-          setGlobalAnimation( lastAnimation );
-          animationSwitchLast = Chimera::millis();
-
-          if ( lastAnimation == Routine::Registry::SLOT_0 )
-          {
-            lastAnimation = Luminary::Routine::SLOT_1;
-          }
-          else
-          {
-            lastAnimation = Luminary::Routine::SLOT_0;
-          }
-        }
+//        if( ( Chimera::millis() - animationSwitchLast ) >= AnimationChangeTimeout )
+//        {
+//          uLog::getRootSink()->flog( uLog::Level::LVL_INFO, "%d-APP: Change animation to %d\n", Chimera::millis(),
+//                                     lastAnimation );
+//
+//          setGlobalAnimation( lastAnimation );
+//          animationSwitchLast = Chimera::millis();
+//
+//          if ( lastAnimation == Routine::Registry::SLOT_0 )
+//          {
+//            lastAnimation = Luminary::Routine::SLOT_1;
+//          }
+//          else
+//          {
+//            lastAnimation = Luminary::Routine::SLOT_0;
+//          }
+//        }
       }
     }
   }

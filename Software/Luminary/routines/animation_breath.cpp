@@ -1,17 +1,16 @@
 /********************************************************************************
  *  File Name:
- *    animation_flame.cpp
+ *    animation_breath.cpp
  *
  *  Description:
- *    Flame animation definition
+ *    Breath animation definition
  *
  *  2020 | Brandon Braun | brandonbraun653@gmail.com
  *******************************************************************************/
-
+ 
 /* STL Includes */
 #include <cmath>
 #include <cstddef>
-#include <cstdlib>
 #include <limits>
 
 /* Chimera Includes */
@@ -19,9 +18,9 @@
 
 /* Luminary Includes */
 #include <Luminary/routines/types.hpp>
-#include <Luminary/routines/animation_flame.hpp>
+#include <Luminary/routines/animation_breath.hpp>
 
-namespace Luminary::Routine::Flame
+namespace Luminary::Routine::Breath
 {
   /*-------------------------------------------------------------------------------
   Public Data
@@ -31,14 +30,18 @@ namespace Luminary::Routine::Flame
   /*-------------------------------------------------------------------------------
   Static Data & Literals
   -------------------------------------------------------------------------------*/
-  static constexpr AnimationType expectedType = AnimationType::FLAME;
+  static constexpr size_t minStep = 0;
+  static constexpr size_t maxStep = 359;
+  static constexpr AnimationType expectedType = AnimationType::BREATH;
+
+  static constexpr float PI = 3.14159f;
 
   /*-------------------------------------------------------------------------------
   Static Functions
   -------------------------------------------------------------------------------*/
   static void initialize( AnimationCB *cb )
   {
-    if ( !cb || ( cb->type != expectedType ) )
+    if( !cb || ( cb->type != expectedType ) )
     {
       return;
     }
@@ -46,12 +49,13 @@ namespace Luminary::Routine::Flame
     cb->lastTime  = Chimera::millis();
     cb->startTime = cb->lastTime;
     cb->stopTime  = std::numeric_limits<size_t>::max();
-    cb->updateDT  = cb->data.flame.updateRate;
+    cb->updateDT  = cb->data.breath.updateRate;
   }
 
 
   static void destroy( AnimationCB *cb )
   {
+
   }
 
 
@@ -60,18 +64,32 @@ namespace Luminary::Routine::Flame
     /*-------------------------------------------------
     Input Protection
     -------------------------------------------------*/
-    if ( !cb || ( cb->type != expectedType ) )
+    if( !cb || ( cb->type != expectedType ) )
     {
       return 0;
     }
 
     /*-------------------------------------------------
-    Generate some random data to display
+    Interpret the "step" value as degrees, convert it
+    into radians over a [0.0-1.0] range, then scale to
+    the [0-100] range.
     -------------------------------------------------*/
-    auto random    = ( rand() % cb->data.flame.modulus ) - ( cb->data.flame.modulus / 2 );
-    int baseOutput = static_cast<int>( cb->data.flame.baseOutput );
+    float idx = static_cast<float>( cb->data.breath.step );
+    float rad = sinf( ( idx * PI ) / 180.0f );
+    float shiftedRad = ( rad + 1.0f ) / 2.0f;
 
-    return static_cast<PWMPercentOut_t>( baseOutput + random );
+    PWMPercentOut_t returnVal = static_cast<PWMPercentOut_t>( shiftedRad * 100.0f );
+
+    /*------------------------------------------------
+    Update the step counter
+    ------------------------------------------------*/
+    cb->data.breath.step += 5;
+    if ( cb->data.breath.step > maxStep )
+    {
+      cb->data.breath.step = minStep;
+    }
+
+    return returnVal;
   }
 
 
@@ -80,26 +98,28 @@ namespace Luminary::Routine::Flame
   -------------------------------------------------------------------------------*/
   void construct()
   {
+    static constexpr size_t updateRate = 50;
+    static constexpr size_t phaseCh0 = 0;
+    static constexpr size_t phaseCh1 = 120;
+    static constexpr size_t phaseCh2 = 240;
+
     /*-------------------------------------------------
     Channel 0 Data
     -------------------------------------------------*/
-    animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.flame.baseOutput = 60;
-    animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.flame.modulus    = 30;
-    animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.flame.updateRate = 150;
+    animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.breath.updateRate = updateRate;
+    animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.breath.step       = phaseCh0;
 
     /*-------------------------------------------------
     Channel 1 Data
     -------------------------------------------------*/
-    animations[ Hardware::PWM::Channel::PWM_CH_1 ].data.flame.baseOutput = 40;
-    animations[ Hardware::PWM::Channel::PWM_CH_1 ].data.flame.modulus    = 20;
-    animations[ Hardware::PWM::Channel::PWM_CH_1 ].data.flame.updateRate = 150;
+    animations[ Hardware::PWM::Channel::PWM_CH_1 ].data.breath.updateRate = updateRate;
+    animations[ Hardware::PWM::Channel::PWM_CH_1 ].data.breath.step       = phaseCh1;
 
     /*-------------------------------------------------
     Channel 2 Data
     -------------------------------------------------*/
-    animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.flame.baseOutput = 80;
-    animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.flame.modulus    = 40;
-    animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.flame.updateRate = 150;
+    animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.breath.updateRate = updateRate;
+    animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.breath.step       = phaseCh2;
 
     /*-------------------------------------------------
     Common data for all animation types
@@ -113,9 +133,7 @@ namespace Luminary::Routine::Flame
       tmp.stopTime   = std::numeric_limits<size_t>::max();
       tmp.update     = update;
       tmp.type       = expectedType;
-      tmp.updateDT   = tmp.data.flame.updateRate;
+      tmp.updateDT   = tmp.data.breath.updateRate;
     }
   }
-
-
-}    // namespace Luminary::Routine::Flame
+}    // namespace Luminary::Routine::Breath

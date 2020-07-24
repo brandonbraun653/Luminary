@@ -1,26 +1,26 @@
 /********************************************************************************
  *  File Name:
- *    animation_default.hpp
+ *    animation_breath.hpp
  *
  *  Description:
- *    Declaration of the default animation output for Luminary
+ *    Declaration of the breath animation output for Luminary
  *
  *  2020 | Brandon Braun | brandonbraun653@gmail.com
  *******************************************************************************/
 
 #pragma once
-#ifndef LUMINARY_ANIMATION_DEFAULT_HPP
-#define LUMINARY_ANIMATION_DEFAULT_HPP
+#ifndef LUMINARY_ANIMATION_BREATH_HPP
+#define LUMINARY_ANIMATION_BREATH_HPP
 
 /* Luminary Includes */
 #include <Luminary/routines/types.hpp>
 
-namespace Luminary::Routine::Default
+namespace Luminary::Routine::Breath
 {
   extern AnimationSet animations;
 
   void construct();
 
-}  // namespace Luminary::Routine::Default
+}  // namespace Luminary::Routine::Breath
 
-#endif  /* !LUMINARY_ANIMATION_DEFAULT_HPP */
+#endif  /* !LUMINARY_ANIMATION_BREATH_HPP */
