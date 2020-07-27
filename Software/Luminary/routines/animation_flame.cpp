@@ -84,7 +84,7 @@ namespace Luminary::Routine::Flame
     Channel 0 Data
     -------------------------------------------------*/
     animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.flame.baseOutput = 60;
-    animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.flame.modulus    = 30;
+    animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.flame.modulus    = 20;
     animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.flame.updateRate = 150;
 
     /*-------------------------------------------------
@@ -98,7 +98,7 @@ namespace Luminary::Routine::Flame
     Channel 2 Data
     -------------------------------------------------*/
     animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.flame.baseOutput = 80;
-    animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.flame.modulus    = 40;
+    animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.flame.modulus    = 20;
     animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.flame.updateRate = 150;
 
     /*-------------------------------------------------

@@ -86,7 +86,7 @@ namespace Luminary::Routine::Twinkle
 
     if ( ( cb->data.twinkle.step > 320 ) || ( cb->data.twinkle.step < 40 ) ) 
     {
-      cb->data.twinkle.step += 15;
+      cb->data.twinkle.step += 3;
     }
     else
     {

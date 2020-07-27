@@ -30,11 +30,12 @@ namespace Luminary::Routine::Breath
   /*-------------------------------------------------------------------------------
   Static Data & Literals
   -------------------------------------------------------------------------------*/
-  static constexpr size_t minStep = 0;
-  static constexpr size_t maxStep = 359;
+  static constexpr size_t minStep = 75;
+  static constexpr size_t maxStep = 250;
   static constexpr AnimationType expectedType = AnimationType::BREATH;
 
   static constexpr float PI = 3.14159f;
+  static bool count_up = false;
 
   /*-------------------------------------------------------------------------------
   Static Functions
@@ -83,9 +84,24 @@ namespace Luminary::Routine::Breath
     /*------------------------------------------------
     Update the step counter
     ------------------------------------------------*/
-    cb->data.breath.step += 5;
-    if ( cb->data.breath.step > maxStep )
+    if ( cb->data.breath.count_up )
     {
+      cb->data.breath.step += 5;
+    }
+    else
+    {
+      cb->data.breath.step -= 5;
+    }
+
+
+    if ( cb->data.breath.step >= maxStep )
+    {
+      cb->data.breath.count_up = false;
+      cb->data.breath.step = maxStep;
+    }
+    else if( cb->data.breath.step <= minStep )
+    {
+      cb->data.breath.count_up = true;
       cb->data.breath.step = minStep;
     }
 
@@ -98,28 +114,31 @@ namespace Luminary::Routine::Breath
   -------------------------------------------------------------------------------*/
   void construct()
   {
-    static constexpr size_t updateRate = 50;
-    static constexpr size_t phaseCh0 = 0;
-    static constexpr size_t phaseCh1 = 120;
-    static constexpr size_t phaseCh2 = 240;
+    static constexpr size_t updateRate = 85;
+    static constexpr size_t phaseCh0 = minStep;
+    static constexpr size_t phaseCh1 = minStep;
+    static constexpr size_t phaseCh2 = minStep;
 
     /*-------------------------------------------------
     Channel 0 Data
     -------------------------------------------------*/
     animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.breath.updateRate = updateRate;
     animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.breath.step       = phaseCh0;
+    animations[ Hardware::PWM::Channel::PWM_CH_0 ].data.breath.lastTime   = Chimera::millis();
 
     /*-------------------------------------------------
     Channel 1 Data
     -------------------------------------------------*/
     animations[ Hardware::PWM::Channel::PWM_CH_1 ].data.breath.updateRate = updateRate;
     animations[ Hardware::PWM::Channel::PWM_CH_1 ].data.breath.step       = phaseCh1;
+    animations[ Hardware::PWM::Channel::PWM_CH_1 ].data.breath.lastTime   = Chimera::millis();
 
     /*-------------------------------------------------
     Channel 2 Data
     -------------------------------------------------*/
     animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.breath.updateRate = updateRate;
     animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.breath.step       = phaseCh2;
+    animations[ Hardware::PWM::Channel::PWM_CH_2 ].data.breath.lastTime   = Chimera::millis();
 
     /*-------------------------------------------------
     Common data for all animation types
@@ -134,6 +153,7 @@ namespace Luminary::Routine::Breath
       tmp.update     = update;
       tmp.type       = expectedType;
       tmp.updateDT   = tmp.data.breath.updateRate;
+      tmp.data.breath.count_up = true;
     }
   }
 }    // namespace Luminary::Routine::Breath

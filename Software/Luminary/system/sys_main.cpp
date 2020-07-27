@@ -8,6 +8,9 @@
  *  2020 | Brandon Braun | brandonbraun653@gmail.com
  *******************************************************************************/
 
+/* STL Includes */
+#include <array>
+
 /* Chimera Includes */
 #include <Chimera/common>
 #include <Chimera/thread>
@@ -29,9 +32,12 @@
 namespace Luminary::System
 {
   /*-------------------------------------------------------------------------------
-  Literals
+  Static Data and Literals
   -------------------------------------------------------------------------------*/
   static constexpr size_t AnimationChangeTimeout = 5 * Chimera::Threading::TIMEOUT_1S;
+
+  static std::array<Routine::Registry, 5> animationSequence;
+  static size_t animationIndex = 0;
 
   /*-------------------------------------------------------------------------------
   Public Functions
@@ -56,11 +62,15 @@ namespace Luminary::System
     Start up the animation sequences
     -------------------------------------------------*/
     Routine::initialize();
-    Routine::setCurrentAnimation( Routine::Registry::SLOT_2 );
+    Routine::setCurrentAnimation( Routine::Registry::SLOT_DEFAULT );
     Routine::startAnimations();
 
-    // Just for testing
-    //Routine::Registry lastAnimation = Luminary::Routine::SLOT_1;
+    animationIndex         = 0;
+    animationSequence[ 0 ] = Luminary::Routine::SLOT_0;
+    animationSequence[ 1 ] = Luminary::Routine::SLOT_1;
+    animationSequence[ 2 ] = Luminary::Routine::SLOT_2;
+    animationSequence[ 3 ] = Luminary::Routine::SLOT_3;
+    animationSequence[ 4 ] = Luminary::Routine::SLOT_4;
 
     while ( true )
     {
@@ -77,23 +87,17 @@ namespace Luminary::System
         /*-------------------------------------------------
         Is it time for an animation change yet?
         -------------------------------------------------*/
-//        if( ( Chimera::millis() - animationSwitchLast ) >= AnimationChangeTimeout )
-//        {
-//          uLog::getRootSink()->flog( uLog::Level::LVL_INFO, "%d-APP: Change animation to %d\n", Chimera::millis(),
-//                                     lastAnimation );
-//
-//          setGlobalAnimation( lastAnimation );
-//          animationSwitchLast = Chimera::millis();
-//
-//          if ( lastAnimation == Routine::Registry::SLOT_0 )
-//          {
-//            lastAnimation = Luminary::Routine::SLOT_1;
-//          }
-//          else
-//          {
-//            lastAnimation = Luminary::Routine::SLOT_0;
-//          }
-//        }
+        if( ( Chimera::millis() - animationSwitchLast ) >= AnimationChangeTimeout )
+        {
+          setGlobalAnimation( animationSequence[ animationIndex ] );
+          animationSwitchLast = Chimera::millis();
+          animationIndex++;
+
+          if ( animationIndex >= animationSequence.size() ) 
+          {
+            animationIndex = 0;
+          }
+        }
       }
     }
   }

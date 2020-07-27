@@ -98,6 +98,8 @@ namespace Luminary::Routine
   {
     size_t updateRate;
     size_t step;
+    size_t lastTime;
+    bool count_up;
   };
 
 
