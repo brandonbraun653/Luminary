@@ -25,9 +25,12 @@
 #include <Luminary/config/config.hpp>
 #include <Luminary/hardware/boot_config.hpp>
 #include <Luminary/hardware/power_select.hpp>
+#include <Luminary/hardware/status_led.hpp>
 #include <Luminary/networking/net_main.hpp>
 #include <Luminary/networking/net_connect.hpp>
 #include <Luminary/networking/types.hpp>
+#include <Luminary/routines/processor.hpp>
+#include <Luminary/routines/types.hpp>
 #include <Luminary/system/sys_event.hpp>
 
 namespace Luminary::Network
@@ -38,12 +41,11 @@ namespace Luminary::Network
   static constexpr size_t ConnectionRefreshTimeout  = 15 * Chimera::Threading::TIMEOUT_1S;
   static constexpr size_t ConnectionStatusCheckRate = 5000;
 
-
   static RF24::Endpoint::SystemInit cfg;
   static RF24::Endpoint::Interface_sPtr radio;
   static std::array<uint8_t, RF24::Network::Frame::PAYLOAD_SIZE> messageBuffer;
 
-  static void bootRadio();
+  static void rebootRadio();
 
 
   void initializeModule()
@@ -126,7 +128,7 @@ namespace Luminary::Network
     /*------------------------------------------------
     Radio Initialization
     ------------------------------------------------*/
-    bootRadio();
+    rebootRadio();
 
     /*-------------------------------------------------
     Initialize a few variables to help with execution timing
@@ -136,6 +138,7 @@ namespace Luminary::Network
 
     while ( true )
     {
+
       /*-------------------------------------------------
       Periodic processing to keep the network alive
       -------------------------------------------------*/
@@ -149,6 +152,11 @@ namespace Luminary::Network
         reconnectTick = Chimera::millis();
         if ( !radio->isConnected( RF24::Connection::BindSite::PARENT ) )
         {
+          // Revert the animation to the default state
+          Routine::setCurrentAnimation( Routine::Registry::SLOT_DEFAULT );
+
+          // Re-start the network connections
+          rebootRadio();
           doReconnect();
         }
       }
@@ -196,9 +204,10 @@ namespace Luminary::Network
   }
 
 
-  static void bootRadio()
+  static void rebootRadio()
   {
     using namespace Hardware::Power;
+
     /*------------------------------------------------
     Initialize local literals
     ------------------------------------------------*/
@@ -233,17 +242,24 @@ namespace Luminary::Network
     /*------------------------------------------------
     Toggle the radio's power and wait for it to settle
     ------------------------------------------------*/
+    logger->flog( uLog::Level::LVL_INFO, "%d-APP: Power toggling radio\n", Chimera::millis() );
     setPowerState( RF24_RADIO, RF24_PWR_INACTV_STATE );
     Chimera::delayMilliseconds( RF24_PWR_TURN_ON_DELAY );
     setPowerState( RF24_RADIO, RF24_PWR_ACTIVE_STATE );
     Chimera::delayMilliseconds( RF24_PWR_TURN_OFF_DELAY );
 
     /*------------------------------------------------
-    Create the radio driver and configure to above settings
+    Create the radio driver
     ------------------------------------------------*/
-    radio = RF24::Endpoint::createShared( cfg );
-    radio->attachLogger( uLog::getRootSink() );
+    if( !radio)
+    {
+      radio = RF24::Endpoint::createShared( cfg );
+      radio->attachLogger( uLog::getRootSink() );
+    }
 
+    /*-------------------------------------------------
+    Configure the desired settings
+    -------------------------------------------------*/
     while ( configureAttempts < maxConfigureAttempts )
     {
       /*------------------------------------------------
@@ -257,10 +273,13 @@ namespace Luminary::Network
       ------------------------------------------------*/
       if ( configured == Chimera::CommonStatusCodes::OK )
       {
+        logger->flog( uLog::Level::LVL_INFO, "%d-APP: Radio config success\n", Chimera::millis() );
         break;
       }
       else
       {
+
+        logger->flog( uLog::Level::LVL_INFO, "%d-APP: Power toggling radio\n", Chimera::millis() );
         setPowerState( RF24_RADIO, RF24_PWR_INACTV_STATE );
         Chimera::delayMilliseconds( RF24_PWR_TURN_ON_DELAY );
         setPowerState( RF24_RADIO, RF24_PWR_ACTIVE_STATE );
@@ -273,7 +292,8 @@ namespace Luminary::Network
     ------------------------------------------------*/
     if ( configured != Chimera::CommonStatusCodes::OK )
     {
-      // TODO: Signal an "uh oh" flash on staus LED
+      Hardware::StatusLED::updateStatus(Hardware::StatusLED::BlinkPattern::FAILED_CONFIG);
+      logger->flog( uLog::Level::LVL_INFO, "%d-APP: Failed radio configuration\n", Chimera::millis() );
       return;
     }
 
@@ -289,11 +309,6 @@ namespace Luminary::Network
     {
       radio->setName( "Child" );
       logger->flog( uLog::Level::LVL_INFO, "%d-APP: Boot as child node 0%o\n", Chimera::millis(), bootAddress );
-
-      /*-------------------------------------------------
-      Connect to the network
-      -------------------------------------------------*/
-      connect();
     }
   }
 }    // namespace Luminary::Network

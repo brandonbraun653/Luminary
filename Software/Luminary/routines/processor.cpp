@@ -8,6 +8,9 @@
  *  2020 | Brandon Braun | brandonbraun653@gmail.com
  *******************************************************************************/
 
+/* uLog Includes */
+#include <uLog/ulog.hpp>
+
 /* Chimera Includes */
 #include <Chimera/common>
 #include <Chimera/thread>
@@ -97,7 +100,7 @@ namespace Luminary::Routine
   void stepAnimations()
   {
     using namespace Hardware::PWM;
-    
+
     AnimationSet* currentSlot = nullptr;
     PWMPercentOut_t updateVal = 0;
     AnimationCB *animation    = nullptr;
@@ -179,8 +182,11 @@ namespace Luminary::Routine
 
   void setCurrentAnimation( const Registry slot )
   {
+    auto logger = uLog::getRootSink();
+
     lock();
     sProcCB.currentAnimation = slot;
+    logger->flog( uLog::Level::LVL_INFO, "%d-APP: Changing animation to slot %d\n", Chimera::millis(), slot );
     unlock();
   }
 

@@ -17,6 +17,23 @@
 
 namespace Luminary::Hardware::StatusLED
 {
+  /*-------------------------------------------------------------------------------
+  Enumerations
+  -------------------------------------------------------------------------------*/
+  enum class BlinkPattern : uint8_t
+  {
+    HEARTBEAT,              /**< Everything is ok and system is operational */
+    FAILED_CONFIG,          /**< Hardware configuration is bad */
+    NETWORK_DISCONNECTED,   /**< Network connection has been lost */
+    NETWORK_CONNECTING,     /**< Network connection in progress */
+    NETWORK_CONNECTED,      /**< Network connection success/restored */
+
+    NUM_OPTIONS
+  };
+
+  /*-------------------------------------------------------------------------------
+  Public Functions
+  -------------------------------------------------------------------------------*/
   /**
    *  Initializes the status LED driver
    *
@@ -47,12 +64,20 @@ namespace Luminary::Hardware::StatusLED
   void executeBootFlashSequence();
 
   /**
-   *  Blinks the LED at a predetermined rate to signify that 
+   *  Blinks the LED at a predetermined rate to signify that
    *  the board is still alive.
    *
    *  @return void
    */
-  void runHeartBeat();
+  void runStatusProcessing();
+
+  /**
+   *  Updates the status led with the given blinking pattern
+   *
+   *  @param[in]  pattern     The pattern to use
+   *  @return void
+   */
+  void updateStatus( const BlinkPattern pattern );
 
 }  // namespace Luminary::Hardware
 

@@ -20,6 +20,7 @@
 #include <RF24Node/endpoint>
 
 /* Luminary Includes */
+#include <Luminary/hardware/status_led.hpp>
 #include <Luminary/networking/net_connect.hpp>
 #include <Luminary/networking/net_main.hpp>
 
@@ -33,10 +34,12 @@ namespace Luminary::Network
 
     if( result == RF24::Connection::Result::CONNECT_PROC_SUCCESS )
     {
+      Hardware::StatusLED::updateStatus(Hardware::StatusLED::BlinkPattern::NETWORK_CONNECTED);
       logger->flog( uLog::Level::LVL_INFO, "%d-APP: Connect to network success\n", Chimera::millis() );
     }
     else
     {
+      Hardware::StatusLED::updateStatus(Hardware::StatusLED::BlinkPattern::NETWORK_DISCONNECTED);
       logger->flog( uLog::Level::LVL_INFO, "%d-APP: Connect to network failure\n", Chimera::millis() );
     }
   }
@@ -47,6 +50,7 @@ namespace Luminary::Network
     auto radio    = getRadio();
     connectStatus = RF24::Connection::Result::CONNECT_PROC_UNKNOWN;
 
+    Hardware::StatusLED::updateStatus(Hardware::StatusLED::BlinkPattern::NETWORK_CONNECTING);
     radio->connectAsync( onConnectCallback, 10000 );
 
     while ( connectStatus == RF24::Connection::Result::CONNECT_PROC_UNKNOWN )
@@ -66,6 +70,7 @@ namespace Luminary::Network
 
     logger->flog( uLog::Level::LVL_INFO, "%d-APP: Network timeout. Trying to reconnect...\n", Chimera::millis() );
 
+    Hardware::StatusLED::updateStatus(Hardware::StatusLED::BlinkPattern::NETWORK_CONNECTING);
     connectStatus = RF24::Connection::Result::CONNECT_PROC_UNKNOWN;
     radio->reconnect( onConnectCallback, 10000 );
 

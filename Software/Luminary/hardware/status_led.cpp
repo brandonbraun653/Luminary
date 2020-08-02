@@ -14,6 +14,7 @@
 /* Chimera Includes */
 #include <Chimera/common>
 #include <Chimera/gpio>
+#include <Chimera/thread>
 
 /* Luminary Includes */
 #include <Luminary/hardware/status_led.hpp>
@@ -21,14 +22,40 @@
 
 namespace Luminary::Hardware::StatusLED
 {
+  /*-------------------------------------------------------------------------------
+  Private Function Declaration
+  -------------------------------------------------------------------------------*/
+  static void heartbeat_proc();
+  static void failed_config_proc();
+  static void network_disconnected_proc();
+  static void network_connecting_proc();
+  static void network_connected_proc();
+
+  /*-------------------------------------------------------------------------------
+  Private Types
+  -------------------------------------------------------------------------------*/
+  using LedProcessor = void ( * )( void );
+
+  /*-------------------------------------------------------------------------------
+  Private Data
+  -------------------------------------------------------------------------------*/
   static size_t s_init_status;
-
   static Chimera::GPIO::GPIO_sPtr s_status_led;
+  static Chimera::Threading::Mutex s_status_mutex;
+  static BlinkPattern s_current_pattern;
 
-  static size_t s_last_status_led_processing;
-  static size_t s_status_led_period;
+  static const std::array<LedProcessor, static_cast<size_t>(BlinkPattern::NUM_OPTIONS)> sLedProcs = {
+    heartbeat_proc,
+    failed_config_proc,
+    network_disconnected_proc,
+    network_connecting_proc,
+    network_connected_proc
+  };
 
 
+  /*-------------------------------------------------------------------------------
+  Public Functions
+  -------------------------------------------------------------------------------*/
   Chimera::Status_t initialize()
   {
     using namespace Chimera::GPIO;
@@ -41,6 +68,7 @@ namespace Luminary::Hardware::StatusLED
     if( s_init_status != Chimera::DRIVER_INITIALIZED_KEY )
     {
       s_init_status = ~Chimera::DRIVER_INITIALIZED_KEY;
+      s_current_pattern = BlinkPattern::HEARTBEAT;
 
       /*-------------------------------------------------
       Set up the pin configuration data
@@ -66,17 +94,11 @@ namespace Luminary::Hardware::StatusLED
       {
         s_init_status = Chimera::DRIVER_INITIALIZED_KEY;
       }
-
-      /*-------------------------------------------------
-      Grab the latest update rate associated with the status led heartbeat
-      -------------------------------------------------*/
-      s_last_status_led_processing = Chimera::millis();
-      result |= Model::getDataSafe( Model::CommonData::DBG_LED_STATUS_BLINK_PERIOD, &s_status_led_period,
-                                    sizeof( s_status_led_period ), 100 );
     }
 
     return result;
   }
+
 
   void setState( const bool state )
   {
@@ -87,6 +109,7 @@ namespace Luminary::Hardware::StatusLED
     }
   }
 
+
   void toggleState()
   {
     if( s_init_status == Chimera::DRIVER_INITIALIZED_KEY )
@@ -94,6 +117,7 @@ namespace Luminary::Hardware::StatusLED
       s_status_led->toggle( 100 );
     }
   }
+
 
   void executeBootFlashSequence()
   {
@@ -113,26 +137,76 @@ namespace Luminary::Hardware::StatusLED
     Chimera::delayMilliseconds( 350 );
   }
 
-  void runHeartBeat()
+
+  void runStatusProcessing()
   {
     if ( s_init_status != Chimera::DRIVER_INITIALIZED_KEY )
     {
       return;
     }
 
-    auto currentTick = Chimera::millis();
+    /*-------------------------------------------------
+    Safely grab the latest pattern info and invoke it
+    -------------------------------------------------*/
+    s_status_mutex.lock();
+    BlinkPattern patternCopy = s_current_pattern;
+    s_status_mutex.unlock();
 
-    if ( ( currentTick - s_last_status_led_processing ) >= s_status_led_period )
+    sLedProcs[static_cast<size_t>(patternCopy)]();
+  }
+
+
+  void updateStatus( const BlinkPattern pattern )
+  {
+    s_status_mutex.lock();
+    s_current_pattern = pattern;
+    s_status_mutex.unlock();
+  };
+
+
+  /*-------------------------------------------------------------------------------
+  Private Functions
+  -------------------------------------------------------------------------------*/
+  static void heartbeat_proc()
+  {
+    static size_t s_last_status_led_processing = 0;
+
+    /*-------------------------------------------------
+    Initialize local variables
+    -------------------------------------------------*/
+    size_t currentTick = Chimera::millis();
+    size_t ledPeriod = 0;
+
+    /*-------------------------------------------------
+    Grab the latest led period info and decide to update
+    -------------------------------------------------*/
+    Model::getDataSafe( Model::CommonData::DBG_LED_STATUS_BLINK_PERIOD, &ledPeriod, sizeof( ledPeriod ), 100 );
+
+    if ( ( currentTick - s_last_status_led_processing ) >= ledPeriod )
     {
       s_last_status_led_processing = currentTick;
       StatusLED::toggleState();
     }
+  }
 
-    /*------------------------------------------------
-    TODO: Could update the flashing state based on system health. This 
-          might be something like a pair of on/off times and the heartbeat
-          function would just cycle between the currently engaged mode.
-    ------------------------------------------------*/
+  static void failed_config_proc()
+  {
+    // no transition
+  }
+
+  static void network_disconnected_proc()
+  {
+    // no transition
+  }
+
+  static void network_connecting_proc()
+  {
+    // no transition
+  }
+
+  static void network_connected_proc()
+  {
+    // Display the blinky then transition to heartbeat
   }
 
 }  // namespace Luminary::Hardware

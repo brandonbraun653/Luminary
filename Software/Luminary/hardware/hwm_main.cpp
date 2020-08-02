@@ -65,7 +65,7 @@ namespace Luminary::Hardware
       /*-------------------------------------------------
       Blink the status LED
       -------------------------------------------------*/
-      StatusLED::runHeartBeat();
+      StatusLED::runStatusProcessing();
 
       Chimera::delayMilliseconds( MainThreadUpdateRate );
     }
