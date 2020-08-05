@@ -52,7 +52,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
     <GNUConfigurationType>Debug</GNUConfigurationType>
     <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
-    <ToolchainVersion>9.3.1/9.2.0/r1</ToolchainVersion>
+    <ToolchainVersion>9.3.1/9.2.0/r2</ToolchainVersion>
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
     <GenerateBuildScript>true</GenerateBuildScript>
     <GenerateHexFile>true</GenerateHexFile>
@@ -60,18 +60,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|STM32L432KB'">
     <GNUConfigurationType>Debug</GNUConfigurationType>
     <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
-    <ToolchainVersion>9.2.1/8.3.0/r1</ToolchainVersion>
+    <ToolchainVersion>9.3.1/9.2.0/r2</ToolchainVersion>
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
     <GenerateBuildScript>true</GenerateBuildScript>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
     <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
-    <ToolchainVersion>9.3.1/9.2.0/r1</ToolchainVersion>
+    <ToolchainVersion>9.3.1/9.2.0/r2</ToolchainVersion>
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|STM32L432KB'">
     <ToolchainID>com.visualgdb.arm-eabi</ToolchainID>
-    <ToolchainVersion>9.2.1/8.3.0/r1</ToolchainVersion>
+    <ToolchainVersion>9.3.1/9.2.0/r2</ToolchainVersion>
     <MCUPropertyListFile>$(ProjectDir)stm32.props</MCUPropertyListFile>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
@@ -176,6 +176,7 @@
     <ClCompile Include="..\..\..\Luminary\system\sys_command.cpp" />
     <ClCompile Include="..\..\..\Luminary\system\sys_event.cpp" />
     <ClCompile Include="..\..\..\Luminary\system\sys_main.cpp" />
+    <ClInclude Include="..\..\..\Luminary\logging\helpers.hpp" />
     <ClInclude Include="..\..\..\Luminary\routines\animation_breath.hpp" />
     <ClInclude Include="..\..\..\Luminary\routines\animation_twinkle.hpp" />
     <ClInclude Include="..\..\..\Luminary\version.hpp" />

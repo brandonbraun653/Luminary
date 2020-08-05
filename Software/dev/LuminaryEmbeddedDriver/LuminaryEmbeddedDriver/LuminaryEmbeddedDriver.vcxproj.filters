@@ -328,6 +328,9 @@
     <ClInclude Include="..\..\..\Luminary\routines\animation_twinkle.hpp">
       <Filter>Luminary\routines</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Luminary\logging\helpers.hpp">
+      <Filter>Luminary\logging</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Luminary\model\mdl_common.cpp">

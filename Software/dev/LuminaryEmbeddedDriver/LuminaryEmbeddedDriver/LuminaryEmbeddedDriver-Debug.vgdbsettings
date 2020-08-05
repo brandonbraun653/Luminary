@@ -119,7 +119,7 @@
           <ConnectUnderReset>true</ConnectUnderReset>
         </ExtraParameters>
         <LoadProgressGUIThreshold>131072</LoadProgressGUIThreshold>
-        <ProgramMode>Auto</ProgramMode>
+        <ProgramMode>Enabled</ProgramMode>
         <StartupCommands>
           <string>set remotetimeout 60</string>
           <string>target remote :$$SYS:GDB_PORT$$</string>

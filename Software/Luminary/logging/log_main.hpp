@@ -21,6 +21,9 @@
 /* uLog Includes */
 #include <uLog/ulog.hpp>
 
+/* Luminary Includes */
+#include <Luminary/logging/helpers.hpp>
+
 namespace Luminary::Logging
 {
   static constexpr auto MainThreadPriority     = Chimera::Threading::Priority::LEVEL_2;

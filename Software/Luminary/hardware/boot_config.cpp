@@ -27,7 +27,14 @@
 
 namespace Luminary::Hardware::Boot
 {
+  /*-------------------------------------------------------------------------------
+  Private Data
+  -------------------------------------------------------------------------------*/
   static constexpr size_t NUM_CFG_GPIO = 6;
+
+  static RF24::LogicalAddress sBootAddress;
+  static uint8_t sBootBitField;
+  static bool sAddressStale;
 
   static const std::array<Chimera::GPIO::Pin, NUM_CFG_GPIO> sCfgPins{
     1,  // PA1
@@ -47,11 +54,77 @@ namespace Luminary::Hardware::Boot
     Chimera::GPIO::Port::PORTB
   };
 
-  static RF24::LogicalAddress sBootAddress;
-  static uint8_t sBootBitField;
-  static bool sAddressStale;
+  static const std::array<RF24::LogicalAddress, 64> sNodeAddress = {
+    00000,  // 0: Master node
+    00001,
+    00002,
+    00003,
+    00004,
+    00005,  // 5
+    00011,
+    00021,
+    00031,
+    00041,
+    00051,  // 10
+    00012,
+    00022,
+    00032,
+    00042,
+    00052,  // 15
+    00013,
+    00023,
+    00033,
+    00043,
+    00053,  // 20
+    00014,
+    00024,
+    00034,
+    00044,
+    00054,  // 25
+    00015,
+    00025,
+    00035,
+    00045,
+    00055,  // 30
+    00111,
+    00211,
+    00311,
+    00411,
+    00511,  // 35
+    00112,
+    00212,
+    00312,
+    00412,
+    00512,  // 40
+    00113,
+    00213,
+    00313,
+    00413,
+    00513,  // 45
+    00114,
+    00214,
+    00314,
+    00414,
+    00514,  // 50
+    00115,
+    00215,
+    00315,
+    00415,
+    00515,  // 55
+    00121,
+    00221,
+    00321,
+    00421,
+    00521,  // 60
+    00122,
+    00222,
+    00322
+  };
 
 
+  /*-------------------------------------------------------------------------------
+  Public Functions
+  -------------------------------------------------------------------------------*/
   Chimera::Status_t readConfiguration()
   {
     using namespace Chimera::GPIO;
@@ -83,10 +156,10 @@ namespace Luminary::Hardware::Boot
       Due to yet another hardware bug (rev 2), address
       bits PA1 and PA2 need are forced to read zero.
       ------------------------------------------------*/
-      if ( ( idx == 0 ) || ( idx == 1 ) ) 
-      {
-        continue;
-      }
+//      if ( ( idx == 0 ) || ( idx == 1 ) )
+//      {
+//        continue;
+//      }
 
       /*-------------------------------------------------
       Initialize the gpio configuration structure
@@ -135,17 +208,14 @@ namespace Luminary::Hardware::Boot
   RF24::LogicalAddress getNodeAddress()
   {
     using namespace Aurora::Math;
-    
+
     /*-------------------------------------------------
     Convert the bitfield into a useful address
     -------------------------------------------------*/
-    if ( sAddressStale )
+    if ( sAddressStale && ( sBootBitField < sNodeAddress.size() ) )
     {
-      static_assert( sizeof( sBootBitField ) == 1, "Bit field should only occupy one byte" );
-
-      size_t octalAddress = asBase( sBootBitField, BaseType::DECIMAL, BaseType::OCTAL );
-      sBootAddress        = static_cast<RF24::LogicalAddress>( octalAddress );
-      sAddressStale       = false;
+      sBootAddress  = sNodeAddress[ sBootBitField ];
+      sAddressStale = false;
     }
     // else do nothing, the address has been parsed
 

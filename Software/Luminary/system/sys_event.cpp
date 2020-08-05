@@ -12,10 +12,12 @@
 #include <uLog/ulog.hpp>
 
 /* Luminary Includes */
+#include <Luminary/logging/helpers.hpp>
 #include <Luminary/networking/types.hpp>
 #include <Luminary/routines/processor.hpp>
 #include <Luminary/routines/types.hpp>
 #include <Luminary/system/sys_event.hpp>
+#include <Luminary/system/sys_command.hpp>
 
 namespace Luminary::System
 {
@@ -49,12 +51,12 @@ namespace Luminary::System
 
     if( packet->animationId < Routine::Registry::NUM_OPTIONS )
     {
-      Routine::setCurrentAnimation( packet->animationId );
-
-
-      uLog::getRootSink()->flog( uLog::Level::LVL_INFO, "%d-APP: Got request to change animation to slot-%d\n",
-                                 Chimera::millis(), packet->animationId );
+      setGlobalAnimation( packet->animationId );
+      INFO_MSG( uLog::getRootSink(), "%d-APP: Got request to change animation to slot-%d\n", Chimera::millis(),
+                packet->animationId );
     }
+
+
   }
 
   void changeBrightnessHandler( const uint8_t msg, void *data )

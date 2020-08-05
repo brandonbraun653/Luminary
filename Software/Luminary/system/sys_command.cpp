@@ -52,7 +52,6 @@ namespace Luminary::System
       auto currentNode = radioState.connectedNodes[ child ];
       if( currentNode == RF24::Network::RSVD_ADDR_INVALID )
       {
-        //logger->flog( uLog::Level::LVL_INFO, "%d-APP: Child %d not available for animation\n", Chimera::millis(), child );
         continue;
       }
 
@@ -93,7 +92,7 @@ namespace Luminary::System
     auto err = radio->write( address, &msg, sizeof( msg ) );
     if ( err != Chimera::CommonStatusCodes::OK )
     {
-      logger->flog( uLog::Level::LVL_INFO, "%d-APP: Failed pushing animation commmand to node [%04o]\n", Chimera::millis(), address );
+      INFO_MSG( logger, "%d-APP: Failed pushing animation commmand to node [%04o]\n", Chimera::millis(), address );
     }
   }
 
