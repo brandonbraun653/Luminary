@@ -16,6 +16,7 @@
 #include <RF24Node/network>
 
 /* Luminary Includes */
+#include <Luminary/hardware/boot_config.hpp>
 #include <Luminary/logging/log_main.hpp>
 #include <Luminary/networking/net_main.hpp>
 #include <Luminary/networking/types.hpp>
@@ -36,27 +37,22 @@ namespace Luminary::System
     auto logger = Logging::getSystemLogger();
 
     /*-------------------------------------------------
-    Get a reference to the radio and find out it's state
-    -------------------------------------------------*/
-    RF24::Endpoint::SystemState radioState = radio->getCurrentState();
-
-    /*-------------------------------------------------
-    For each child that this node is connected to, send
-    the animation change message.
+    Send the change animation command to all children
     -------------------------------------------------*/
     static constexpr size_t iterFirst = static_cast<size_t>( RF24::Connection::BindSite::CHILD_1 );
-    static constexpr size_t iterLast = static_cast<size_t>( RF24::Connection::BindSite::CHILD_5 );
+    static constexpr size_t iterLast  = static_cast<size_t>( RF24::Connection::BindSite::CHILD_5 );
+    RF24::LogicalAddress thisNode     = Hardware::Boot::getNodeAddress();
 
     for( size_t child = iterFirst; child <= iterLast; child++ )
     {
-      auto currentNode = radioState.connectedNodes[ child ];
+      auto currentNode = RF24::getChild( thisNode, static_cast<RF24::Connection::BindSite>( child ) );
       if( currentNode == RF24::Network::RSVD_ADDR_INVALID )
       {
         continue;
       }
 
       setNodeAnimation( currentNode, animationID );
-      Chimera::delayMilliseconds( 150 );
+      Chimera::delayMilliseconds( 100 );
     }
 
     /*-------------------------------------------------

@@ -31,6 +31,7 @@ namespace Luminary::Hardware::Boot
   Private Data
   -------------------------------------------------------------------------------*/
   static constexpr size_t NUM_CFG_GPIO = 6;
+  static constexpr size_t UPPER_BITS_BUG_MASK = 0x30;
 
   static RF24::LogicalAddress sBootAddress;
   static uint8_t sBootBitField;
@@ -214,6 +215,21 @@ namespace Luminary::Hardware::Boot
     -------------------------------------------------*/
     if ( sAddressStale && ( sBootBitField < sNodeAddress.size() ) )
     {
+      /*-------------------------------------------------
+      Rev 2.0 of the PWM driver hardware has a bug where
+      the upper two bits are completely invalid. Given the
+      number of nodes used in the wedding do not reach to
+      the range in those upper two bits, simply assume only
+      the lower four are valid.
+      -------------------------------------------------*/
+      if ( ( sBootBitField & UPPER_BITS_BUG_MASK ) == UPPER_BITS_BUG_MASK )
+      {
+        sBootBitField &= ~( UPPER_BITS_BUG_MASK );
+      }
+
+      /*-------------------------------------------------
+      Use the remaining bits to look up
+      -------------------------------------------------*/
       sBootAddress  = sNodeAddress[ sBootBitField ];
       sAddressStale = false;
     }
