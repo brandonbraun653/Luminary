@@ -64,7 +64,7 @@ namespace Luminary::Routine
     Initialize Animations
     -------------------------------------------------*/
     Default::construct();
-    registerAnimation( SLOT_DEFAULT, &Default::animations );
+    registerAnimation( SLOT_DEFAULT, &SineWave::animations );
 
     Flame::construct();
     registerAnimation( SLOT_0, &Flame::animations );
