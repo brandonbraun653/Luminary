@@ -17,7 +17,7 @@
 
 namespace Luminary
 {
-  static constexpr std::string_view Version = "1.1.0";
+  static constexpr std::string_view Version = "1.1.1";
 }  // namespace Luminary
 
 #endif  /* !LUMINARY_VERSION_HPP */

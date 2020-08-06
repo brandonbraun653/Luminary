@@ -34,7 +34,7 @@ namespace Luminary::System
   /*-------------------------------------------------------------------------------
   Static Data and Literals
   -------------------------------------------------------------------------------*/
-  static constexpr size_t AnimationChangeTimeout = 5 * Chimera::Threading::TIMEOUT_1S;
+  static constexpr size_t AnimationChangeTimeout = 5 * Chimera::Threading::TIMEOUT_1MIN;
 
   static std::array<Routine::Registry, 5> animationSequence;
   static size_t animationIndex = 0;
